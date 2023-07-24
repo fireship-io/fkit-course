@@ -13,7 +13,7 @@
     <div class="hero bg-base-200">
       <div class="hero-content text-center">
         <div class="w-full">
-          <h1 class="text-7xl font-bold">Kung.foo</h1>
+          <h1 class="text-7xl font-bold">Batlas Starter</h1>
           <p class="py-6 text-2xl">One simple link to share your entire developer portfolio</p>
           {#if $userData?.username}
             <a href="/{$userData.username}/edit" class="btn btn-primary">Edit Profile</a>

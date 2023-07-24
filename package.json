@@ -25,6 +25,6 @@
 	"type": "module",
 	"dependencies": {
 		"firebase": "^9.23.0",
-		"firebase-admin": "^11.9.0"
+		"firebase-admin": "^11.10.1"
 	}
 }

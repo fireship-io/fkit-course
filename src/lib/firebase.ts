@@ -5,7 +5,13 @@ import { getStorage } from "firebase/storage";
 import { writable, type Readable, derived } from "svelte/store";
 
 const firebaseConfig = {
-
+  apiKey: "AIzaSyBWg0hYb9g0rby3D4QvmDTSENz_w5qN79w",
+  authDomain: "batlas-database.firebaseapp.com",
+  projectId: "batlas-database",
+  storageBucket: "batlas-database.appspot.com",
+  messagingSenderId: "699062214205",
+  appId: "1:699062214205:web:d0e34b585c6163b11e9454",
+  measurementId: "G-P7H4R81GDW"
 };
 
 // Initialize Firebase
