@@ -1,3 +1,80 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+
+:root {
+  --batlas-black: #000000;
+  --batlas-white: #fff;
+  background-color: var(--batlas-black);
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+};
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  margin: 0em;
+  }
+
+  h2 {
+    font-family: 'Pirata One', cursive;
+    margin: 0em;
+    font-size: 2.8em;
+    font-weight: 800;
+    color: var(--batlas-black);
+    -webkit-text-stroke: var(--batlas-black) 0.01em;
+    color: var(--batlas-white);
+    text-shadow: var(--batlas-black) -0.05em 0.05em;
+  }
+
+  h3 {
+    margin: 0em;
+  }
+
+  h4 {
+    margin: 0em;
+  }
+
+
+    .dungeonBorder {
+      border: 1.5em solid white;;
+      border-image-slice: 103 107 107 111;
+      border-image-width: 1.5em;
+      border-image-outset: 0px 0px 0px 0px;
+      border-image-repeat: repeat repeat;
+      border-style: solid;
+      border-image-source: url('/img/border_full.png');
+      background-color: var(--batlas-white);
+  }
+
+  .brutalismBorder {
+    border: 0.3em solid var(--batlas-black);
+    border-radius: 0.8em;
+    box-shadow: var(--batlas-black) -0.4em 0.4em;
+  }
+
+  .brutalismBorderWhite {
+    border: 0.3em solid var(--batlas-white);
+    border-radius: 0.8em;
+    box-shadow: var(--batlas-white) -0.4em 0.4em;
+  }
+
+  
+  .brutalismBorderInverted {
+    border: 0.3em solid var(--batlas-black);
+    border-radius: 0.8em;
+    box-shadow: var(--batlas-black) -0.4em 0.4em;
+    background-color: var(--batlas-black) !important;
+    color: var(--batlas-white);
+  }
+
+  .brutalismBorderInverted .savedAdventureOptions {
+    border: none !important;
+    background-color: var(--batlas-white) !important;
+  }

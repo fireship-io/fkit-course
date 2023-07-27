@@ -1,12 +1,13 @@
 <script lang="ts">
-   import { user, userData } from "$lib/firebase";
+    import { user, userData } from "$lib/firebase";
+    import { screenChoice } from "$lib/dashboardState";
     import "../app.css";
-
-
-   $user;
-   $userData; 
+    
+    $screenChoice
+    $user;
+    $userData; 
 </script>
 
-<div class="min-h-screen flex flex-col">
+<div>
     <slot />
 </div>
