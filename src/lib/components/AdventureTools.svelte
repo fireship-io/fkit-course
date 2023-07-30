@@ -1,6 +1,4 @@
 <script>
-  import AdventureTools from './AdventureTools.svelte';
-
     import { currentAdventure } from '$lib/adventureData';
     $currentAdventure;
 
@@ -104,6 +102,8 @@
         height: calc(100lvh - 15em);
         position: sticky;
         top: 0;
+        font-size: 0.6em;
+        text-align: center;
     }
     .tool {
         width: 100%;
@@ -117,47 +117,17 @@
         width: 100%;
         height: 2em;
     }
-
-    @media screen and (max-width:1500px) {
-        .adventureNotes {
-            grid-column: 1 / 7;
-        }
-    }
 </style>
 
-<svelte:window bind:innerWidth={screenSize} />
-
-<div class="adventureContentGrid">
-
-    <div class="adventureTitle">
-        <h2>{$currentAdventure.title}</h2>
-    </div>
-
-    <div class="adventureOptionsBar">
-        <div class="adventureOption brutalismBorder"></div>
-        <div class="adventureOption brutalismBorder"></div>
-        <div class="adventureOption brutalismBorder"></div>
-    </div>
-
-    <div class="adventureNotes">
-        <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.prompts}</p>
+    <div class="adventureTools">
+        <div class="tool brutalismBorder">
+            <h3>Notepad</h3>
         </div>
-        <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.beginning}</p>
+        <div class="tool brutalismBorder">
+            <h3>NPC Gen</h3>
         </div>
-        <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.middle}</p>
-        </div>
-        <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.end}</p>
+        <div class="tool brutalismBorder">
+            <h3>Pocket Filler</h3>
         </div>
     </div>
-{#if screenSize > 1500}
-<AdventureTools />
-{/if}
-</div>
+

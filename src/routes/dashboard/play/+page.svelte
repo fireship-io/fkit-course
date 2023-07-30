@@ -18,7 +18,9 @@
         gap: 2em;
         width: 100%;
         padding: 0.8em;
-        height: calc(100% - 4em);
+        height: 100%;
+        max-height: calc(100lvh - 4em);
+
         margin-top:2em;
         overflow: scroll;;
 
@@ -31,7 +33,8 @@
     .content {
         width: 100%;
         grid-column: 5/11;
-        height: calc(100% - 4em);
+        height: 100%;
+        max-height: calc(100lvh - 4em);
         margin-top:2em;
     }
 
@@ -72,10 +75,7 @@
     display: none;
 }
 
-.dungeonBorder {
-    border:none;
-    background-color: var(--batlas-white);
-}
+
 
 }
 

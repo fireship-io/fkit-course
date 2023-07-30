@@ -1,11 +1,13 @@
 <script>
     export let adventureData;
     import { currentAdventure } from "$lib/adventureData";
+    import { screenChoice } from "$lib/dashboardState";
 
     $currentAdventure
 
     function setActive(e) {
         currentAdventure.set({ ...adventureData});
+        screenChoice.set("notes");
 
         document.querySelectorAll('.savedAdventure').forEach((element) => {
             element.classList.remove("brutalismBorderInverted");

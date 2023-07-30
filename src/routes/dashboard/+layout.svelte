@@ -8,6 +8,7 @@
     import Content from "$lib/components/AdventureContent.svelte";
     import NavigationBar from "$lib/components/NavigationBar.svelte";
     import Options from "$lib/components/SavedAdventures.svelte";
+    import OffScreenMenu from "$lib/components/OffScreenMenu.svelte";
 
 </script>
 
@@ -97,4 +98,5 @@
         </section>
         <section class="content"><slot /></section>
     </main>
+    <OffScreenMenu></OffScreenMenu>
 </AuthCheck>
