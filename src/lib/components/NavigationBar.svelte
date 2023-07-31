@@ -28,9 +28,13 @@
     };
 
     function clearCurrentAdventureAndScreenChoice() {
-        console.log("CLEAR")
         emptyCurrentAdventure();
         setScreenChoice(null);
+    }
+
+    function returnHome() {
+        clearCurrentAdventureAndScreenChoice();
+        setScreenChoice('adventures');
     }
 
 </script>
@@ -149,7 +153,7 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 {#if screenSize > 1500}
-    <a href="/dashboard/play" class="iconBox active" class:active="{$page.route.id.includes("home")}" on:click={clearCurrentAdventureAndScreenChoice}>
+    <a href="/dashboard/play" class="iconBox active" class:active="{$page.route.id.includes("play")}" on:click={clearCurrentAdventureAndScreenChoice}>
         <svg class="icon" viewBox="0 0 133 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M52.376,79.218l0,-19.043c-10.535,-5.152 -17.798,-15.977 -17.798,-28.486c-0,-17.49 14.199,-31.689 31.689,-31.689c17.489,-0 31.688,14.199 31.688,31.689c0,12.509 -7.263,23.334 -17.798,28.486l-0,19.043l52.376,-0l0,21.798l-34.578,-0l0,105.32l-31.688,53.158l-31.689,-53.158l-0,-105.32l-34.578,-0l0,-21.798l52.376,-0Zm2.112,19.889c0.059,0.629 0.09,1.265 0.09,1.909l-0,99.811c-0,0 11.689,19.608 11.689,19.608l11.688,-19.608l0,-99.811c0,-0.644 0.031,-1.28 0.09,-1.909c-4.556,-0.478 -8.656,-2.485 -11.778,-5.5c-3.123,3.015 -7.223,5.022 -11.779,5.5Zm11.779,-53.323c1.48,-1.429 3.195,-2.643 5.104,-3.576c3.893,-1.904 6.584,-5.898 6.584,-10.519c0,-6.451 -5.237,-11.689 -11.688,-11.689c-6.452,0 -11.689,5.238 -11.689,11.689c-0,4.621 2.691,8.615 6.584,10.519c1.909,0.933 3.624,2.147 5.105,3.576Z"/></svg>
     </a>
     <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}">
@@ -166,19 +170,27 @@
     </a>
 {:else}
     <div class="responsiveNav">
-        <a href="/dashboard/play">BATLAS</a>
+        <a href="/dashboard/play" on:click={returnHome}>BATLAS</a>
         <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>Menu</a>
     </div>
+    {#if $page.route.id.includes("play")}
     <div class="secondaryNavBar">
         {#if $currentAdventure != null}
             <a href="/dashboard/play" class="backButton secondaryNavLink" on:click={emptyCurrentAdventure}>
-                <svg class="icon" viewBox="0 0 219 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M176.703,161.714l0,53.604c0,24.382 -19.794,44.176 -44.176,44.176l-88.351,0c-24.381,0 -44.176,-19.794 -44.176,-44.176l0,-171.142c0,-24.382 19.795,-44.176 44.176,-44.176l88.351,0c24.382,0 44.176,19.794 44.176,44.176l0,53.604l41.642,0l0,63.934l-41.642,-0Zm-20,-63.934l0,-53.604c0,-13.343 -10.833,-24.176 -24.176,-24.176l-88.351,0c-13.343,0 -24.176,10.833 -24.176,24.176l0,171.142c0,13.343 10.833,24.176 24.176,24.176l88.351,0c13.343,0 24.176,-10.833 24.176,-24.176l0,-53.604l-23.728,-0l0,59.366l-91.333,-91.333l91.333,-91.333l0,59.366l23.728,0Z"/></svg>
+                <svg class="icon" viewBox="0 0 344 452" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M302,410l-260,-184l260,-184"/></svg>
             </a>
+            <a class="secondaryNavLink" on:click={() => setScreenChoice("notes")}>Notes</a>
+            <a class="secondaryNavLink" on:click={() => setScreenChoice("map")}>Map</a>
+            <a class="secondaryNavLink" on:click={() => setScreenChoice("tools")}>Tools</a>
         {/if}
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("notes")}>Notes</a>
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("map")}>Map</a>
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("tools")}>Tools</a>
     </div>
+    {:else if $page.route.id.includes("create")}
+    <div class="secondaryNavBar">
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("generator")}>Idea Gen</a>
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("planner")}>Planner</a>
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("mapMaker")}>Map Maker</a>
+    </div>
+    {/if}
 {/if}
 
 

@@ -1,12 +1,13 @@
 <script>
-  import Planner from './Planner.svelte';
-
   import Map from '../../../lib/components/Map.svelte';
     import { currentAdventure } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
-    import SavedAdventures from "$lib/components/SavedAdventures.svelte";
     import { screenChoice } from "$lib/dashboardState";
-    import PromptOptions from '$lib/components/PromptOptions.svelte';
+    import RulesCategory from '$lib/components/RulesCategories.svelte';
+    import RulesContent from '$lib/components/RulesContent.svelte';
+    
+    let screenSize = 0;
+
 
 </script>
 
@@ -22,6 +23,8 @@
         width: 100%;
         padding: 0.8em;
         height: 100%;
+        max-height: calc(100lvh - 4em);
+
         margin-top:2em;
         overflow: scroll;;
 
@@ -35,9 +38,8 @@
         width: 100%;
         grid-column: 5/11;
         height: 100%;
+        max-height: calc(100lvh - 4em);
         margin-top:2em;
-        padding: 0.8em;
-        overflow-y: scroll;
     }
 
     .dungeon {
@@ -57,12 +59,6 @@
     justify-content: center;
     align-items: center;
     height: calc(100% - 4em);
-}
-
-.createAdventureTextArea {
-    width: 100%;
-    padding: 0.5em;
-    margin-bottom: 2em;;
 }
 
 @media screen and (max-width: 1500px) {
@@ -91,13 +87,13 @@
 
 </style>
 
-<div class="options dungeonBorder" class:invisible={$screenChoice != "generator"}>
-    <h2>Get some ideas</h2>
-    <PromptOptions />
+<svelte:window bind:innerWidth = {screenSize}/>
+
+<div class="options dungeonBorder">
+    <RulesCategory />
 </div>
-<div class="content dungeonBorder" class:invisible={$screenChoice != "planner"} >
-    <Planner />
+<div class="content dungeonBorder" class:invisible={screenSize < 1500}>
+    <RulesContent />
 </div>
-<div class="map" class:invisible={$screenChoice != "mapMaker"}>
-    <Map />
+<div class="map">
 </div>

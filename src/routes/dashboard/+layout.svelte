@@ -51,7 +51,7 @@
         .batlasDashboardGrid {
             display: grid;
             grid-template-columns: 1fr;
-            grid-template-rows: auto;
+            grid-template-rows: 1fr 9fr;
             height: 100lvh;
             width: 100%;
             gap: 0em;

@@ -67,7 +67,7 @@
 
 .options {
     height: 100%;
-    padding: 2em;
+    padding: 1em;
     margin: 0em;
 }
 
@@ -83,7 +83,7 @@
 
 </style>
 
-<div class="options dungeonBorder" class:invisible={$currentAdventure != null}>
+<div class="options dungeonBorder" class:invisible={$currentAdventure != null && $screenChoice != "adventures"}>
     <SavedAdventures />
 </div>
 {#if ($currentAdventure != null)}
