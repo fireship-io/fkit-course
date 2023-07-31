@@ -141,20 +141,32 @@
 
     <div class="adventureNotes">
         <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.prompts}</p>
+            <h3>The Enemy</h3>
+            <p>{$currentAdventure.notes.enemy}</p>
         </div>
         <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.beginning}</p>
+            <h3>The Quest</h3>
+            <p>{$currentAdventure.notes.quest}</p>
         </div>
         <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.middle}</p>
+            <h3>NPC</h3>
+            <p>{$currentAdventure.notes.npc}</p>
         </div>
         <div class="notesSection brutalismBorder">
-            <h3>Prompts</h3>
-            <p>{$currentAdventure.notes.end}</p>
+            <h3>The Goal</h3>
+            <p>{$currentAdventure.notes.goal}</p>
+        </div>
+        <div class="notesSection brutalismBorder">
+            <h3>The Scene</h3>
+            <p>{$currentAdventure.notes.scene}</p>
+        </div>
+        <div class="notesSection brutalismBorder">
+            <h3>The Push</h3>
+            <p>{$currentAdventure.notes.push}</p>
+        </div>
+        <div class="notesSection brutalismBorder">
+            <h3>The Gimmick</h3>
+            <p>{$currentAdventure.notes.gimmick}</p>
         </div>
     </div>
 {#if screenSize > 1500}

@@ -3,12 +3,14 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { FB_CLIENT_EMAIL, FB_PRIVATE_KEY, FB_PROJECT_ID } from '$env/static/private'
 import pkg from 'firebase-admin';
 
+
+// add 'process.env.' when going live
 try {
   pkg.initializeApp({
     credential: pkg.credential.cert({
-      projectId: process.env.FB_PROJECT_ID,
-      clientEmail: process.env.FB_CLIENT_EMAIL,
-      privateKey: process.env.FB_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      projectId: FB_PROJECT_ID,
+      clientEmail: FB_CLIENT_EMAIL,
+      privateKey: FB_PRIVATE_KEY.replace(/\\n/g, '\n'),
     }),
   });
 } catch (err: any) {
