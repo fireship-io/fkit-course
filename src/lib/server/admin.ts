@@ -8,7 +8,7 @@ try {
     credential: pkg.credential.cert({
       projectId: process.env.FB_PROJECT_ID,
       clientEmail: process.env.FB_CLIENT_EMAIL,
-      privateKey: process.env.FB_PRIVATE_KEY,
+      privateKey: JSON.parse(process.env.FB_PRIVATE_KEY),
     }),
   });
 } catch (err: any) {
