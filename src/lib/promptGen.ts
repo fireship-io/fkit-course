@@ -1,55 +1,34 @@
 import {writable} from 'svelte/store';
 	
-// function createMapStore(initial) {
-//   const store = writable(initial);
-//   const set = (key, value) => store.update(m => Object.assign({}, m, {[key]: value}));
-//   const results = derived(store, s => ({
-//     keys: Object.keys(s),
-//     values: Object.values(s),
-//     entries: Object.entries(s),
-//     set(k, v) {
-//       store.update(s => Object.assign({}, s, {[k]: v}))
-//     },
-//     remove(k) {
-//       store.update(s => {
-//         delete s[k];
-//         return s;
-//       });
-//     }
-//   }));
-//   return {
-//     subscribe: results.subscribe,
-//     set: store.set,
-//   }
-// }
+export const monster = writable({
+  description: "default monster store",
+  clue: "default clue store",
+  environment: "default environment store"
+});
 
-// export let promptData = createMapStore({
-//   monster: "",
-//   monsterClue: "",
-//   monsterEnvironment: "",
-//   offensiveQuirk: "",
-//   offensiveQuirkClue: "",
-//   defensiveQuirk: "",
-//   defensiveQuirkClue: ""
-// });
+export const offensiveQuirk = writable({
+  description: "default monster store",
+  clue: "default clue store"
+});
 
-// export const promptData = writable({
-//   monster: "default monster store",
-//   monsterClue: "",
-//   monsterEnvironment: "",
-//   offensiveQuirk: "",
-//   offensiveQuirkClue: "",
-//   defensiveQuirk: "",
-//   defensiveQuirkClue: ""
-// });
+export const defensiveQuirk = writable({
+  description: "default monster store",
+  clue: "default clue store"
+});
 
-export const monsterDescription = writable(null);
-export const monsterClue = writable("");
-export const monsterEnvironment = writable("");
-export const offensiveQuirkDescription = writable("");
-export const offensiveQuirkClue = writable("");
-export const defensiveQuirkDescription = writable("");
-export const defensiveQuirkClue = writable("");
+export const npc = writable({
+  sex: "",
+  race: "",
+  descriptor: "",
+  personality: "",
+  clothes: "",
+  speech: "",
+  idiosyncrasy: ""
+});
+
+
+export const questLocation = writable("");
+export const problem = writable("");
 
 
 
@@ -3454,56 +3433,77 @@ function randomChoice(array) {
 }
 
 function generatePrompt(promptCategory) {
-    let promptArray = prompts[promptCategory];
+  let promptArray = prompts[promptCategory];
+  if (promptCategory === 'npc') {
+    let prompt = {
+      "sex": randomChoice(prompts.sex),
+      "race": randomChoice(prompts.race),
+      "descriptor": randomChoice(prompts.descriptor),
+      "personality": randomChoice(prompts.personality),
+      "clothes": randomChoice(prompts.clothes),
+      "speech": randomChoice(prompts.speech),
+      "idiosyncrasy": randomChoice(prompts.idiosyncrasy)
+    };
+    return prompt;
+  } else {
     let prompt = randomChoice(promptArray);
     return prompt;
+  }
 }
 
-function vowelCheck(word) {
+export function vowelCheck(word) {
     var vowels = ("aeiouAEIOU"); 
     return vowels.indexOf(word[0]) !== -1;
 }
- 
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export function generateMultiplePrompts(arrayOfRequiredPrompts) {
   for (let i = 0; i < arrayOfRequiredPrompts.length; i++) {
     let promptCategory = arrayOfRequiredPrompts[i];
     let prompt = generatePrompt(promptCategory);
     switch (promptCategory) {
       case 'monster':
-        console.log(prompt.description);
-        monsterDescription.set = prompt.description;
-        console.log(monsterDescription);
-        monsterClue.set = (prompt.clue);
+        monster.set({
+          "description": prompt.description.toLowerCase(),
+          "clue": prompt.clue.toLowerCase()
+        });
         break;
       case 'offensiveQuirk':
-        offensiveQuirkDescription.set = (prompt.description);
-        offensiveQuirkClue.set = (prompt.clue);
+        offensiveQuirk.set({
+          "description": prompt.description.toLowerCase(),
+          "clue": prompt.clue.toLowerCase()
+        });
         break;
       case 'defensiveQuirk':
-        defensiveQuirkDescription.set = (prompt.description);
-        defensiveQuirkClue.set = (prompt.clue);
+        defensiveQuirk.set({
+          "description": prompt.description.toLowerCase(),
+          "clue": prompt.clue.toLowerCase()
+        });
         break;
-      
-      // case 'offensiveQuirk':
-      //   promptData.set('offensiveQuirk', prompt.description);
-      //   promptData.set('offensiveQuirkClue', prompt.clue);
-      // case 'defensiveQuirk':
-      //   promptData.set('defensiveQuirk', prompt.description);
-      //   promptData.set('defensiveQuirkClue', prompt.clue);
-    }
+      case 'npc':
+        npc.set({
+          "sex": prompt.sex.toLowerCase(),
+          "race": prompt.race.toLowerCase(),
+          "descriptor": prompt.descriptor.toLowerCase(),
+          "personality": prompt.personality.toLowerCase(),
+          "clothes": prompt.clothes.toLowerCase(),
+          "speech": prompt.speech.toLowerCase(),
+          "idiosyncrasy": prompt.idiosyncrasy.toLowerCase()
+        });
+        break;
+      case 'questLocation':
+        questLocation.set(capitalizeFirstLetter(prompt.toLowerCase()));
+        break;
+      case 'problem':
+        problem.set(prompt.toLowerCase());
+        break;
 
-    // if (promptCategory === 'monster') {
-    //   monsterPrompt.set(
-    //     `You're fighting ${((vowelCheck(prompt.description) ? 'an ' : 'a ')).concat(prompt.description.toLowerCase())}
-    //     with ${((vowelCheck(prompt.description) ? 'an ' : 'a ')).concat(prompt.description.toLowerCase())}`,
-    //     )
-    //   console.log(monsterPrompt);
-    //     } else if (promptCategory === 'offensiveQuirk' || promptCategory === 'defensiveQuirk') {
-    //         document.getElementById(`${promptCategory}-prompt`).textContent = (vowelCheck(prompt.description) ? 'an ' : 'a ').concat(`${prompt.description}`.toLowerCase());
-    //         document.getElementById(`${promptCategory}Clue-prompt`).textContent = `${prompt.clue}`.toLowerCase();
-    //     } else {
-    //         document.getElementById(`${promptCategory}-prompt`).textContent = `${prompt}`.toLowerCase();
-    //     }
+      
     }
+  }
 }
+
 
