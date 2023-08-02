@@ -21,8 +21,7 @@
         height: 100%;
         max-height: calc(100lvh - 4em);
 
-        margin-top:2em;
-        overflow: scroll;;
+        overflow: scroll;
 
     }
 
@@ -35,7 +34,6 @@
         grid-column: 5/11;
         height: 100%;
         max-height: calc(100lvh - 4em);
-        margin-top:2em;
     }
 
     .dungeon {
@@ -61,14 +59,12 @@
 
 .options, .content, .map {
     grid-column: 1/2;
-    margin-top: 0em;
     height: 100%;
 }
 
 .options {
     height: 100%;
     padding: 1em;
-    margin: 0em;
 }
 
 .invisible {

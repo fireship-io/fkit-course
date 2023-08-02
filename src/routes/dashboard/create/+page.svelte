@@ -1,10 +1,8 @@
 <script>
-  import Planner from './Planner.svelte';
+    import Planner from "$lib/components/Planner.svelte";
+    import Map from "$lib/components/Map.svelte";
 
-  import Map from '../../../lib/components/Map.svelte';
-    import { currentAdventure } from '$lib/adventureData';
-    import AdventureContent from "$lib/components/AdventureContent.svelte";
-    import SavedAdventures from "$lib/components/SavedAdventures.svelte";
+
     import { screenChoice } from "$lib/dashboardState";
     import PromptOptions from '$lib/components/PromptOptions.svelte';
 
@@ -22,9 +20,7 @@
         width: 100%;
         padding: 0.8em;
         height: 100%;
-        margin-top:2em;
-        overflow: scroll;;
-
+        overflow: scroll;
     }
 
     .options::-webkit-scrollbar {
@@ -35,13 +31,12 @@
         width: 100%;
         grid-column: 5/11;
         height: 100%;
-        margin-top:2em;
         padding: 0.8em;
         overflow-y: scroll;
     }
 
     .dungeon {
-    border: 1em solid white;;
+    border: 1em solid white;
     border-image-slice: 103 107 107 111;
     border-image-width: 1em;
     border-image-outset: 0px 0px 0px 0px;
@@ -49,14 +44,17 @@
     border-style: solid;
     border-image-source: url('/img/border_full.png');
     background-color: var(--batlas-white);
+    max-height: calc(100% - 4em);
+
 }
-.map {
+.mapColumn {
     grid-column: 11/17;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100% - 4em);
+    height: 100%;
+    max-height: calc(100%);
 }
 
 .createAdventureTextArea {
@@ -67,10 +65,11 @@
 
 @media screen and (max-width: 1500px) {
 
-.options, .content, .map {
+.options, .content, .mapColumn {
     grid-column: 1/2;
     margin-top: 0em;
     height: 100%;
+    width: 100%;
 }
 
 .options {
@@ -98,6 +97,6 @@
 <div class="content dungeonBorder" class:invisible={$screenChoice != "planner"} >
     <Planner />
 </div>
-<div class="map" class:invisible={$screenChoice != "mapMaker"}>
+<div class="mapColumn" class:invisible={$screenChoice != "mapMaker"}>
     <Map />
 </div>

@@ -170,7 +170,7 @@
     </a>
 {:else}
     <div class="responsiveNav">
-        <a href="/dashboard/play" on:click={returnHome}>BATLAS</a>
+        <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_black.webp" alt="BATLAS" height = "30em" ></a>
         <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>Menu</a>
     </div>
     {#if $page.route.id.includes("play")}

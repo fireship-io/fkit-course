@@ -19,7 +19,7 @@
         display: grid;
         grid-template-columns: repeat(18, 1fr);
         grid-template-rows: auto;
-        height: 100lvh;
+        height: 100%;
         gap: 2em;
     }
 
@@ -37,14 +37,16 @@
 
     }
     
-    .content {
+    .contentSlot {
         grid-column: 2 / 19;
         grid-row: 1 / 2;
         gap: 2em;
         display: grid;
         grid-template-columns: repeat(17, 1fr);
         grid-template-rows: auto;
+        margin-top: 2em;
         max-height: calc(100lvh - 4em);
+        height: 100%;
     }
 
     @media screen and (max-width: 1500px) {
@@ -75,10 +77,11 @@
             background-color: var(--batlas-black);
         }
         
-        .content {
+        .contentSlot {
             width: 100%;
             margin-left: auto;
             margin-right: auto;
+            margin-top: 0em;
             grid-column: 1 / 2;
             grid-row: 2 / 3;
             gap: 2em;
@@ -96,7 +99,7 @@
         <section class="navigation">
             <NavigationBar />
         </section>
-        <section class="content"><slot /></section>
+        <section class="contentSlot"><slot /></section>
     </main>
     <OffScreenMenu></OffScreenMenu>
 </AuthCheck>

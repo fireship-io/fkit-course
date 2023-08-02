@@ -1,5 +1,5 @@
 <script>
-  import Map from '../../../lib/components/Map.svelte';
+  import Map from './Map.svelte';
     import { currentAdventure } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
     import SavedAdventures from "$lib/components/SavedAdventures.svelte";
@@ -63,6 +63,17 @@
     margin-bottom: 2em;;
 }
 
+.createAdventureNotesSection h4 {
+    text-transform: uppercase;
+    font-family: 'Pirata One', 'Poppins', sans-serif;
+    font-size: 1.6em;
+}
+
+textarea {
+    font-size: 1em;
+    font-family: var(--batlas-font);
+}
+
 @media screen and (max-width: 1500px) {
 
 .options, .content, .map {
@@ -92,7 +103,7 @@
 <h2>Flesh out the Adventure</h2>
     <div class="createAdventureNotesSection">
         <h4>Title</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="The monster" rows="2"/>
+        <textarea class="createAdventureTextArea brutalismBorder firstLetter" placeholder="What is your adventure called?" rows="2"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>The Enemy</h4>
@@ -107,7 +118,7 @@
         <textarea class="createAdventureTextArea brutalismBorder" placeholder="Detail the NPC the party will be spending the most time with. What do they look like? How do they speak and act? Why are they in their current situation?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
-        <h4>Set the party's goal</h4>
+        <h4>The party's goal</h4>
         <textarea class="createAdventureTextArea brutalismBorder" placeholder="Clearly define what the party is trying to achieve this game. Give them deirection, but don't restrain them." rows="4"/>
     </div>
     <div class="createAdventureNotesSection">

@@ -8,6 +8,12 @@
     $userData; 
 </script>
 
-<div>
+<style>
+    .topContainer{
+        height: 100vh;
+    }
+</style>
+
+<div class="topContainer">
     <slot />
 </div>

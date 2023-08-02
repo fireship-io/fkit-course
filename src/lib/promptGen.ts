@@ -3426,7 +3426,7 @@ const prompts = {
 };
 
 
-function randomChoice(array) {
+export function randomChoice(array) {
     let randNum = Math.floor(Math.random() * array.length);
     let randChoice = array[randNum];
     return randChoice;

@@ -116,7 +116,7 @@
     <div class="savedAdventure">
         <div class="savedAdventureTitle"><h4>Monster</h4></div>
         <div class="savedAdventureDescription">
-            <p id="monsterPromptText">You're fighting {((vowelCheck($monster.description) ? 'an ' : 'a '))} {$monster.description} with {$offensiveQuirk.description} and {$defensiveQuirk.description}.</p>
+            <p id="monsterPromptText" class="firstLetter">You're fighting {((vowelCheck($monster.description) ? 'an ' : 'a '))} {$monster.description} with {$offensiveQuirk.description} and {$defensiveQuirk.description}.</p>
         </div>
     </div>
     <div class="icons">
@@ -128,7 +128,7 @@
     <div class="savedAdventure">
         <div class="savedAdventureTitle"><h4>Quest</h4></div>
         <div class="savedAdventureDescription">
-            <p id="questPromptText">{$questLocation} {$problem}. They have noticed {$monster.clue}, {$offensiveQuirk.clue}, and {$defensiveQuirk.clue}.</p>
+            <p id="questPromptText" class="firstLetter">{$questLocation} {$problem}. They have noticed {$monster.clue}, {$offensiveQuirk.clue}, and {$defensiveQuirk.clue}.</p>
         </div>
     </div>
     <div class="icons">
@@ -140,7 +140,7 @@
     <div class="savedAdventure">
         <div class="savedAdventureTitle"><h4>NPC</h4></div>
         <div class="savedAdventureDescription">
-            <p id="npcPromptText">A {$npc.descriptor} {$npc.sex} {$npc.race} whose {$npc.personality}.<br> They wear {$npc.clothes}, speak {$npc.speech}, and {$npc.idiosyncrasy}</p>
+            <p id="npcPromptText" class="firstLetter">A {$npc.descriptor} {$npc.sex} {$npc.race} whose {$npc.personality}.<br> They wear {$npc.clothes}, speak {$npc.speech}, and {$npc.idiosyncrasy}</p>
         </div>
     </div>
     <div class="icons">
