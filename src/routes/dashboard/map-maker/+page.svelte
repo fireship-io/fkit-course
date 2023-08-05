@@ -1,15 +1,10 @@
 <script>
-  import Map from '../../../lib/components/Map.svelte';
-    import { currentAdventure } from '$lib/adventureData';
-    import AdventureContent from "$lib/components/AdventureContent.svelte";
-    import { screenChoice } from "$lib/dashboardState";
-    import RulesCategory from '$lib/components/RulesCategories.svelte';
-    import RulesContent from '$lib/components/RulesContent.svelte';
-    import { batlasRules } from '$lib/rules';
-    import {activeRule} from '$lib/dashboardState';
-    
-    let screenSize = 0;
+    import Planner from "$lib/components/Planner.svelte";
+    import Map from "$lib/components/Map.svelte";
 
+
+    import { screenChoice } from "$lib/dashboardState";
+    import PromptOptions from '$lib/components/PromptOptions.svelte';
 
 </script>
 
@@ -25,10 +20,7 @@
         width: 100%;
         padding: 0.8em;
         height: 100%;
-        max-height: calc(100lvh - 4em);
-
-        overflow: scroll;;
-
+        overflow: scroll;
     }
 
     .options::-webkit-scrollbar {
@@ -39,12 +31,12 @@
         width: 100%;
         grid-column: 5/11;
         height: 100%;
-        max-height: calc(100lvh - 4em);
+        padding: 0.8em;
         overflow-y: scroll;
     }
 
     .dungeon {
-    border: 1em solid white;;
+    border: 1em solid white;
     border-image-slice: 103 107 107 111;
     border-image-width: 1em;
     border-image-outset: 0px 0px 0px 0px;
@@ -52,22 +44,32 @@
     border-style: solid;
     border-image-source: url('/img/border_full.png');
     background-color: var(--batlas-white);
+    max-height: calc(100% - 4em);
+
 }
-.map {
-    grid-column: 11/17;
+.mapColumn {
+    grid-column: 1/17;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100% - 4em);
+    height: 100%;
+    max-height: calc(100%);
+}
+
+.createAdventureTextArea {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 2em;;
 }
 
 @media screen and (max-width: 1500px) {
 
-.options, .content, .map {
+.options, .content, .mapColumn {
     grid-column: 1/2;
     margin-top: 0em;
     height: 100%;
+    width: 100%;
 }
 
 .options {
@@ -88,16 +90,6 @@
 
 </style>
 
-<svelte:window bind:innerWidth = {screenSize}/>
-
-<div class="options dungeonBorder">
-    <h2>Rules</h2>
-    {#each batlasRules as rule}
-        <RulesCategory {rule} />
-    {/each}
-</div>
-<div class="content dungeonBorder" class:invisible={screenSize < 1500}>
-    <RulesContent />
-</div>
-<div class="map">
+<div class="mapColumn" class:invisible={$screenChoice != "mapMaker"}>
+    <Map />
 </div>

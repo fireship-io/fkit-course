@@ -1,8 +1,10 @@
 <script>
     import { currentAdventure } from "$lib/adventureData";
-    import { screenChoice } from "$lib/dashboardState";
+    import { activeRule, screenChoice } from "$lib/dashboardState";
 
+    $activeRule
     $currentAdventure
+    export let rule
 
     function setActive(e) {
         document.querySelectorAll('.savedAdventure').forEach((element) => {
@@ -13,7 +15,7 @@
 
     function handleCategoryClick(event, categoryChoice){
         setActive(event);
-        screenChoice.set(categoryChoice);
+        activeRule.set(categoryChoice);
     }
 
 </script>
@@ -77,25 +79,7 @@
 
 
 </style>
-<h2>Rules</h2>
-<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, "rulesOverview")}>
-    <div class="savedAdventureTitle"><h4>Overview</h4></div>
-    <div class="savedAdventureOptions"></div>
-</a>
-<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, "rulesCharacterCreation")}>
-    <div class="savedAdventureTitle"><h4>Character Creation</h4></div>
-    <div class="savedAdventureOptions"></div>
-</a>
-<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, "rulesClasses")}>
-    <div class="savedAdventureTitle"><h4>Classes</h4></div>
-    <div class="savedAdventureOptions"></div>
-</a>
-<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, "rulesContests")}>
-    <div class="savedAdventureTitle"><h4>Contests</h4></div>
-    <div class="savedAdventureOptions"></div>
-</a>
-<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, "rulesInjury")}>
-    <div class="savedAdventureTitle"><h4>Injury & Death</h4></div>
-    <div class="savedAdventureOptions"></div>
+<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, rule)}>
+    <div class="savedAdventureTitle"><h4>{rule.title}</h4></div>
 </a>
 
