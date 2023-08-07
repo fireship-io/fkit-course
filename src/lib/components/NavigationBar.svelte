@@ -3,10 +3,12 @@
 
     import {page} from '$app/stores';
     import { currentAdventure } from '$lib/adventureData';
-    import { screenChoice, offScreenMenu } from "$lib/dashboardState";
+    import { screenChoice, offScreenMenu, activeRule } from "$lib/dashboardState";
+    
     $screenChoice
     $currentAdventure
     $offScreenMenu
+    $activeRule
 
     let screenSize = 0;
 
@@ -188,6 +190,17 @@
     </div>
     {:else if $page.route.id.includes("create")}
     <div class="secondaryNavBar">
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("generator")}>Idea Gen</a>
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("planner")}>Planner</a>
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("mapMaker")}>Map Maker</a>
+    </div>
+    {:else if $page.route.id.includes("rules")}
+    <div class="secondaryNavBar">
+        {#if $activeRule.content !== ""}
+        <a href="/dashboard/play" class="backButton secondaryNavLink" on:click={backToRulesCategories}>
+            <svg class="icon" viewBox="0 0 344 452" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M302,410l-260,-184l260,-184"/></svg>
+        </a>
+        {/if}
         <a class="secondaryNavLink" on:click={() => setScreenChoice("generator")}>Idea Gen</a>
         <a class="secondaryNavLink" on:click={() => setScreenChoice("planner")}>Planner</a>
         <a class="secondaryNavLink" on:click={() => setScreenChoice("mapMaker")}>Map Maker</a>

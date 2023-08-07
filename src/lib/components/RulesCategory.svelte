@@ -1,10 +1,11 @@
 <script>
     import { currentAdventure } from "$lib/adventureData";
     import { activeRule, screenChoice } from "$lib/dashboardState";
+    import Subsection from "./Subsection.svelte";
 
     $activeRule
     $currentAdventure
-    export let rule
+    export let category
 
     function setActive(e) {
         document.querySelectorAll('.savedAdventure').forEach((element) => {
@@ -44,6 +45,18 @@
         text-decoration: underline;
     }
 
+    .subsectionsContainer {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 1em;
+        max-height: 0em;
+        transition: max-height 0.15s ease-out;
+    }
+
+
     @media screen and (max-width: 1500px) {
 
         .savedAdventure {
@@ -79,7 +92,14 @@
 
 
 </style>
-<a class="savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, rule)}>
-    <div class="savedAdventureTitle"><h4>{rule.title}</h4></div>
+<a class="rulesCategory savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, category)}>
+    <div class="savedAdventureTitle"><h4>{category.title}</h4></div>
 </a>
+<div class="subsectionsContainer">
+    {#each category.subsections as subsection}
+        <Subsection {subsection} />
+    {/each}
+</div>
+
+
 

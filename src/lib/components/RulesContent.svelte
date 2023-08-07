@@ -4,9 +4,12 @@
     import { currentAdventure } from '$lib/adventureData';
     import { activeRule } from '$lib/dashboardState';
     import { batlasRules } from '$lib/rules';
+    import { map } from '$lib/mapGen';
     $currentAdventure;
     $activeRule
     $screenChoice
+
+    export let rule;
 
 </script>
 
@@ -15,24 +18,21 @@
         padding: 1em;
     }
 
-    .rulesSection {
+    .rulesSubsection {
         padding: 1em;
         margin-top: 2em;
     }
 </style>
 
-
 <div class="rulesContainer">
-
     <div class="ruleTitle">
-        <h2>{$activeRule?.title}</h2>
+        <h2>{rule.title}</h2>
     </div>
-    {#if $activeRule.content}
-        {#each $activeRule?.content as section}
-            <div class="rulesSection brutalismBorder">
-                <h3>{section.title}</h3>
-                <p>{section.content}</p>
-            </div>
-        {/each}
-    {/if}
+    <div class="rulesSubsection">
+        <div id="subsectionContainer">
+            {@html rule.content}
+        </div>
+    </div>
 </div>
+
+

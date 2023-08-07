@@ -3,9 +3,11 @@
     import { currentAdventure } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
     import { screenChoice } from "$lib/dashboardState";
-    import RulesCategory from '$lib/components/RulesCategories.svelte';
+    import RulesCategory from '$lib/components/RulesCategory.svelte';
     import RulesContent from '$lib/components/RulesContent.svelte';
-    import { batlasRules } from '$lib/rules';
+    import RulesExample from '$lib/components/RulesExample.svelte';
+    import RulesExamplesList from '$lib/components/RulesExamplesList.svelte';
+    import { batlasRules, rules } from '$lib/rules';
     import {activeRule} from '$lib/dashboardState';
     
     let screenSize = 0;
@@ -53,18 +55,18 @@
     border-image-source: url('/img/border_full.png');
     background-color: var(--batlas-white);
 }
-.map {
+.examples {
     grid-column: 11/17;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: calc(100% - 4em);
 }
 
 @media screen and (max-width: 1500px) {
 
-.options, .content, .map {
+.options, .content, .examples {
     grid-column: 1/2;
     margin-top: 0em;
     height: 100%;
@@ -90,14 +92,18 @@
 
 <svelte:window bind:innerWidth = {screenSize}/>
 
-<div class="options dungeonBorder">
+
+<div class="options dungeonBorder rules">
     <h2>Rules</h2>
-    {#each batlasRules as rule}
-        <RulesCategory {rule} />
+    {#each rules as category}
+        <RulesCategory {category} />
     {/each}
 </div>
-<div class="content dungeonBorder" class:invisible={screenSize < 1500}>
-    <RulesContent />
-</div>
-<div class="map">
+{#if $activeRule}
+    <div class="content dungeonBorder" class:invisible={screenSize < 1500}>
+        <RulesContent rule={$activeRule}/>
+    </div>
+{/if}
+<div class="examples">
+    <RulesExamplesList rule={$activeRule}/>
 </div>
