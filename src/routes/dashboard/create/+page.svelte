@@ -6,9 +6,12 @@
     import { screenChoice } from "$lib/dashboardState";
     import PromptOptions from '$lib/components/PromptOptions.svelte';
 
+    let screenSize = 0;
+
 </script>
 
 <style>
+
     .options {
         grid-column: 1/5;
         grid-row: 1/2;
@@ -90,13 +93,15 @@
 
 </style>
 
-<div class="options dungeonBorder" class:invisible={$screenChoice != "generator"}>
+<svelte:window bind:innerWidth = {screenSize}/>
+
+<div class="options dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "generator"}>
     <h2>Get some ideas</h2>
     <PromptOptions />
 </div>
-<div class="content dungeonBorder" class:invisible={$screenChoice != "planner"} >
+<div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "planner"} >
     <Planner />
 </div>
-<div class="mapColumn" class:invisible={$screenChoice != "mapMaker"}>
+<div class="mapColumn" class:invisible={screenSize < 1500 && $screenChoice != "mapMaker"}>
     <Map />
 </div>

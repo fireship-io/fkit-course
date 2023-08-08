@@ -8,9 +8,11 @@
     import RulesExample from '$lib/components/RulesExample.svelte';
     import RulesExamplesList from '$lib/components/RulesExamplesList.svelte';
     import { batlasRules, rules } from '$lib/rules';
-    import {activeRule} from '$lib/dashboardState';
+    import {activeRule } from '$lib/dashboardState';
     
     let screenSize = 0;
+
+    screenChoice.set("rulesCategory");
 
 
 </script>
@@ -38,6 +40,7 @@
     }
 
     .content {
+        display: block;
         width: 100%;
         grid-column: 5/11;
         height: 100%;
@@ -93,17 +96,17 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 
-<div class="options dungeonBorder rules">
+<div class="options dungeonBorder rules" class:invisible={screenSize < 1500 && $screenChoice != "rulesCategories"}>
     <h2>Rules</h2>
     {#each rules as category}
         <RulesCategory {category} />
     {/each}
 </div>
 {#if $activeRule}
-    <div class="content dungeonBorder" class:invisible={screenSize < 1500}>
+    <div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "rulesContent"}>
         <RulesContent rule={$activeRule}/>
     </div>
 {/if}
-<div class="examples">
+<div class="examples" class:invisible={screenSize < 1500 && $screenChoice != "rulesExamples"}>
     <RulesExamplesList rule={$activeRule}/>
 </div>

@@ -11,6 +11,7 @@
             element.classList.remove("brutalismBorderInverted");
         });
         e.target.closest('a').classList.toggle("brutalismBorderInverted");
+        screenChoice.set("rulesContent");
     }
 
     function handleCategoryClick(event, categoryChoice){
