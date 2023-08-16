@@ -3,7 +3,6 @@
     import { screenChoice } from '$lib/dashboardState';
     import { currentAdventure } from '$lib/adventureData';
     import { activeRule } from '$lib/dashboardState';
-    import { batlasRules } from '$lib/rules';
     import { map } from '$lib/mapGen';
     $currentAdventure;
     $activeRule

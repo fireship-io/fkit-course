@@ -24,7 +24,6 @@
       .exampleContainer {
           padding: 1em;
           width: 100%;
-          margin-bottom: 2em;
       }
   
       .exampleSubsection {
@@ -35,7 +34,7 @@
 
 {#if rule.examples}
 {#each rule.examples as example, i}
-    <div class="exampleContainer dungeonBorder">
+    <div class="exampleContainer">
         <div class="ruleTitle">
             <h2>{example.title}</h2>
         </div>

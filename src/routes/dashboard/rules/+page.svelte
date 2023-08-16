@@ -7,8 +7,8 @@
     import RulesContent from '$lib/components/RulesContent.svelte';
     import RulesExample from '$lib/components/RulesExample.svelte';
     import RulesExamplesList from '$lib/components/RulesExamplesList.svelte';
-    import { batlasRules, rules } from '$lib/rules';
     import {activeRule } from '$lib/dashboardState';
+    import { rules } from '$lib/rules';
     
     let screenSize = 0;
 
@@ -64,7 +64,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: calc(100% - 4em);
+    height: 100%;
+    max-height: calc(100lvh - 2em);
+    overflow-y: scroll;
 }
 
 @media screen and (max-width: 1500px) {
@@ -107,6 +109,6 @@
         <RulesContent rule={$activeRule}/>
     </div>
 {/if}
-<div class="examples" class:invisible={screenSize < 1500 && $screenChoice != "rulesExamples"}>
+<div class="examples dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "rulesExamples"}>
     <RulesExamplesList rule={$activeRule}/>
 </div>

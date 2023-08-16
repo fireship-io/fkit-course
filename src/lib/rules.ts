@@ -1,111 +1,3 @@
-export let batlasRules = [
-    {
-        "title": "I've never played a TTRPG before 😰",
-        "content": [
-            {
-                "title": "Don't stress, Batlas is a good pick",
-                "content": "It's extremely rules light and functions more off the archetypes found in fantasy than a library of rules. If you're familiar with fantasy tropes, you'll be able to pick it up in no time. If you're not, you'll still be able to pick it up in no time."
-            },
-            {
-                "title": "",
-                "content": "It's extremely rules light and functions more off the archetypes found in fantasy than a library of rules. If you're familiar with fantasy tropes, you'll be able to pick it up in no time. If you're not, you'll still be able to pick it up in no time."
-            },
-            {
-                "title": "The gameplay loop",
-                "content": "Batlas follows the standard gameplay loop of most roleplaying games. After the Game Master (GM) describes the initial scene The players describe what they want to do If there would be a consequence to that action failing, the GM determines the difficulty, the players roll dice, and the GM describes the outcome. The players then describe what they want to do next, and the loop continues. The GM is the final arbiter of the rules, and can make any changes they see fit to make the game more fun for everyone."
-            },
-            {
-                "title": "The most important thing",
-                "content": "Batlas is about fast-paced adventuring. Games should wrap up in 90 minutes to 2 hours and should be fun the whole way through. It's less about the ongoing narrative, like traditional TTRPG's, and more about episodic adventures. If something is getting boring, just move on."
-            }
-        ]
-    },
-    {
-        "title": "Overview",
-        "content": [
-            {
-                "title": "The game",
-                "content": "Batlas is a fantasy roleplaying game designed for minimal prep and maximum fun. The core concept is to do away with the math and libraries of rules and focus on common archetypes to determine outcomes. Instead of a list of modifiers, additions, subtractions, and niche rules, Batlas asks 'Would a knight be good at this?' and uses a simple dice system to grant bonuses or penalties based on the answer. Those seeking a game with many rules and stat maximasition should look elsewhere. Those seeking a game where they can play a character and not a set of numbers will find endless dungeons of fun waiting for them in the Batlas."
-            },
-            {
-                "title": "The gameplay loop",
-                "content": "Batlas follows the standard gameplay loop of most roleplaying games. After the Game Master (GM) describes the initial scene The players describe what they want to do If there would be a consequence to that action failing, the GM determines the difficulty, the players roll dice, and the GM describes the outcome. The players then describe what they want to do next, and the loop continues. The GM is the final arbiter of the rules, and can make any changes they see fit to make the game more fun for everyone."
-            },
-            {
-                "title": "The most important thing",
-                "content": "Batlas is about fast-paced adventuring. Games should wrap up in 90 minutes to 2 hours and should be fun the whole way through. It's less about the ongoing narrative, like traditional TTRPG's, and more about episodic adventures. If something is getting boring, just move on."
-            }
-        ]
-    },
-    {
-        "title": "Characters",
-        "content": [
-            {
-                "title": "Section 1",
-                "content": "Content 1"
-            },
-            {
-                "title": "Section 2",
-                "content": "Content 2"
-            },
-            {
-                "title": "Section 3",
-                "content": "Content 3"
-            }
-        ]
-    },
-    {
-        "title": "Classes",
-        "content": [
-            {
-                "title": "Section 1",
-                "content": "Content 1"
-            },
-            {
-                "title": "Section 2",
-                "content": "Content 2"
-            },
-            {
-                "title": "Section 3",
-                "content": "Content 3"
-            }
-        ]
-    },
-    {
-        "title": "Combat",
-"content": [
-            {
-                "title": "Section 1",
-                "content": "Content 1"
-            },
-            {
-                "title": "Section 2",
-                "content": "Content 2"
-            },
-            {
-                "title": "Section 3",
-                "content": "Content 3"
-            }
-        ]
-    },
-    {
-        "title": "Injury",
-"content": [
-            {
-                "title": "Section 1",
-                "content": "Content 1"
-            },
-            {
-                "title": "Section 2",
-                "content": "Content 2"
-            },
-            {
-                "title": "Section 3",
-                "content": "Content 3"
-            }
-        ]
-    },
-];
 
 export let rules = [
     {
@@ -118,11 +10,7 @@ export let rules = [
                 "examples": [
                     {
                         "title": "A dark room",
-                        "content": "<p><strong>GM</strong>: “You enter a long, dark room deep beneath the castle. The only source of light is a dying torch on the far side of the room. You can hear the sound of rushing water and retreating footsteps. What do you do?”</p><p><strong>Trickster</strong>: “I try to find the source of the water.”</p>"
-                    },
-                    {
-                        "title": "The loop 2",
-                        "content": "again."
+                        "content": "<p><strong>GM</strong>:“You enter a long, dark room deep beneath the castle. The only source of light is a dying torch on the far side of the room. You can hear the sound of rushing water and retreating footsteps. What do you do?”</p><p><strong>Trickster</strong>:“I try to find the source of the water.”</p><p><strong>Shapeshifter</strong>:“I’d like to shapeshift into a cat and see whose footsteps we can hear.”</p><p><strong>GM</strong>:“Great, Thief I’ll get you to roll with one extra die, and Druid I’ll get you to roll with two extra dice.”</p><p><strong>Trickster</strong>:“Oh no, 6”</p><p><strong>Shapeshifter</strong>:“22”</p><p><strong>GM</strong>:“Okay. Thief as you investigate for the source of the water you step forward through the dark but your foot slips into a hole in the floor. You turn and grab at the stone tiles and while you find hold your grip is failing. Below you, you can hear the roar of rushing water.</p><p>Druid, you shift into a cat as Thief begins their investigation. You peer across the room and spy a small goblin running away through the dark. You try to get a closer look but you notice Thief edging closer to a drop they can’t see. You try to call out to help but only a meow comes out and you see them slip.</p><p>What do you do?”</p>"
                     }
                 ]
             },
@@ -131,12 +19,12 @@ export let rules = [
                 "content": "<p>When an actor (player or not) attempts an action that could have narrative consequences upon failure they should make a roll to determine the outcome.</p><p>When a roll is needed the GM will look at the action being attempted and determine a difficulty number for it (there’s a general guide for this in the Game Master section). Once they have a difficulty number the Player will roll and try to match or exceed that number. If they do the action succeeds, if not, it fails.</p><p>Some GM’s like to have a spectrum of outcomes based on how much the roll falls below or exceeds the number, some like to have a more binary outcome, both are fine and come down to the GM’s style of game.</p><p>A roll is always a twenty-sided die (a d20) with the chance of adding extra dice to the roll if the actor's class and speciality apply. These extra dice are six-sided (d6) and a maximum of 2 can be added to any one roll unless explicitly stated otherwise in a class rule.</p><p></p><p>Contests occur when two actors compete for an outcome. In such a case the GM does not set a number but instead both actors make a roll and the higher result gets the favourable outcome. In contests, tied results favour the defender. If there’s no defender tied rolls result in neither party succeeding.</p>",
                 "examples": [
                     {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
+                        "title": "Reading runes",
+                        "content": "<p><strong>Sorcerer</strong>:“I’d like to make sense of the magic runes.”</p><p><strong>GM</strong>:“Sure, you’re a magician but you’re not versed in the actual written and studied forms of magic like a scholar would be, so you’ll roll a d20 and 1d6.</p><p><strong>Sorcerer</strong>:“Got it. 15.”</p><p><strong>GM</strong>:“You don’t make total sense of everything that’s written but you get the context that they exist to offer protection.”</p>"
                     },
                     {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Attacking a goblin",
+                        "content": "<p><strong>Barbarian</strong>: “I’d like to attack the goblin.”</p><p><strong>GM</strong>: “Okay, make a contest roll.”</p><p>[The goblin is a warrior but has no speciality so it rolls a d20 + 1d6]</p><p>[The barbarian’s class and speciality apply here so they roll a d20 +2d6]</p><p><strong>Barbarian</strong>: “Nineteen.”</p><p><strong>GM</strong>: “Ten. You march over to the goblin, towering above them and you cleave them in twain with your battle axe. The other goblins recoil and snarl.”</p>"
                     }
                 ]
             },
@@ -145,12 +33,8 @@ export let rules = [
                 "content": "<p>Sometimes an actor’s action is supported by an ally or a few allies. In such cases the lead actor’s roll is granted support dice. Support dice are additional d20 dice that are rolled and the lead actor may take any result from among them. Each ally involved in the action adds 1 support die. In rolls where more than one actor is involved, classes and specialities are pooled together to determine extra dice but the maximum additional extra dice is still 2.</p>",
                 "examples": [
                     {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
-                    },
-                    {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Lifting a boulder",
+                        "content": "<p><strong>Leafspeaker</strong>: “I got 18 total with a twelve on the d20”</p><p><strong>Knight</strong>: “My support die was fourteen so take that instead.”</p><p><strong>Leafspeaker</strong>: “Nice, okay, that makes it 20 total.”</p><p><strong>GM</strong>: “Working together you lift with all your might but this is a titanic stone and you only manage to shift it a few inches.”</p>"
                     }
                 ]
             },
@@ -158,28 +42,12 @@ export let rules = [
                 "title": "Episodes or Rests",
                 "content": "<p>If you plan to play with a continuing group of characters over multiple sessions then the Gm will need to make the decision to run the narrative by episodes or rests.</p><p>In episodic games, the characters' resources are replenished each time they complete an adventure. The first adventure might be to escape the prison and the next episode might be to find evidence of their innocence. In an episodic game, the player’s resources (their tools, their health, their magic) would be replenished after they escape the prison. There’s no narrative reason for this but it keeps the game moving quickly.</p><p>In rest games it’s common for groups to have a ‘rest’ session between adventures. There’s often a narrative break introduced in the story that gives characters time to heal, shop, gather information, and hone skills. Some groups love these sessions and some of the most fun haggling with surly shopkeepers and pranking town guards. It also is a great space to allow the game to become your own and add in your own house rules, gear, spells, abilities, et cetera.</p><p>Both styles of play can be great fun and there’s no reason they couldn’t be mixed. It’s just something the group will need to decide between each adventure</p>",
                 "examples": [
-                    {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
-                    },
-                    {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
-                    }
                 ]
             },
             {
                 "title": "What you'll need to play",
                 "content": "<p>At a bare minimum you’ll need the following things to play Batlas:</p><ul><li>A Game Master & 2 players</li><li>Pen/pencils & paper</li><li>A d20 & 2d6</li><li>An adventure</li><li>Character sheets & Class rules</li></ul><p>However we recommend you have the following so things run smoothly:</p><ul><li>A Game Master & 3-6 players</li><li>Pen/pencils & paper</li><li>A d20 & 2d6 for each person at the table</li><li>Character sheets & Class rules</li><li>Quick reference rules sheet<li>An adventure plan</li><li>A map</li></ul>",
                 "examples": [
-                    {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
-                    },
-                    {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
-                    }
                 ]
             },
         ]      
@@ -374,70 +242,92 @@ export let rules = [
                 "examples": [
                     {
                         "title": "Barbarian",
-                        "content": "Lorem ipsum."
+                        "content": "<p>All issues are resolved by might in the end. Society just piles rules on top of that and hopes that everyone forgets. The barbarian does not forget. When things get difficult civilised folk turn to technology and magic. When they fail the civilised people will turn to words. And when words fail they turn to might. Barbarians just skip a few steps.</p><h3>Gear options</h3><ul><li>The barbarian may swap out any type of weapon for another and can ignore duplicate gear for all weapon types (yes, you can take 4 large weapons)</li></ul><h3>Injury fades, victory lasts</h3><p>The barbarian can suffer a point of damage to succeed on any roll or contest, or to deal an additional point of damage on an attack.</p><h3>Too mighty to die</h3><p>When a barbarian reaches 0 hit points they do not need to roll to remain conscious. They also only fail a death roll on a result of 8 or lower.</p>"
                     },
                     {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Knight",
+                        "content": "<p>Knights are warriors of honour and defenders of virtue. They are unrivaled in martial training but will only draw their blades when forced expecting the best of all those around them, they try to set a heroic example.</p><h3>Gear options</h3><ul><li>The knight may take armour</li><li>The knight gets an additional shield</li></ul><h3>Trained combatant</h3><p>The knight gets a support die when they perform these special moves:</p><ul><li>Disarm: make a target drop whatever they are holding.</li><li>Riposte: On being hit, the knight can perform a counterattack at the same moment.</li><li>Sweep - If surrounded by multiple targets, the knight may attack up to 3.</li><li>Lunge - If there are multiple targets in a straight line, the knight can pierce 2 of them.</li><li>Footwork - The knight can use an attack to position themselves behind the target.</li></ul><p>These special manoeuvres may be applied outside of combat too.</p>"
                     }
                 ]
             },
             {
-                "title": "Choose a class",
-                "content": "<p>Classes are the broad archetype your character’s skills fall into. Each class will have different strengths, weaknesses, skills, and gear. Each character may choose one class from the following:</p><ul><li>Warrior</li><li>Thief</li><li>Magician</li><li>Druid</li><li>Cleric</li></ul><p>More details about class can be found in the classes rules section.</p>",
+                "title": "Thief",
+                "content": "<p>The thief is a person of skill and cunning. When presented with two options the Thiefs will take the third and come out on top. Nimble, dextrous, and self-interested, Thieves often find themselves in difficult situations using whatever they have to rig a solution.</p><h3>Gear</h3><ul><li>Weapon or ranged weapon</li><li>Small weapon</li><li>2 tools</li></ul>",
                 "examples": [
                     {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
+                        "title": "Trickster",
+                        "content": "<p>Trickster believe that cheating is part of every game, that rules are just hurdles, and that you're hands should remain clean because you can convince another to dirty their own.<br>Often with thinning moral fabric, the Trickster is a cunning and deceptive character. They rely on charisma, manipulation, and guile to advance toward their wants.</p><h3>Disguise kit</h3><p>With 5 minutes of time, the Trickster can assume the appearance of another person. This kit doesn't change the Trickster size, frame, or clothing (though it does come with a collection of accessories like glasses, badges, jewellery, etc.)</p><h3>Gadget bag</h3><p>The Trickster never knows what they'll need in a given momenet so they bring the ingredients for any answer. The Trickster has a bag of various gadget pieces that they can piece together into various contraptions. Each gadget pieces can only be used once but there is no limit to how many can be combined into a single gadget.</p>"
                     },
                     {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Acrobat",
+                        "content": "<p>Where most see a prison, a cliff face, or certain plummeting death, the Acrobat sees a gentle stroll, tumble, and flip. Experts in contortion, momentum, and balance, Acrobats are never oppressed by gravity.</p><h3>Featherweight</h3><p>It may be from a magical cloak, an enchanted ring, or a mystic skill learned from a travelling circus but one way or another the Acrobat has gained the ability to make themselves as light as a feather for a few seconds at a time (roll 2d6 to determine how many seconds each time this ability is used). Common uses for this gift are to launch oneself at moments of momentum and to negate damage from great heights but this ability is limited only by creativity.</p><h3>Momentum</h3><p>Each acrobatic maneuvour done in succession grants the next movement a support dice. These support dice stack up to 3.</p><p>For example, you succeed on running across a narrow beam. So, when you try to flip off that beam onto a seasaw below, your flip will have a support die. When that flip succeeds and you launch off the seasaw below you will have 2 support dice for you attempt to use that seasaw launch to land on the back of a moving horse.</p><p>When there would be a difficult maneuvre, try to build momentum up to it.</p>"
                     }
                 ]
             },
             {
-                "title": "Choose a specialty",
-                "content": "<p>Each class has two specialties players can choose from. Each specialty builds upon the archetype of the class and comes with it's own skills and options. Specialties are outlined in each class's rules.</p>",
+                "title": "Magician",
+                "content": "<p>Magicians bend the mysterious energies of the universe to their will.<br>The physical world is like clay to the magican who transfigure all they see.</p><h3>Gear</h3><ul><li>Small weapon</li><li>Focus</li><li>Curio</li></ul>",
                 "examples": [
                     {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
+                        "title": "Scholar",
+                        "content": "<p>Scholars have studied for many years to translate the material into formula. They exercise control through understanding and power through design.</p><h3>Crafted spells</h3><p>Crafted spells are formed by combining a word from 2 or 3 columns. When a word is chosen it cannot be chosen again. Two words cannot be picked from the same column.</p>"
                     },
                     {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Sorcerer",
+                        "content": "<p>Sorcerers embrace the tempest of the unknown.<br>They are a conduit for the unseen forces of the universe to flow through without control or limit.</p><h3>Arcane conduit</h3><p>Sorcerers have little control over their magic. When crafting spells Sorcerers pick only 1 word with the others being determined by rolling a d20 and dividing the result by 2. The chosen word can be from any column.<br>In addition, the Game Master will roll for an effect from the Chaos column that only they can see.Sorcerers can use the same word(s) as many times as they like.</p>"
                     }
                 ]
             },
             {
-                "title": "Choose your gear",
-                "content": "<p>When creating a character you will outfit them with a selection of gear based on their classes. When choosing gear all players pick from the same gear pool and no item should be taken twice unless the GM allows it.</p><p>Each class and specialty will have different lists of gear they must outfit themselves with. Some will have types of gears that others do not.</p><p>If all options for a particular category of gear are chosen then duplicates are allowed.</p>",
+                "title": "Druid",
+                "content": "<p>Harmonious souls, Druids are characters of connectedness and feeling. They maintain a deep bond with the natural world. Nature commands the Druids respect and effort, and in return they are able to ask favours of it.</p><h3>Gear</h3><ul><li>Weapon or raned weapon (no metal)</li><li>2 Small weapons (no metal)</li></ul><h3>Animal Familiar</h3><p>The Druid is never alone. With them is their familiar, their dearest friend. A Druid's familiar can be any animal. The familiar can understand the Druid's simple requests but cannot convey or understand most things that require language beyond simple yes or no answers (it cannot sign, draw, or relate concepts).</p><p>Druids share an unbreakable bond with their familiar:</p><ul><li>When one is hurt the other can suffer damage in their place.</li><li>One always knows the direction of the other.</li></ul><p>Famililiars are treated as part of the Druuid character. They act at the same time and the player controls both. Familiars have no class or speciality.</p>",
                 "examples": [
                     {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
+                        "title": "Leafspeaker",
+                        "content": "<p>Forest are not still and quiet. Leakspeakers listen to the whispers of trees, the gossip of vines, and the riddles of flowers. Years amongst the sun gilded canopies and beanth the decaying understory have taught these Druids to speak back.</p><h3>Influence plants</h3><p>Leafspeakers can ask the plants around them for favours. Vines may lift a boulder, a flower may expand into a shield, a tree may shake loose all its fruit, roots may coil and crush a foe.Remember that these are favours, not demands, and the plants will not always listen or understand. Asking favours of this kind will require a roll based on the magnitude of the favour.</p><h3>Magic seeds</h3><p>Leafspeakers start their adventures with 1d6 worth of magic seeds. These seeds can be planted in soil to grow any plant the Leafspeaker desires in an instant. These plants will always listen to the Leafspeakers favours but will wither away in 1 minute from when they were planted.<br>If anyone other than a Leakspeaker plants one of these seeds the resultsing plant will be carnivorous and attempt to devour the planter.</p>"
                     },
                     {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Shapeshifter",
+                        "content": "<p>To be a Shapeshifter is to understand that the boundaries humans have drawn between elemenst of nature are childish and ill-conceived. There is no difference between the human's hand and bear's claw, or between the human and eagle eye. Your understanding of these false barriers allows you to alter yourself.</p><h2>Shapeshift</h2><p>Shapeshifters can transform themselves into animals. These transformations can be complete or can shift only part of the Shapeshifter's anatomy.</p><p>Multiple animals can be combined into a single shift but doing so will cause the Shapeshifter to suffer a point of damage. When a mult-shift is performed the Shapeshifter may combine up to 1d6 animals (rerolling 1's).</p><h2>Speak with animals (and anyone else)</h2><p>Language is yet another boundary that the Shapeshifter has seen beyond. Shapeshifters can converse with any animal or creature with a language. The Shapeshifter doesn't know these language outside of conversation and cannot read or write them.</p>"
                     }
                 ]
             },
             {
-                "title": "Motivation & Name",
-                "content": "<p>On the character sheet there is a passage with gaps throughout it. Fill in the gaps to inform you what the character cares about when they make their decisions.</p><p>Lastly, give your character a name.</p>",
+                "title": "Cleric",
+                "content": "<p>The world is moved by forces beyond our control but those forces are guided by the motivations of higher beings. These beings are sometimes called Gods or given names but the Cleric understands that any names or titles are barbariac translations of the will they worship.</p><p>Clerics study ancient scriptures and esoteric musings to gain insight into the hands that pulls the threads of fate. They understand there power does not originate from within them and that are a messenger of greater forces.</p><h3>Gear</h3><ul><li>Weapon</li><li>Shield</li><li>Curio</li></ul><h3>Miracles</h3><p>The Cleric can invoke each of these miracles a single time. These miracles are not bound by narrative and sense.</p><ul><li>An ally avoids damage</li><li>A roll succeeds or fails</li><li>An untaken item from the Gear Stock is found</li></ul>",
                 "examples": [
                     {
-                        "title": "Example 1",
-                        "content": "Lorem ipsum."
+                        "title": "Healer",
+                        "content": "<p>We are put through hurt and suffering so that we might grow strong and compassionate. Healers feel the love that guides all beings and offers healing absolution for misteps and hurt caused to those that truly repent.</p><h3>Healing</h3><p>Listen to the will of fate let the higher powers pass judgement on the suffering.<br>The Healer can heal points of damage but must roll each time a point is restored. The roll needed for the first heal is 11 or greater.</p><p>On each success, the roll needed is increased by 3 to a max of 17 (⅕ chance). On each failure the Healer suffers a point of damage and the needed result is reduced by 3 to a minimum of 2.</p><p>The target of the healing regains a hit point regardless of the outcome of the roll.</p><h3>Guidance</h3><p>When the Healer is involved in a group roll they grant an additional guidance d6 that isn’t counted in the maximum amount of dice for a group roll.</p>"
                     },
                     {
-                        "title": "Example 2",
-                        "content": "Lorem ipsum."
+                        "title": "Paladin",
+                        "content": "<p>There are some among the living not worthy of redemption and each moment they live is an affront to the good and the decent. Paladins seek to cleanse the world of the wicked and let higher powers guide their fist.</p><h3>Condemn</h3><p>The condemned is the next unfortunate soul on the Paladin's list.<br>The Paladin can condemn a creature they can see. A support die is granted to any contest against the condemned.</p><p>If the Paladin attacks a target other than the condemned they do not get to add any class or speciality dice to that contest. This is ignored for undead targets.</p><p>Only one creature may be condemned at a time. The condemned can only be reassigned once the currently condemned is slain.</p><h3>Smite</h3><p>The Paladin gains a support die in any contest against an undead or condemned creature. If a creature is both undead and condemned, the Paladin gains 2 support dice.</p><p>When a Paladin deals damage to an undead or condemned creature they deal an additional point of damage.</p>"
                     }
                 ]
             },
         ]      
+    },
+    {
+        "title": "Resources",
+        "content": "<p>Here you'll find a collection of resources to help you play the game.</p>",
+        "subsections": [
+            {
+                "title": "Character Sheet",
+                "content": "<p>Here you'll find a character sheet to help you keep track of your character's stats and abilities.</p>"
+            },
+            {
+                "title": "Gear Lists",
+                "content": "<p>Here you'll find a list of all the gear available.</p>"
+            },
+            {
+                "title": "Magic Lists",
+                "content": "<p>Here you'll find a list of all the magic available.</p>"
+            },
+            {
+                "title": "Adventure planner",
+                "content": "<p>Here you'll find a list of all the adventures available.</p>"
+            }
+        ]
     }
 ];
