@@ -74,6 +74,23 @@
       width: 100%;
     }
 
+    .header a {
+      color: var(--batlas-white);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.1em;;
+    }
+
+    .header a:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .header a:visited {
+      color: var(--batlas-white);
+      text-decoration: none;
+    }
+
     .headerCenter {
       display: flex;
       justify-content: center;
@@ -363,17 +380,16 @@
   
   <nav class="header">
     <div class="headerLeft">
-      <a>About</a>
-      <a>Pricing</a>
+      <a href="/about">About</a>
+      <a href="/pricing">Pricing</a>
     </div>
     <div class="headerCenter">
       <a>
-        <img src="/img/batlasLogo_white.webp" alt="Batlas Logo" />
+        <img src="/img/batlasLogo_white_outline.webp" alt="Batlas Logo" />
       </a>
     </div>
     <div class="headerRight">
-      <a href="/login">Login</a>
-      <a>Register</a>
+      <a href="/login">Login / Register</a>
     </div>
   </nav>
 
@@ -436,7 +452,7 @@
           <p>Just get pizza.</p>
     </div>
     <div class="batlasColumn imageColumn">
-      <img src="/img/placeTile.png" alt="Batlas Logo" />
+      <img src="/img/pizza.webp" alt="Batlas Logo"/>
     </div>
   </section>
 
@@ -453,8 +469,11 @@
           <p>Batlas is designed to be planned and planned in around 2-3 hours. It cuts out rules that bog the story down in mathematics and numbers by using archetypes to determine strengths and weaknesses.</p>
           <p>Simple enough to pick up and play, complex enough to allow for creativity and ridiculous memories.</p>
     </div>
-    <div class="batlasColumn imageColumn">
-      <img src="/img/placeTile.png" alt="Batlas Logo" />
+    <div class="batlasColumn imageColumn monsterGen">
+      <p id="monsterPrompt">10 <span class="promptText">minutes prep</span></p>
+      <p id="offensivePrompt">3 <span class="promptText">dice</span></p>
+      <p id="defensivePrompt">90+ <span class="promptText">minutes of play</span></p>
+      <p id="defensivePrompt">No <span class="promptText">maths (almost)</span></p>
     </div>
   </section>
 
@@ -467,7 +486,7 @@
           <p>If you can spare a few bucks it'd go a long to keep the magic alive.</p>
     </div>
     <div class="batlasColumn imageColumn">
-      <img src="/img/placeTile.png" alt="Batlas Logo" />
+      <img src="/img/warrior.webp" alt="Batlas Logo" />
     </div>
   </section>
 
@@ -486,7 +505,7 @@
       </div>
       <div class="footerCenter">
         <a>
-          <img src="/img/batlasLogo_white.webp" alt="Batlas Logo" />
+          <img src="/img/batlasLogo_white_outline.webp" alt="Batlas Logo" />
         </a>
       </div>
       <div class="footerRight">
