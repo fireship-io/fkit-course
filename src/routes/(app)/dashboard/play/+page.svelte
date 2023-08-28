@@ -1,5 +1,5 @@
 <script>
-  import Map from '../../../lib/components/Map.svelte';
+  import Map from '$lib/components/Map.svelte';
     import { currentAdventure } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
     import SavedAdventures from "$lib/components/SavedAdventures.svelte";

@@ -378,20 +378,7 @@
     {redirectToDashboard()}
   {:else}
   
-  <nav class="header">
-    <div class="headerLeft">
-      <a href="/about">About</a>
-      <a href="/pricing">Pricing</a>
-    </div>
-    <div class="headerCenter">
-      <a>
-        <img src="/img/batlasLogo_white_outline.webp" alt="Batlas Logo" />
-      </a>
-    </div>
-    <div class="headerRight">
-      <a href="/login">Login / Register</a>
-    </div>
-  </nav>
+
 
   <main class="batlasSection batlasHero">
     <div class="batlasColumn">
@@ -496,23 +483,6 @@
           <a class="CTA">Create a free account</a>
     </div>
   </section>
-
-    <footer class="footer">
-      <div class="footerLeft">
-        <p>Copyright Tanner J Pty Ltd</p>
-        <a>Privacy Policy</a>
-        <a>Terms & Conditions</a>
-      </div>
-      <div class="footerCenter">
-        <a>
-          <img src="/img/batlasLogo_white_outline.webp" alt="Batlas Logo" />
-        </a>
-      </div>
-      <div class="footerRight">
-        <a>Want to collaborate?</a>
-        <a>My other projects</a>
-      </div>
-    </footer>
   {/if}
   
   
