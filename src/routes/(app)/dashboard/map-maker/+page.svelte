@@ -11,7 +11,7 @@
 <style>
     .options {
         grid-column: 1/5;
-        grid-row: 1/2;
+        grid-row: 1/3;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -30,6 +30,7 @@
     .content {
         width: 100%;
         grid-column: 5/11;
+        grid-row: 1/3;
         height: 100%;
         padding: 0.8em;
         overflow-y: scroll;
@@ -49,6 +50,8 @@
 }
 .mapColumn {
     grid-column: 1/17;
+    grid-row: 1/3;
+
     display: flex;
     flex-direction: column;
     justify-content: center;

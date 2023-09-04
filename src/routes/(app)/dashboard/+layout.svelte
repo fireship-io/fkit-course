@@ -19,7 +19,7 @@
         display: grid;
         grid-template-columns: repeat(18, 1fr);
         grid-template-rows: auto;
-        height: 100%;
+        height: 100lvh;
         gap: 2em;
     }
 

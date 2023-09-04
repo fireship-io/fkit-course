@@ -10,7 +10,7 @@
 <style>
     .options {
         grid-column: 1/5;
-        grid-row: 1/2;
+        grid-row: auto / span 2;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -52,7 +52,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100% - 4em);
+    height: calc(100%);
 }
 
 @media screen and (max-width: 1500px) {

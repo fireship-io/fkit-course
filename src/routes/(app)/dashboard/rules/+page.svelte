@@ -17,7 +17,7 @@
 <style>
     .options {
         grid-column: 1/5;
-        grid-row: 1/2;
+        grid-row: 1/3;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -40,6 +40,7 @@
         display: block;
         width: 100%;
         grid-column: 5/11;
+        grid-row: 1/3;
         height: 100%;
         max-height: calc(100lvh - 4em);
         overflow-y: scroll;
@@ -57,6 +58,8 @@
 }
 .examples {
     grid-column: 11/17;
+    grid-row: 1/3;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
