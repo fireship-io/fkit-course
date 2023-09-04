@@ -1,10 +1,5 @@
 <script>
-  import Map from './Map.svelte';
-    import { currentAdventure } from '$lib/adventureData';
-    import AdventureContent from "$lib/components/AdventureContent.svelte";
-    import SavedAdventures from "$lib/components/SavedAdventures.svelte";
-    import { screenChoice } from "$lib/dashboardState";
-    import PromptOptions from '$lib/components/PromptOptions.svelte';
+    export let createAdventure;
 
 </script>
 
@@ -102,35 +97,31 @@ textarea {
 
 <h2>Flesh out the Adventure</h2>
     <div class="createAdventureNotesSection">
-        <h4>Title</h4>
-        <textarea class="createAdventureTextArea brutalismBorder firstLetter" placeholder="What is your adventure called?" rows="2"/>
-    </div>
-    <div class="createAdventureNotesSection">
         <h4>The Enemy</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Details the antoganist of this adventure. What is it? Does it have minions? What signs of it couuld be found throughout the dungeon?" rows="6"/>
+        <textarea bind:value={createAdventure.notes.enemy} class="createAdventureTextArea brutalismBorder" placeholder="Details the antoganist of this adventure. What is it? Does it have minions? What signs of it couuld be found throughout the dungeon?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>The Quest</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Detail the hook and context of the adventure. Why is the party doing this? What parties are involved?" rows="6"/>
+        <textarea bind:value={createAdventure.notes.quest} class="createAdventureTextArea brutalismBorder" placeholder="Detail the hook and context of the adventure. Why is the party doing this? What parties are involved?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>The NPC</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Detail the NPC the party will be spending the most time with. What do they look like? How do they speak and act? Why are they in their current situation?" rows="6"/>
+        <textarea bind:value={createAdventure.notes.npc} class="createAdventureTextArea brutalismBorder" placeholder="Detail the NPC the party will be spending the most time with. What do they look like? How do they speak and act? Why are they in their current situation?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>The party's goal</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Clearly define what the party is trying to achieve this game. Give them deirection, but don't restrain them." rows="4"/>
+        <textarea bind:value={createAdventure.notes.goal} class="createAdventureTextArea brutalismBorder" placeholder="Clearly define what the party is trying to achieve this game. Give them deirection, but don't restrain them." rows="4"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>Describe the scene</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Describe the location in broad strokes. Try to give an atmosphere and allow the specifics to emerge during the game." rows="8"/>
+        <textarea bind:value={createAdventure.notes.scene} class="createAdventureTextArea brutalismBorder" placeholder="Describe the location in broad strokes. Try to give an atmosphere and allow the specifics to emerge during the game." rows="8"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>Push the party forward</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Force the party to action. Make something chase them, limit their time to plan, raise the stakes. Make the situation worse." rows="6"/>
+        <textarea bind:value={createAdventure.notes.push} class="createAdventureTextArea brutalismBorder" placeholder="Force the party to action. Make something chase them, limit their time to plan, raise the stakes. Make the situation worse." rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>Give them a gimmick</h4>
-        <textarea class="createAdventureTextArea brutalismBorder" placeholder="Put something fun throughout the adventure. Give the party something to play with." rows="5"/>
+        <textarea bind:value={createAdventure.notes.gimmick} class="createAdventureTextArea brutalismBorder" placeholder="Put something fun throughout the adventure. Give the party something to play with." rows="5"/>
     </div>
 

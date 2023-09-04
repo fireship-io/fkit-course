@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { auth, user } from "$lib/firebase";
+  import { db, userData, auth, user } from "$lib/firebase";
+  import { doc, getDoc, writeBatch } from "firebase/firestore";
 
-  import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+  import { GoogleAuthProvider, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential } from "firebase/auth";
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -17,12 +18,31 @@
       },
       body: JSON.stringify({ idToken }),
     });
+    createUserDoc();
   }
 
   async function signOutSSR() {
     const res = await fetch("/api/signin", { method: "DELETE" });
     await signOut(auth);
   }
+
+  async function createUserDoc() {
+    console.log("creating doc");
+    const batch = writeBatch(db);
+    batch.set(doc(db, "users", $user!.uid), {
+      published: true,
+      bio: "New User",
+      adventures: [
+        {
+          title: "Test Adventure Title"
+        },
+      ],
+    });
+
+    await batch.commit();
+  }
+
+
 </script>
 
 <style>
@@ -177,6 +197,7 @@
       <p>You are logged in</p>
       <a href="/dashboard" >Dashboard</a>
       <a on:click={signOutSSR}>Sign out</a>
+      <a on:click={() => deleteAccount(auth.currentUser)}>Delete Account</a>
       {:else}
         <h2>Login</h2>
         <a on:click={signInWithGoogle}>Sign in with Google</a>

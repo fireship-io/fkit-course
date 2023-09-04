@@ -68,9 +68,9 @@ h1, h2, h3, h4, h5, h6 {
 
 
     .dungeonBorder {
-      border: 1.5em solid white;;
+      border: 1em solid white;
       border-image-slice: 103 107 107 111;
-      border-image-width: 1.5em;
+      border-image-width: 1em;
       border-image-outset: 0px 0px 0px 0px;
       border-image-repeat: repeat repeat;
       border-style: solid;

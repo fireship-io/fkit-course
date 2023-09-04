@@ -232,19 +232,7 @@
 
 <div class="mapContainer dungeonBorder">
     <div class="mapSettings">
-        <div>
-            <h4 style="display:inline; padding-right: 0.5em;">Settings:</h4>
-            <select>
-                <option value="dungeon">Dungeon</option>
-                <option value="forest">Forest</option>
-                <option value="cave">Cave</option>
-            </select>
-            <select>
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-            </select>
-        </div>
+
         <button on:click={generateMap} class="brutalismBorderWhite mapGenButton">Generate Map</button>
     </div>
     <div class="map">
