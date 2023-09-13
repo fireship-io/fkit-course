@@ -1,9 +1,12 @@
 <script>
     export let adventureData;
+    export let deleteAdventure;
     import { currentAdventure } from "$lib/adventureData";
     import { screenChoice } from "$lib/dashboardState";
 
-    $currentAdventure
+    function handleDeleteClick(adventureData) {
+        deleteAdventure(adventureData.adventureId);
+    }
 
     function setActive(e) {
         currentAdventure.set({ ...adventureData});
@@ -19,10 +22,8 @@
 <style>
 
     .savedAdventure {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: 4fr 1fr;
         width: 100%;
         height: auto;
         padding: 1em;
@@ -33,7 +34,16 @@
 
 
     .savedAdventureOptions {
-        display:none;
+        grid-row: 1 / 3;
+        grid-column: 2 / 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .savedAdventureOptions a {
+        margin: 0;
     }
 
     .savedAdventure:hover h4 {
@@ -78,7 +88,10 @@
     
 <a class="savedAdventure brutalismBorder" on:click={setActive}>
     <div class="savedAdventureTitle"><h4>{adventureData.title}</h4></div>
-    <div class="savedAdventureDescription">{adventureData.description}</div>
-    <div class="savedAdventureOptions"></div>
+    <div class="savedAdventureOptions">
+        <a href="/dashboard/create">Edit</a>
+        <a on:click={() => handleDeleteClick(adventureData)}>Delete</a>
+    </div>
+    <div class="savedAdventureDescription">{adventureData.notes.enemy}</div>
 </a>
 

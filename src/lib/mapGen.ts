@@ -1,8 +1,11 @@
+
+
 import { writable } from 'svelte/store';
 import { randomChoice } from './promptGen';
 import { v4 as uuidv4 } from 'uuid';
 import { tiles } from './tiles';
 import { activeTileOptions } from './dashboardState';
+import { currentAdventure } from './adventureData';
 
 export let map = writable([]);
 export let mapColumns = writable(4);
@@ -245,8 +248,11 @@ function returnMapArray(template) {
 
 export function generateMap() {
   let mapArray = returnMapArray(randomChoice(temporaryTemplates));
-  map.set(mapArray);
+  currentAdventure.update(adventure => {
+    adventure.map = mapArray;
+    return adventure;
+  });
+  // map.set(mapArray);
   temporaryTemplates = sourceTemplates.map(template => template.map(tile => tile.slice(0)));
   activeTileOptions.set({tileOptions: null, rowIndex: null, columnIndex: null});
 }
-

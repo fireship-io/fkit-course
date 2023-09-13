@@ -79,19 +79,11 @@ export function docStore<T>(
   };
 }
 
-interface UserData {
-  username: string;
-  bio: string;
-  photoURL: string;
-  published: boolean;
-  links: any[];
-  adventures: any[];
-}
 
-export const userData: Readable<UserData | null> = derived(user, ($user, set) => { 
+export const userData = derived(user, ($user, set) => { 
   if ($user) {
-    return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
+    return docStore(`users/${$user.uid}`).subscribe(set);
   } else {
     set(null); 
   }
-});  
+}); 

@@ -4,9 +4,7 @@
     import CreateSaveBar from "$lib/components/CreateSaveBar.svelte";
     import { auth, user } from "$lib/firebase";
     import { v4 as uuidv4 } from 'uuid';
-
-
-
+    import {currentAdventure} from "$lib/adventureData";
     import { screenChoice } from "$lib/dashboardState";
     import PromptOptions from '$lib/components/PromptOptions.svelte';
     import { map } from "$lib/mapGen";
@@ -14,43 +12,28 @@
 
     let screenSize = 0;
 
-    let mapArray;
+    function clearAdventureData() {
+        console.log("clearAdventureData fired")
+        let emptyAdventureData = {
+            title: "",
+            notes: {
+                enemy: "",
+                quest: "",
+                npc: "",
+                goal: "",
+                scene: "",
+                push: "",
+                gimmick: ""
+            },
+            map: "",
+            userId: $user?.uid,
+            adventureId: "",
+        };
 
-    map.subscribe(value => {
-        mapArray = value;
-    })
+        currentAdventure.set(emptyAdventureData);
+    }
 
-    let createAdventure = {
-        title: "",
-        notes: {
-            enemy: "",
-            quest: "",
-            npc: "",
-            goal: "",
-            scene: "",
-            push: "",
-            gimmick: ""
-        },
-        map: mapArray,
-        userId: $user?.uid,
-        adventureId: uuidv4(),
-    };
 
-    let loadAdventure = {
-        title: "Loaded Adventure",
-        notes: {
-            enemy: "This is a loaded adventure",
-            quest: "This is a loaded adventure",
-            npc: "This is a loaded adventure",
-            goal: "This is a loaded adventure",
-            scene: "This is a loaded adventure",
-            push: "This is a loaded adventure",
-            gimmick: "This is a loaded adventure"
-        },
-        map: mapArray,
-        userId: $user?.uid,
-        adventureId: uuidv4(),
-    };
 
 </script>
 
@@ -156,11 +139,11 @@
     <PromptOptions />
 </div>
 <div class="saveBar">
-    <CreateSaveBar {createAdventure} />
+    <CreateSaveBar {clearAdventureData}/>
 </div>
 <div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "planner"} >
-    <Planner {createAdventure} />
+    <Planner />
 </div>
 <div class="mapColumn" class:invisible={screenSize < 1500 && $screenChoice != "mapMaker"}>
-    <Map {createAdventure} />
+    <Map />
 </div>

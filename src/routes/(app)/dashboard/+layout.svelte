@@ -7,8 +7,20 @@
     import { user, userData, storage, db } from "$lib/firebase";
     import Content from "$lib/components/AdventureContent.svelte";
     import NavigationBar from "$lib/components/NavigationBar.svelte";
-    import Options from "$lib/components/SavedAdventures.svelte";
     import OffScreenMenu from "$lib/components/OffScreenMenu.svelte";
+    import { currentAdventure } from "$lib/adventureData";
+    import { onMount } from 'svelte';
+    import { map } from "$lib/mapGen";
+
+    let mapArray;
+    let mapString;
+
+
+    map.subscribe(value => {
+        mapArray = value;
+        mapString = JSON.stringify(mapArray);
+    })
+
 
 </script>
 

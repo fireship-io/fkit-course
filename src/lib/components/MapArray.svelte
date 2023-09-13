@@ -4,7 +4,8 @@
     import { activeTileOptions, setActiveTileOptions } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
-    import MapArray from './MapArray.svelte';
+
+    export let mapArray;
 
     function deepCloneArray(arr) {
         return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
@@ -12,25 +13,26 @@
 
     function setChosenTile(tile, rowIndex, columnIndex) {
         console.log(tile, rowIndex, columnIndex);
-        let newMap = deepCloneArray($currentAdventure.map);
+        let newMap = deepCloneArray(JSON.parse($currentAdventure.map[0]));
         newMap[rowIndex][columnIndex].chosenTile = tile;
         console.log(newMap[rowIndex][columnIndex])
         currentAdventure.set({ ...$currentAdventure, map: newMap});
         activeTileOptions.set({tileOptions: null, rowIndex: null, columnIndex: null});
     }
 
-    // map.subscribe(value => {
-    //     currentAdventure.update(adventure => {
-    //         adventure.map = JSON.stringify(value);
-    //         return adventure;
-    //     })
-    //     console.log('Map updated', value);
-    //     console.log($currentAdventure);
-    // })
+    map.subscribe(value => {
+        currentAdventure.update(adventure => {
+            adventure.map = JSON.stringify(value);
+            return adventure;
+        })
+        console.log('Map updated', value);
+        console.log($currentAdventure);
+    })
 
 
     function handleMapGenerate() {
       generateMap();
+      console.log($currentAdventure);
     }
 
 </script>
@@ -248,17 +250,7 @@
 
 </style>
 
-<div class="mapContainer dungeonBorder">
-  {#if !$page.route.id.includes("play")}
-    <div class="mapSettings">
-      {#if $currentAdventure.title !== ""}
-        <p style="color: var(--batlas-white); text-align: center;">You're editing: {$currentAdventure.title}</p>
-      {/if} 
-        <button on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton">Generate Map</button>
-    </div>
-  {/if}
-    <div class="map">
-            {#each $currentAdventure.map as row, i}
+            {#each mapArray as row, i}
                 <div class="gridRow">
                     {#each row as cell, j}
                     <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
@@ -272,18 +264,4 @@
                     {/each}
                 </div>
             {/each}
-    </div>
-    <div class="mapToolbar dungeonBorder" class:mapToolbarActive="{$activeTileOptions.tileOptions}" class:dungeonBorder="{$activeTileOptions.tileOptions}">
-        <div class="tileOptions" class:hideScrollbar="{!$activeTileOptions.tileOptions}">
-            {#if $activeTileOptions.tileOptions}
-                {#each $activeTileOptions.tileOptions as tile}
-                    <div on:click={() => setChosenTile(tile, $activeTileOptions.rowIndex, $activeTileOptions.columnIndex)} class="tileOption">
-                        <img src="/img/{tile.img}" alt="{tile.img}" />
-                    </div>
-                {/each}
-            {/if}
-            </div>
-        </div>
-    </div>
-
 

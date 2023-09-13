@@ -1,9 +1,30 @@
 <script>
-  import Map from '$lib/components/Map.svelte';
-    import { currentAdventure } from '$lib/adventureData';
+    import Map from '$lib/components/Map.svelte';
+    import { currentAdventure, adventureListStore } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
     import SavedAdventures from "$lib/components/SavedAdventures.svelte";
     import { screenChoice } from "$lib/dashboardState";
+    import { db, userData, user } from "$lib/firebase";
+    import {onMount} from "svelte";
+    import { collection, query, where, getDocs, doc, getDoc, updateDoc, arrayRemove, onSnapshot, deleteDoc } from "firebase/firestore";
+    import { writable } from 'svelte/store';
+
+
+
+    async function deleteAdventure(adventure) {
+        let adventureRef = doc(db, "users", $user.uid, "adventures", adventure);
+        let adventureSnap = await getDoc(adventureRef);
+        let deleteId = adventure;
+        console.log(deleteId, adventureSnap.data())
+
+        deleteDoc(adventureRef)
+        .then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    }
+
 
 </script>
 
@@ -80,13 +101,13 @@
 </style>
 
 <div class="options dungeonBorder" class:invisible={$currentAdventure != null && $screenChoice != "adventures"}>
-    <SavedAdventures />
+    <SavedAdventures {deleteAdventure}/>
 </div>
 {#if ($currentAdventure != null)}
-<div class="content dungeonBorder" class:invisible={$screenChoice != "notes"}>
+<div class="content dungeonBorder">
     <AdventureContent />
 </div>
-<div class="map" class:invisible={$screenChoice != "map"}>
+<div class="map">
     <Map />
 </div>
 {/if}
