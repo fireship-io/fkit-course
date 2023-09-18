@@ -6,6 +6,9 @@
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
 
+    let screenSize = 0;
+
+
     function deepCloneArray(arr) {
         return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
     }
@@ -226,19 +229,30 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 2em;
     padding: 1em;
   }
 
+  .mapSettings p {
+    margin: 0px;
+    padding: 0px;
+  }
+
   .mapGenButton {
+    height: 100%;
     cursor: pointer;
     background-color: var(--batlas-black);
     border-color: var(--batlas-white);
-    padding: 0.5em;
+    border: 0.1em solid var(--batlas-white);
+    border-radius: 0.6em;
+    padding: 0.3em 0.6em;
     color: var(--batlas-white);
     font-family: var(--batlas-font);
     text-transform: uppercase;
+    text-decoration: none;
     font-size: 1em;
+    line-height: 1em;
   }
 
   .mapGenButton:hover {
@@ -246,7 +260,18 @@
     color: var(--batlas-black);
   }
 
+  @media screen and (max-width: 1500px) {
+    .mapSettings {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+    }
+  }
+
 </style>
+
+<svelte:window bind:innerWidth = {screenSize}/>
 
 <div class="mapContainer dungeonBorder">
   {#if !$page.route.id.includes("play")}
@@ -254,7 +279,12 @@
       {#if $currentAdventure.title !== ""}
         <p style="color: var(--batlas-white); text-align: center;">You're editing: {$currentAdventure.title}</p>
       {/if} 
-        <button on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton">Generate Map</button>
+        <a on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton">Generate New Map</a>
+        {#if $currentAdventure.map.length > 0 && !$page.route.id.includes("map-maker") && screenSize > 1500}
+            <a href="map-maker" class="brutalismBorderWhite mapGenButton">Edit fullscreen</a>
+        {:else if screenSize > 1500}
+            <a href="create" class="brutalismBorderWhite mapGenButton">Edit in Adventure Planner</a>
+        {/if}
     </div>
   {/if}
     <div class="map">

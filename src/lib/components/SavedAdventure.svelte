@@ -1,7 +1,7 @@
 <script>
     export let adventureData;
     export let deleteAdventure;
-    import { currentAdventure } from "$lib/adventureData";
+    import { currentAdventure, playAdventureCurrent } from "$lib/adventureData";
     import { screenChoice } from "$lib/dashboardState";
 
     function handleDeleteClick(adventureData) {
@@ -9,8 +9,9 @@
     }
 
     function setActive(e) {
+        playAdventureCurrent.set(true);
         currentAdventure.set({ ...adventureData});
-        screenChoice.set("notes");
+        screenChoice.set("playAdventureNotes");
 
         document.querySelectorAll('.savedAdventure').forEach((element) => {
             element.classList.remove("brutalismBorderInverted");
@@ -23,7 +24,7 @@
 
     .savedAdventure {
         display: grid;
-        grid-template-columns: 4fr 1fr;
+        grid-template-columns: 2fr 1fr;
         width: 100%;
         height: auto;
         padding: 1em;
@@ -38,22 +39,38 @@
         grid-column: 2 / 3;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: flex-start;
+        gap: 0.6em;
+        text-transform: uppercase;
     }
 
     .savedAdventureOptions a {
         margin: 0;
+        border: 0.1em solid var(--batlas-white);
+        width: 100%;
+        padding: 0.2em 0.6em;
+        border-radius: 0.6em;
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
+        text-align:center;
+        text-decoration: none;
+    }
+
+    .savedAdventureOptions a:hover {
+        text-decoration: underline;
     }
 
     .savedAdventure:hover h4 {
         text-decoration: underline;
     }
 
+
     @media screen and (max-width: 1500px) {
 
         .savedAdventure {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             grid-template-columns: 9fr 1fr;
             grid-template-rows: auto;
         }
@@ -73,13 +90,19 @@
         }
 
         .savedAdventureOptions {
-        display: block;
-        grid-column: 9 / 11;
-        grid-row: 1 / 3;
-        border: 0.2em solid var(--batlas-black);
+        display: flex;
+        flex-direction: row;
         height: 100%;
+        width: 100% !important;
         width: 0.5em;
-        background-color: var(--batlas-black);
+        order: 1;
+        background-color: var(--batlas-white);
+        }
+
+        .savedAdventureOptions a {
+            display: block;
+            min-width: 3em;
+            width: 100%;
         }
     }
 

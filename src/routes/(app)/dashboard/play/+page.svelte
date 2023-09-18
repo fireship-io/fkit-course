@@ -1,6 +1,6 @@
 <script>
     import Map from '$lib/components/Map.svelte';
-    import { currentAdventure, adventureListStore } from '$lib/adventureData';
+    import { currentAdventure, adventureListStore, playAdventureCurrent } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
     import SavedAdventures from "$lib/components/SavedAdventures.svelte";
     import { screenChoice } from "$lib/dashboardState";
@@ -24,6 +24,10 @@
             console.error("Error removing document: ", error);
         });
     }
+
+    onMount(() => {
+        screenChoice.set("playHome");
+    });
 
 
 </script>
@@ -79,10 +83,9 @@
 @media screen and (max-width: 1500px) {
 
 .options, .content, .map {
-    grid-column: 1/2;
+    grid-column: 1/3;
     height: 100%;
 }
-
 .options {
     height: 100%;
     padding: 1em;
@@ -90,6 +93,10 @@
 
 .invisible {
     display: none;
+}
+
+.map {
+    overflow-x: hidden;
 }
 
 
@@ -100,13 +107,14 @@
 
 </style>
 
-<div class="options dungeonBorder" class:invisible={$currentAdventure != null && $screenChoice != "adventures"}>
+<div class="options dungeonBorder" class:invisible={$currentAdventure != null && $screenChoice != "playHome"}>
     <SavedAdventures {deleteAdventure}/>
 </div>
-{#if ($currentAdventure != null)}
+{#if $currentAdventure != null && $screenChoice == "playAdventureNotes"}
 <div class="content dungeonBorder">
     <AdventureContent />
 </div>
+{:else if $currentAdventure != null && $screenChoice == "playAdventureMap"}
 <div class="map">
     <Map />
 </div>

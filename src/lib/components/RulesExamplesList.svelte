@@ -22,14 +22,21 @@
   
   <style>
       .exampleContainer {
+        margin-bottom: 3em;;
           padding: 1em;
           width: 100%;
       }
   
       .exampleSubsection {
           padding: 1em;
-          margin-top: 2em;
+          margin-top: 0em;
       }
+
+      .ruleSubtitle {
+          margin-top: 0.5em;
+          font-size: 1em;
+      }
+
   </style>
 
 {#if rule.examples}
@@ -38,8 +45,11 @@
         <div class="ruleTitle">
             <h2>{example.title}</h2>
         </div>
+        <div class="ruleSubtitle">
+            <h4>{example.subtitle}</h4>
+        </div>
         <div class="exampleSubsection">
-            <div id="exampleContainer{i}">
+            <div class="exampleContent" id="exampleContainer{i}">
                 {@html example.content}
             </div>
         </div>

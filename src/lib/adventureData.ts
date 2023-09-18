@@ -23,4 +23,5 @@ export const currentAdventure = writable({
 });
 
 
+export const playAdventureCurrent = writable(false);
 export const adventureListStore = writable([]);

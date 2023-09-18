@@ -34,7 +34,7 @@
     }
 
     .adventureTitle {
-        grid-column: 1 / 5;
+        grid-column: 1 / 7;
         grid-row: 1 / 2;
         display: flex;
         flex-direction: row;
@@ -65,7 +65,7 @@
     }
 
     .adventureNotes {
-        grid-column: 1 / 5;
+        grid-column: 1 / 7;
         grid-row: 2 / 3;
         display: flex;
         flex-direction: column;
@@ -133,12 +133,6 @@
         <h2>{$currentAdventure.title}</h2>
     </div>
 
-    <div class="adventureOptionsBar">
-        <div class="adventureOption brutalismBorder"></div>
-        <div class="adventureOption brutalismBorder"></div>
-        <div class="adventureOption brutalismBorder"></div>
-    </div>
-
     <div class="adventureNotes">
         <div class="notesSection brutalismBorder">
             <h3>The Enemy</h3>
@@ -169,7 +163,4 @@
             <p>{$currentAdventure.notes.gimmick}</p>
         </div>
     </div>
-{#if screenSize > 1500}
-<AdventureTools />
-{/if}
 </div>

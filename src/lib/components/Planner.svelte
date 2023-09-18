@@ -1,8 +1,11 @@
 <script>
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from "svelte";
+    import CreateSaveBar from "./CreateSaveBar.svelte";
 
+    let screenSize = 0;
 
+    export let clearAdventureData;
 
 </script>
 
@@ -35,6 +38,7 @@
         padding: 0.8em;
         overflow-y: scroll;
     }
+
 
     .dungeon {
     border: 1em solid white;;
@@ -97,6 +101,13 @@ textarea {
 
 
 </style>
+
+<svelte:window bind:innerWidth = {screenSize}/>
+
+{#if screenSize <= 1500}
+    <CreateSaveBar {clearAdventureData}/>
+{/if}
+
 
 <h2>Flesh out the Adventure</h2>
     <div class="createAdventureNotesSection">

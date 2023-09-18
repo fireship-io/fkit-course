@@ -101,7 +101,18 @@ h1, h2, h3, h4, h5, h6 {
 
   .brutalismBorderInverted .savedAdventureOptions {
     border: none !important;
-    background-color: var(--batlas-white) !important;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white)
+  }
+
+  .brutalismBorderInverted .savedAdventureOptions a {
+    border: 0.1em solid var(--batlas-white);
+    width: 100%;
+    padding: 0.2em 0.4em;
+    border-radius: 0.6em;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    text-align:center;
   }
 
   .firstLetter::first-letter {

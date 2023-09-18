@@ -15,6 +15,8 @@
     
     export let clearAdventureData;
 
+    let screenSize = 0;
+
   async function saveAdventureToFirebase(currentAdventure) {
     console.log("saveAdventureToFirebase fired", currentAdventure);
 
@@ -60,6 +62,7 @@
     }
 
     .titleBar {
+        width: 100%;
         display: flex;
         justify-content: flex-start;
         flex-direction: row;
@@ -67,18 +70,94 @@
         font-size: 1.2em;
     }
 
-    .createAdventureTextArea {
-        min-width: 30em;
+    .titleBar input[type="text"] {
+        width: 100%;
+        border: none;
+        font-size: 1.2em;
+        text-transform: uppercase;
+        color: var(--batlas-black);
+        font-weight: 600;
+    }
+
+    .titleBar input:focus {
+        outline: none;
+    }
+    
+    .titleBar input::placeholder {
+        font-style: italic;
+        color: var(--batlas-black);
+        opacity: 0.6;
+    }
+
+
+    .saveBar {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 1em;
+    }
+
+    .saveBar a {
+        margin: 0;
+        border: 0.1em solid var(--batlas-white);
+        width: 100%;
+        padding: 0.2em 0.6em;
+        border-radius: 0.6em;
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
+        text-align:center;
+        text-decoration: none;
+        text-wrap: none;
+        white-space: nowrap;
+    }
+
+    .saveBar a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .savedAdventure:hover h4 {
+        text-decoration: underline;
+    }
+
+    .mobileCreateSaveBar {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 1em;
+        font-size: 1em;
+        height: auto;
+        padding: 0em;
+        padding-bottom: 3em;;
+    }
+
+    .mobileCreateSaveBar input{
+      overflow: visible;
+      height: 3em;
+    }
+
+    .mobileCreateSaveBar input::placeholder {
+        font-size: 0.8em;
+        text-wrap: wrap;
+        white-space: normal;
+    }
+
+    @media screen and (max-width: 1500px) {
+
     }
 
 </style>
-<div class="createSaveBar dungeonBorder">
+<div class="createSaveBar" class:dungeonBorder = "{screenSize > 1500}" class:mobileCreateSaveBar = "{screenSize < 1500}">
     <div class="titleBar">
-        <h4>Title</h4>
-        <textarea class="createAdventureTextArea" placeholder="What is your adventure called?" rows="1" bind:value={$currentAdventure.title}/>
+        <input type="text" class="createAdventureTextArea" placeholder="Give your adventure a title to save it" bind:value={$currentAdventure.title}/>
     </div>
     <div class="saveBar">
-        <button  on:click={clearAdventureData} class="brutalismBorder">New Adventure</button>
-        <button  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder">Save Adventure</button>
+        <a  on:click={clearAdventureData} class="brutalismBorder">New Adventure</a>
+        {#if $currentAdventure.title != "" && $currentAdventure.adventureId === ""}
+        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder">Save Adventure</a>
+        {:else if $currentAdventure.adventureId != ""}
+        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder">Update Adventure</a>
+        {/if}
     </div>
 </div>

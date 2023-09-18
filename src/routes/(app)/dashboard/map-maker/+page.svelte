@@ -1,10 +1,15 @@
 <script>
     import Planner from "$lib/components/Planner.svelte";
     import Map from "$lib/components/Map.svelte";
+    import { onMount } from "svelte";
 
 
     import { screenChoice } from "$lib/dashboardState";
     import PromptOptions from '$lib/components/PromptOptions.svelte';
+
+    onMount(() => {
+        screenChoice.set("mapMaker");
+    });
 
 </script>
 

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { LayoutData } from './$types';
+    import { screenChoice } from "$lib/dashboardState";
     
     export let data: LayoutData;
 
@@ -65,7 +66,7 @@
         .batlasDashboardGrid {
             display: grid;
             grid-template-columns: 1fr;
-            grid-template-rows: 1fr 9fr;
+            grid-template-rows: 1fr 12fr;
             height: 100lvh;
             width: 100%;
             gap: 0em;

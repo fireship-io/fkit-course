@@ -6,10 +6,14 @@
     import RulesExamplesList from '$lib/components/RulesExamplesList.svelte';
     import {activeRule } from '$lib/dashboardState';
     import { rules } from '$lib/rules';
+    import { onMount } from 'svelte';
     
     let screenSize = 0;
 
-    screenChoice.set("rulesCategory");
+
+    onMount(() => {
+        screenChoice.set("rulesHome");
+    });
 
 
 </script>
@@ -98,7 +102,7 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 
-<div class="options dungeonBorder rules" class:invisible={screenSize < 1500 && $screenChoice != "rulesCategories"}>
+<div class="options dungeonBorder rules" class:invisible={screenSize < 1500 && $screenChoice != "rulesHome"}>
     <h2>Rules</h2>
     {#each rules as category}
         <RulesCategory {category} />
@@ -107,8 +111,9 @@
 {#if $activeRule}
     <div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "rulesContent"}>
         <RulesContent rule={$activeRule}/>
+        <RulesExamplesList rule={$activeRule}/>
     </div>
 {/if}
-<div class="examples dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "rulesExamples"}>
+<div class="examples dungeonBorder" class:invisible={screenSize < 1500}>
     <RulesExamplesList rule={$activeRule}/>
 </div>

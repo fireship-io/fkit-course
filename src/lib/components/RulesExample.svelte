@@ -42,6 +42,9 @@
       <div class="ruleTitle">
           <h2>{example.title}</h2>
       </div>
+      <div class="ruleTitle">
+          <h2>Hello{example.subtitle}</h2>
+      </div>
       <div class="exampleSubsection">
           <div id="exampleContainer"> 
               {stringToHTML(example.content) ? stringToHTML(example.content) : ''}

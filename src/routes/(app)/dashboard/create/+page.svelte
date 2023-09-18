@@ -8,6 +8,7 @@
     import { screenChoice } from "$lib/dashboardState";
     import PromptOptions from '$lib/components/PromptOptions.svelte';
     import { map } from "$lib/mapGen";
+    import { onMount } from "svelte";
 
 
     let screenSize = 0;
@@ -32,6 +33,10 @@
 
         currentAdventure.set(emptyAdventureData);
     }
+
+    onMount(() => {
+        screenChoice.set("createPlanner");
+    });
 
 
 
@@ -63,6 +68,21 @@
         height: 100%;
         padding: 0.8em;
         overflow-y: scroll;
+    }
+
+    .content::-webkit-scrollbar {
+        color: var(--batlas-black);
+        background-color: var(--batlas-white);
+    }
+
+    .content::-webkit-scrollbar-thumb {
+        color: var(--batlas-black);
+        background: var(--batlas-black);
+        border: 0.1em solid var(--batlas-white);
+    }
+
+    .content::-webkit-scrollbar-corner {
+        display: none;
     }
 
     .dungeon {
@@ -134,16 +154,18 @@
 
 <svelte:window bind:innerWidth = {screenSize}/>
 
-<div class="options dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "generator"}>
+<div class="options dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "createGenerator"}>
     <h2>Get some ideas</h2>
     <PromptOptions />
 </div>
-<div class="saveBar">
+{#if screenSize > 1500}
+<div class="saveBar" class:invisible={screenSize < 1500 && $screenChoice != "createPlanner"}>
     <CreateSaveBar {clearAdventureData}/>
 </div>
-<div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "planner"} >
-    <Planner />
+{/if}
+<div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "createPlanner"} >
+    <Planner {clearAdventureData}/>
 </div>
-<div class="mapColumn" class:invisible={screenSize < 1500 && $screenChoice != "mapMaker"}>
+<div class="mapColumn" class:invisible={screenSize < 1500 && $screenChoice != "createMap"}>
     <Map />
 </div>

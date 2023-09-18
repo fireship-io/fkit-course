@@ -2,7 +2,7 @@
   import OffScreenMenu from './OffScreenMenu.svelte';
 
     import {page} from '$app/stores';
-    import { currentAdventure } from '$lib/adventureData';
+    import { currentAdventure, playAdventureCurrent } from '$lib/adventureData';
     import { screenChoice, offScreenMenu, activeRule } from "$lib/dashboardState";
 
     let screenSize = 0;
@@ -18,7 +18,22 @@
     }
 
     function emptyCurrentAdventure() {
-        currentAdventure.set(null);
+        currentAdventure.set({
+            title: "",
+            notes:
+            {
+                enemy: "",
+                quest: "",
+                npc: "",
+                goal: "",
+                scene: "",
+                push: "",
+                gimmick: ""
+            },
+            map: "",
+            userId: "",
+            adventureId: "",
+        });
         document.querySelectorAll('.savedAdventure').forEach((element) => {
             element.classList.remove("brutalismBorderInverted");
         });
@@ -37,9 +52,23 @@
         setScreenChoice(null);
     }
 
+    function navigateFromPlay() {
+        if($page.route.id?.includes('play') && $playAdventureCurrent){
+        clearCurrentAdventureAndScreenChoice();
+        setScreenChoice('');
+        } else {
+            return;
+        }
+    }
+
     function returnHome() {
         clearCurrentAdventureAndScreenChoice();
         setScreenChoice('adventures');
+    }
+
+    function returnToPlayHome() {
+        clearCurrentAdventureAndScreenChoice();
+        setScreenChoice('playHome');
     }
 
 </script>
@@ -69,6 +98,10 @@
 
     .active {
         border: 0.3em solid var(--batlas-white)
+    }
+
+    .currentScreen {
+        text-decoration: underline;
     }
 
     .responsiveNav {
@@ -109,6 +142,12 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
+    }
+
+    .menuIcon svg{
+        max-height: 30em;
+        height: autop;
+        width: 2em;
     }
 
     .backButton {
@@ -161,10 +200,10 @@
     <a href="/dashboard/play" class="iconBox active" class:active="{$page.route.id.includes("play")}" on:click={setScreenChoice('adventures')}>
         <svg class="icon" viewBox="0 0 133 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M52.376,79.218l0,-19.043c-10.535,-5.152 -17.798,-15.977 -17.798,-28.486c-0,-17.49 14.199,-31.689 31.689,-31.689c17.489,-0 31.688,14.199 31.688,31.689c0,12.509 -7.263,23.334 -17.798,28.486l-0,19.043l52.376,-0l0,21.798l-34.578,-0l0,105.32l-31.688,53.158l-31.689,-53.158l-0,-105.32l-34.578,-0l0,-21.798l52.376,-0Zm2.112,19.889c0.059,0.629 0.09,1.265 0.09,1.909l-0,99.811c-0,0 11.689,19.608 11.689,19.608l11.688,-19.608l0,-99.811c0,-0.644 0.031,-1.28 0.09,-1.909c-4.556,-0.478 -8.656,-2.485 -11.778,-5.5c-3.123,3.015 -7.223,5.022 -11.779,5.5Zm11.779,-53.323c1.48,-1.429 3.195,-2.643 5.104,-3.576c3.893,-1.904 6.584,-5.898 6.584,-10.519c0,-6.451 -5.237,-11.689 -11.688,-11.689c-6.452,0 -11.689,5.238 -11.689,11.689c-0,4.621 2.691,8.615 6.584,10.519c1.909,0.933 3.624,2.147 5.105,3.576Z"/></svg>
     </a>
-    <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}">
+    <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateFromPlay}>
         <svg class="icon" viewBox="0 0 260 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M259.494,12.975l0,233.544c0,7.161 -5.814,12.975 -12.975,12.975l-233.544,0c-7.161,0 -12.975,-5.814 -12.975,-12.975l-0,-233.544c-0,-7.161 5.814,-12.975 12.975,-12.975l233.544,-0c7.161,-0 12.975,5.814 12.975,12.975Zm-239.494,7.025l-0,219.494l219.494,0l0.001,-219.494l-219.495,-0Zm95.444,95.444l0,-52.597c0,-0.79 0.641,-1.431 1.431,-1.431l25.745,0c0.789,0 1.43,0.641 1.43,1.431l-0,52.597l52.598,0c0.789,0 1.43,0.641 1.43,1.431l-0,25.745c-0,0.789 -0.641,1.43 -1.43,1.43l-52.598,-0l-0,52.598c-0,0.789 -0.641,1.43 -1.43,1.43l-25.745,-0c-0.79,-0 -1.431,-0.641 -1.431,-1.43l0,-52.598l-52.597,-0c-0.79,-0 -1.431,-0.641 -1.431,-1.43l0,-25.745c0,-0.79 0.641,-1.431 1.431,-1.431l52.597,0Z"/></svg>
     </a>
-    <a href="/dashboard/map-maker" class="iconBox" class:active="{$page.route.id.includes("map-maker")}">
+    <a href="/dashboard/map-maker" class="iconBox" class:active="{$page.route.id.includes("map-maker")}" on:click={navigateFromPlay}>
         <svg class="icon" viewBox="0 0 438 264" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M20.128,96.249l198.683,-96.249l218.486,106l0.326,54l-219.068,103l-218.555,-103l-0,-54l19.257,-9.329l0.309,-0.678l0.562,0.256Zm368.949,10.809l-170.273,-82.609l-172.69,83.657l172.636,78.775l170.327,-79.823Zm-159.266,126.339l185.727,-87.324l-0.158,-26.254l-0.83,-0.402l-184.739,86.576l0,27.404Z"/></svg></a>
     <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}">
         <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
@@ -177,31 +216,28 @@
     </a>
 {:else}
     <div class="responsiveNav">
-        <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_black.webp" alt="BATLAS" height = "30em" ></a>
-        <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>Menu</a>
+        <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_white.webp" alt="BATLAS" height = "40em" ></a>
+        <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
+            <svg class="icon menuIcon" width="100%" height="100%" viewBox="0 0 188 159" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,134.08l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,0c2.392,0 4.333,1.942 4.333,4.333Zm0,-64.873l0,20.22c0,2.392 -1.941,4.333 -4.333,4.333l-178.959,0c-2.391,0 -4.333,-1.941 -4.333,-4.333l0,-20.22c0,-2.392 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.941 4.333,4.333Zm0,-64.874l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.942 4.333,4.333Z"/></svg>
+        </a>
     </div>
-    {#if $page.route.id.includes("play")}
+    {#if $page.route.id.includes("play") && $screenChoice !== "playHome"}
     <div class="secondaryNavBar">
         {#if $currentAdventure != null}
-            <a href="/dashboard/play" class="backButton secondaryNavLink" on:click={emptyCurrentAdventure}>
-                <svg class="icon" viewBox="0 0 344 452" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M302,410l-260,-184l260,-184"/></svg>
-            </a>
-            <a class="secondaryNavLink" on:click={() => setScreenChoice("notes")}>Notes</a>
-            <a class="secondaryNavLink" on:click={() => setScreenChoice("map")}>Map</a>
-            <a class="secondaryNavLink" on:click={() => setScreenChoice("tools")}>Tools</a>
+            <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'playHome'}" on:click={returnToPlayHome}>Adventures</a>
+            <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'playAdventureNotes'}" on:click={() => setScreenChoice("playAdventureNotes")}>Notes</a>
+            <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'playMap'}" on:click={() => setScreenChoice("playAdventureMap")}>Map</a>
         {/if}
     </div>
     {:else if $page.route.id.includes("create")}
     <div class="secondaryNavBar">
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("generator")}>Idea Gen</a>
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("planner")}>Planner</a>
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("mapMaker")}>Map Maker</a>
+        <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'createGenerator'}" on:click={() => setScreenChoice("createGenerator")}>Prompts</a>
+        <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'createPlanner'}" on:click={() => setScreenChoice("createPlanner")}>Planner</a>
+        <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'createMap'}" on:click={() => setScreenChoice("createMap")}>Map Maker</a>
     </div>
-    {:else if $page.route.id.includes("rules")}
+    {:else if $page.route.id.includes("rules") && $screenChoice !== "rulesHome"}
     <div class="secondaryNavBar">
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("rulesCategories")}>Categories</a>
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("rulesContent")}>Rules</a>
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("rulesExamples")}>Examples</a>
+        <a class="secondaryNavLink" on:click={() => setScreenChoice("rulesHome")}>Rules</a>
     </div>
     {/if}
 {/if}

@@ -5,7 +5,7 @@
     import { db, user } from "$lib/firebase";
     import { error } from "@sveltejs/kit";
     import { onMount } from "svelte";
-    import {adventureListStore, currentAdventure} from "$lib/adventureData";
+    import {adventureListStore, currentAdventure, playAdventureCurrent} from "$lib/adventureData";
 
     export let deleteAdventure;
     let userAdventures = [];
@@ -18,6 +18,7 @@
     const userAdventuresRef = collection(db, "users", $user.uid, "adventures");
 
     onMount(() => {
+        playAdventureCurrent.set(false);
         let copiedAdventures = [];
 
         onSnapshot(collection(db, "users", $user.uid, "adventures"), (adventures) => {
@@ -41,7 +42,7 @@
 </script>
 
 <style>
-
+    
 
 </style>
     <h2>Your Adventures</h2>
