@@ -136,9 +136,51 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
 
+  .alert {
+    display: none;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border: 0.1em solid var(--batlas-white);
+    border-radius: 0.6em;
+    padding: 0.2em 0.8em;
+    text-align: center;
+    position: fixed;
+    top: 0.6em;
+    right: 0.6em;
+    z-index: 100;
+  }
+
+  .alertActive {
+    display: block;
+    animation: slide-in-alert 3s ease forwards;
+  }
+
+  .disabledButton {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @keyframes slide-in-alert {
+    0% {
+      transform: translateY(-120%);
+    }
+
+    20% {
+      transform: translateY(0%);
+    }
+    80% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-120%);
+    }
+  }
+
   @media screen and (max-width: 1500px) {
     h2 {
       color: var(--batlas-black);
       text-shadow: var(--batlas-black) -0.02em 0.02em;
+      -webkit-text-stroke: var(--batlas-black) 0em;
+      letter-spacing: 0.025em;
     }
   }

@@ -17,7 +17,7 @@
 <style>
     .options {
         grid-column: 1/5;
-        grid-row: 1/2;
+        grid-row: 1/3;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -95,7 +95,8 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 
-<div class="options dungeonBorder rules" class:invisible={screenSize < 1500 && $screenChoice != "rulesCategories"}>
+<div class="options dungeonBorder rules">
     <h2>Account</h2>
-    
+    <p>Batlas is still in beta, these options haven't been ironed out yet.</p>
+    <p>If you'd like to make any changes to your data please contact <a href="mailto:tanner@promptedweb.com" style="color: black;">this email address</a></p>
 </div>

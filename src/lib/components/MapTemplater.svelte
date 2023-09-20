@@ -8,8 +8,6 @@
 
     let screenSize = 0;
 
-    let disabledMapButton = false;
-
 
     function deepCloneArray(arr) {
         return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
@@ -24,23 +22,17 @@
         activeTileOptions.set({tileOptions: null, rowIndex: null, columnIndex: null});
     }
 
-    // map.subscribe(value => {
-    //     currentAdventure.update(adventure => {
-    //         adventure.map = JSON.stringify(value);
-    //         return adventure;
-    //     })
-    //     console.log('Map updated', value);
-    //     console.log($currentAdventure);
-    // })
-
 
     function handleMapGenerate() {
-      disabledMapButton = true;
       generateMap();
-      setTimeout(() => {
-        disabledMapButton = false
-      }, 1000);
     }
+    
+    let mapTemplateArray = [
+        [["R", "SW"], ["-"], ["-"]],
+        [["-"], ["-"], ["-"]],
+        [["-"], ["-"], ["-"]]
+    ];
+
 
 </script>
 
@@ -58,7 +50,6 @@
         max-height: calc(100lvh - 4em);
         width: 100%;
         overflow-y: hidden;
-        position: relative;
     }
 
     .map::-webkit-scrollbar {
@@ -149,13 +140,13 @@
 
   .mapToolbar {
         display: none;
+        background-color: var(--batlas-white);
+        display: flex;
+        flex-direction: column;
     }
 
     .mapToolbarActive{
         display: block;
-        position: absolute;
-        bottom: 0em;
-        width: 100%;
     }
 
   .tileOptions {
@@ -236,43 +227,35 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 2em;
     padding: 1em;
   }
 
   .mapSettings p {
     margin: 0px;
-    padding-top: 0.3em;
+    padding: 0px;
   }
 
   .mapGenButton {
+    height: 100%;
     cursor: pointer;
     background-color: var(--batlas-black);
     border-color: var(--batlas-white);
     border: 0.1em solid var(--batlas-white);
     border-radius: 0.6em;
-    padding: 0.3em 1em;
+    padding: 0.3em 0.6em;
     color: var(--batlas-white);
     font-family: var(--batlas-font);
     text-transform: uppercase;
     text-decoration: none;
-    text-align: center;
     font-size: 1em;
+    line-height: 1em;
   }
 
   .mapGenButton:hover {
     background-color: var(--batlas-white);
     color: var(--batlas-black);
-  }
-
-  .editingTitle {
-    white-space: nowrap;
-    width: 200px;
-    overflow: hidden;
-    -o-text-overflow: ellipsis;
-    -ms-text-overflow: ellipsis;
-    text-overflow: ellipsis;
   }
 
   @media screen and (max-width: 1500px) {
@@ -292,27 +275,27 @@
   {#if !$page.route.id.includes("play")}
     <div class="mapSettings">
       {#if $currentAdventure.title !== ""}
-        <p class="editingTitle">Editing: {$currentAdventure.title}</p>
+        <p style="color: var(--batlas-white); text-align: center;">You're editing: {$currentAdventure.title}</p>
       {/if} 
-        <a on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton" class:disabledButton = "{disabledMapButton}">Generate New Map</a>
-        {#if $currentAdventure.map.length > 0 && !$page.route.id.includes("map-maker") && screenSize > 1500}
-            <a href="map-maker" class="brutalismBorderWhite mapGenButton">Edit fullscreen</a>
-        {:else if screenSize > 1500}
-            <a href="create" class="brutalismBorderWhite mapGenButton">Edit in Planner</a>
-        {/if}
+        <a on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton">Blank Map</a>
+        <a  class="brutalismBorderWhite mapGenButton">Log JSON</a>
     </div>
   {/if}
     <div class="map">
-            {#each $currentAdventure.map as row, i}
+            {#each mapTemplateArray as row, i}
                 <div class="gridRow">
                     {#each row as cell, j}
-                    <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
+                    <div class="gridTile" style="; position: relative; bottom: 0em;">
                         {#if cell.tileOptions != null &&   !$page.route.id.includes("play")}
                             <div class="tileSelectorHoverDetector">
                                 <div on:click={() => setActiveTileOptions(cell, i, j)} class="tileSelector"></div>
                             </div>
                         {/if}
-                        <img src="/img/{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
+                        <p style="color:white; position: absolute; top: calc(50% - 2em);">Tile</p>
+                        <p style="color:white; position: absolute; top: 0em; left: 0em;">NW</p>
+                        <p style="color:white; position: absolute; top: 0em; right: 0em;">NE</p>
+                        <p style="color:white; position: absolute; bottom: 0em; left: 0em;">SW</p>
+                        <p style="color:white; position: absolute; bottom: 0em; right: 0em;">SE</p>
                     </div>
                     {/each}
                 </div>

@@ -3,13 +3,13 @@
     import { currentAdventure, adventureListStore, playAdventureCurrent } from '$lib/adventureData';
     import AdventureContent from "$lib/components/AdventureContent.svelte";
     import SavedAdventures from "$lib/components/SavedAdventures.svelte";
-    import { screenChoice } from "$lib/dashboardState";
+    import { screenChoice, createAlert } from "$lib/dashboardState";
     import { db, userData, user } from "$lib/firebase";
     import {onMount} from "svelte";
     import { collection, query, where, getDocs, doc, getDoc, updateDoc, arrayRemove, onSnapshot, deleteDoc } from "firebase/firestore";
     import { writable } from 'svelte/store';
 
-
+    let screenSize = 0;
 
     async function deleteAdventure(adventure) {
         let adventureRef = doc(db, "users", $user.uid, "adventures", adventure);
@@ -107,14 +107,24 @@
 
 </style>
 
+<svelte:window bind:innerWidth = {screenSize}/>
+
+
 <div class="options dungeonBorder" class:invisible={$currentAdventure != null && $screenChoice != "playHome"}>
     <SavedAdventures {deleteAdventure}/>
 </div>
-{#if $currentAdventure != null && $screenChoice == "playAdventureNotes"}
+{#if screenSize >= 1500 && $currentAdventure != null && $screenChoice == "playAdventureNotes"}
 <div class="content dungeonBorder">
     <AdventureContent />
 </div>
-{:else if $currentAdventure != null && $screenChoice == "playAdventureMap"}
+<div class="map">
+    <Map />
+</div>
+{:else if screenSize < 1500 && $currentAdventure.map != null && $screenChoice == "playAdventureNotes"}
+<div class="content dungeonBorder">
+    <AdventureContent />
+</div>
+{:else if screenSize < 1500 && $currentAdventure.map != null && $screenChoice == "playAdventureMap"}
 <div class="map">
     <Map />
 </div>

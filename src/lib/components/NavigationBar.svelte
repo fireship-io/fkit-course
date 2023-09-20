@@ -4,6 +4,9 @@
     import {page} from '$app/stores';
     import { currentAdventure, playAdventureCurrent } from '$lib/adventureData';
     import { screenChoice, offScreenMenu, activeRule } from "$lib/dashboardState";
+    import { db, userData, auth, user } from "$lib/firebase";
+    import { GoogleAuthProvider, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential } from "firebase/auth";
+
 
     let screenSize = 0;
 
@@ -70,6 +73,11 @@
         clearCurrentAdventureAndScreenChoice();
         setScreenChoice('playHome');
     }
+
+    async function signOutSSR() {
+    const res = await fetch("/api/signin", { method: "DELETE" });
+    await signOut(auth);
+  }
 
 </script>
 
@@ -211,12 +219,13 @@
     <a href="/dashboard/account" class="iconBox" class:active="{$page.route.id.includes("account")}">
         <svg class="icon" viewBox="0 0 260 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M150.044,1.597c-13.447,-2.129 -27.146,-2.129 -40.594,0l-2.262,30.825c-10.725,2.486 -20.966,6.728 -30.309,12.554l-23.395,-20.197c-11.015,8.003 -20.702,17.69 -28.705,28.705l20.197,23.395c-5.826,9.343 -10.068,19.584 -12.554,30.309l-30.825,2.262c-2.129,13.448 -2.129,27.147 0,40.594l30.825,2.262c2.486,10.726 6.728,20.967 12.554,30.309l-20.197,23.396c8.003,11.014 17.69,20.701 28.705,28.704l23.395,-20.197c9.343,5.826 19.584,10.068 30.309,12.554l2.262,30.825c13.448,2.13 27.147,2.13 40.594,-0l2.262,-30.825c10.726,-2.486 20.967,-6.728 30.309,-12.554l23.396,20.197c11.014,-8.003 20.701,-17.69 28.704,-28.704l-20.197,-23.396c5.826,-9.342 10.068,-19.583 12.554,-30.309l30.825,-2.262c2.13,-13.447 2.13,-27.146 -0,-40.594l-30.825,-2.262c-2.486,-10.725 -6.728,-20.966 -12.554,-30.309l20.197,-23.395c-8.003,-11.015 -17.69,-20.702 -28.704,-28.705l-23.396,20.197c-9.342,-5.826 -19.583,-10.068 -30.309,-12.554l-2.262,-30.825Zm-20.297,76.251c28.644,0 51.899,23.255 51.899,51.899c-0,28.644 -23.255,51.899 -51.899,51.899c-28.644,-0 -51.899,-23.255 -51.899,-51.899c0,-28.644 23.255,-51.899 51.899,-51.899Z"/></svg>
     </a>
-    <a href="/dashboard/logout" class="iconBox">
+    <a href="/" class="iconBox" on:click={signOutSSR}>
         <svg class="icon" viewBox="0 0 219 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M176.703,161.714l0,53.604c0,24.382 -19.794,44.176 -44.176,44.176l-88.351,0c-24.381,0 -44.176,-19.794 -44.176,-44.176l0,-171.142c0,-24.382 19.795,-44.176 44.176,-44.176l88.351,0c24.382,0 44.176,19.794 44.176,44.176l0,53.604l41.642,0l0,63.934l-41.642,-0Zm-20,-63.934l0,-53.604c0,-13.343 -10.833,-24.176 -24.176,-24.176l-88.351,0c-13.343,0 -24.176,10.833 -24.176,24.176l0,171.142c0,13.343 10.833,24.176 24.176,24.176l88.351,0c13.343,0 24.176,-10.833 24.176,-24.176l0,-53.604l-23.728,-0l0,59.366l-91.333,-91.333l91.333,-91.333l0,59.366l23.728,0Z"/></svg>
     </a>
 {:else}
     <div class="responsiveNav">
         <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_white.webp" alt="BATLAS" height = "40em" ></a>
+        <p style="text-transform: uppercase;">Beta testing</p>
         <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
             <svg class="icon menuIcon" width="100%" height="100%" viewBox="0 0 188 159" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,134.08l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,0c2.392,0 4.333,1.942 4.333,4.333Zm0,-64.873l0,20.22c0,2.392 -1.941,4.333 -4.333,4.333l-178.959,0c-2.391,0 -4.333,-1.941 -4.333,-4.333l0,-20.22c0,-2.392 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.941 4.333,4.333Zm0,-64.874l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.942 4.333,4.333Z"/></svg>
         </a>

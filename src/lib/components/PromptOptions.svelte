@@ -1,6 +1,6 @@
 <script>
     import { currentAdventure } from "$lib/adventureData";
-    import { screenChoice } from "$lib/dashboardState";
+    import { screenChoice, createAlert } from "$lib/dashboardState";
     import { 
         generateMultiplePrompts, 
         vowelCheck, 
@@ -26,9 +26,10 @@
     async function copyContent(targetId) {
         try {
             await navigator.clipboard.writeText(`${document.getElementById(targetId)?.textContent}`);
-            console.log('Content copied to clipboard');
         } catch (err) {
             console.error('Failed to copy: ', err);
+        } finally {
+            createAlert('Copied to clipboard')
         }
     };
     generateMultiplePrompts(["monster", "offensiveQuirk", "defensiveQuirk", "npc", "questLocation", "problem"]);

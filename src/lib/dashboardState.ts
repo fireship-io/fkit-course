@@ -19,3 +19,16 @@ export function setActiveTileOptions(tile, rowIndex, columnIndex) {
         "tileOptions": tile.tileOptions
     });
 };
+
+export function createAlert(message) {
+    let alert = document.createElement("div");
+    alert.classList.add("alert");
+    alert.classList.add("alertActive");
+    alert.classList.add("slide-in-alert");
+    alert.innerHTML = `<p>${message}</p>`;
+    alert.id = "titleAlert";
+    document.querySelector(".batlasDashboardGrid").appendChild(alert);
+    setTimeout(() => {
+        document.querySelector(".batlasDashboardGrid").removeChild(alert);
+    }, 3000);
+}

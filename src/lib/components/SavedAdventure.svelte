@@ -2,10 +2,18 @@
     export let adventureData;
     export let deleteAdventure;
     import { currentAdventure, playAdventureCurrent } from "$lib/adventureData";
-    import { screenChoice } from "$lib/dashboardState";
+    import { screenChoice, createAlert } from "$lib/dashboardState";
+    import { error } from "@sveltejs/kit";
 
-    function handleDeleteClick(adventureData) {
-        deleteAdventure(adventureData.adventureId);
+    async function handleDeleteClick(adventureData) {
+        try {
+        await deleteAdventure(adventureData.adventureId);
+        screenChoice.set('playHome');
+        } catch {
+            console.log (error)
+        } finally {
+            createAlert(`${adventureData.title} deleted`)
+        }
     }
 
     function setActive(e) {
@@ -30,7 +38,7 @@
         padding: 1em;
         gap: 0.5em;
         background: var(--batlas-white);
-        cursor: pointer;
+        z-index: 5;
     }
 
 
@@ -55,13 +63,10 @@
         color: var(--batlas-white);
         text-align:center;
         text-decoration: none;
+        z-index: 100;
     }
 
     .savedAdventureOptions a:hover {
-        text-decoration: underline;
-    }
-
-    .savedAdventure:hover h4 {
         text-decoration: underline;
     }
 
@@ -109,11 +114,12 @@
 
 </style>
     
-<a class="savedAdventure brutalismBorder" on:click={setActive}>
+<a class="savedAdventure brutalismBorder">
     <div class="savedAdventureTitle"><h4>{adventureData.title}</h4></div>
     <div class="savedAdventureOptions">
-        <a href="/dashboard/create">Edit</a>
-        <a on:click={() => handleDeleteClick(adventureData)}>Delete</a>
+        <a href="#" on:click={setActive}>Play</a>
+        <a href="/dashboard/create" on:click={setActive}>Edit</a>
+        <a href="#" on:click={() => handleDeleteClick(adventureData)}>Delete</a>
     </div>
     <div class="savedAdventureDescription">{adventureData.notes.enemy}</div>
 </a>

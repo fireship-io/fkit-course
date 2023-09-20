@@ -2,10 +2,21 @@
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from "svelte";
     import CreateSaveBar from "./CreateSaveBar.svelte";
+    import { 
+        generateMultiplePrompts,
+        vowelCheck, 
+        monster, 
+        offensiveQuirk, 
+        defensiveQuirk, 
+        npc,
+        questLocation,
+        problem
+    } from "$lib/promptGen";
 
     let screenSize = 0;
 
     export let clearAdventureData;
+
 
 </script>
 
@@ -76,6 +87,28 @@ textarea {
     font-family: var(--batlas-font);
 }
 
+.icon {
+        margin-top: 0.4em;
+        max-height: 1.3em;
+        cursor: pointer;
+        display: inline;
+    }
+
+    .plannerSectionHeader {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0.3em;
+    }
+
+    .plannerSectionTitle {
+        margin: 0;
+        display: inline;
+        width: 80%;
+    }
+
 @media screen and (max-width: 1500px) {
 
 .options, .content, .map {
@@ -111,7 +144,7 @@ textarea {
 
 <h2>Flesh out the Adventure</h2>
     <div class="createAdventureNotesSection">
-        <h4>The Enemy</h4>
+            <h4 class="plannerSectionTitle">The Enemy</h4>
         <textarea bind:value={$currentAdventure.notes.enemy} class="createAdventureTextArea brutalismBorder" placeholder="Details the antoganist of this adventure. What is it? Does it have minions? What signs of it couuld be found throughout the dungeon?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">

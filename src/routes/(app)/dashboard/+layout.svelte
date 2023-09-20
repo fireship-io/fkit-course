@@ -62,6 +62,26 @@
         height: 100%;
     }
 
+    .betaBanner {
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
+        border: 0.1em solid var(--batlas-white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0em;
+        left: 0em;
+        width: 100%;
+    }
+
+    .betaBanner p {
+        padding: 0em;
+        margin: 0em;
+        font-size: 0.9em;
+        text-transform: uppercase;
+    }
+
     @media screen and (max-width: 1500px) {
         .batlasDashboardGrid {
             display: grid;
@@ -108,6 +128,7 @@
 </style>
 
 <AuthCheck>
+    <div class="betaBanner"><p>Batlas is still in beta testing. There will be bugs.</p></div>
     <main class="batlasDashboardGrid">
         <section class="navigation">
             <NavigationBar />

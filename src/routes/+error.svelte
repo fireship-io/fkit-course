@@ -69,13 +69,18 @@ import Header from "$lib/components/Header.svelte";
     }
 
     .lostButton {
-        font-size: 1.3em;
+        font-size: 1.2em;
         font-weight: 600;
-        padding: 1em 2em;
+        padding: 0.5em 1em;
+        text-align: center;
+        border: 0.1em solid var(--batlas-white);
+        border-radius: 0.3em;
+        color: var(--batlas-white);
+        text-decoration: none;
     }
 
-    .lostButton a {
-        color: var(--batlas-white);
+    .lostButton:hover {
+        text-decoration: underline;
     }
 
     .fillHeight {
@@ -95,14 +100,36 @@ import Header from "$lib/components/Header.svelte";
       .batlasSection {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
-        padding: 12em 2em;
+        padding: 3em 2em;
         max-width: 900px;
-        gap: 6em;
+        gap: 2em;
       }
 
       .batlasColumn {
-        align-items: flex-start;
+        align-items: center;
+        padding: 1em;
       } 
+
+      .batlasColumn h1 {
+        font-size: 3em;
+      }
+
+      .batlasColumn h2 {
+        font-size: 2em;
+        text-align: center;
+      }
+
+      .batlasColumn p {
+        font-size: 1.2em;
+        text-align: center;
+      }
+
+      .doubleColumn {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2em;
+      }
+
      }
 </style>
 
@@ -113,11 +140,11 @@ import Header from "$lib/components/Header.svelte";
         <p>You enter a web page with nothing in it but two buttons. You have a mouse, a keyboard, and a brave heart.</p>
     </div>
     <div class="doubleColumn">
-        <div class="batlasColumn lostButton">
-            <a href="/">"I want to find my way home"</a>
+        <div class="batlasColumn">
+            <a href="/" class="lostButton">"I want to find my way home"</a>
         </div>
-        <div class="batlasColumn lostButton">
-            <a href="/login">"I want to log in"</a>
+        <div class="batlasColumn">
+            <a href="/login" class="lostButton">"I want to log in"</a>
         </div>
     </div>
   </section>

@@ -1,8 +1,11 @@
 <script lang="ts">
   import { db, userData, auth, user } from "$lib/firebase";
-  import { doc, getDoc, writeBatch } from "firebase/firestore";
+  import { doc, getDoc, writeBatch, deleteDoc } from "firebase/firestore";
 
-  import { GoogleAuthProvider, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential } from "firebase/auth";
+  import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential, reauthenticateWithPopup } from "firebase/auth";
+    import { error } from "@sveltejs/kit";
+    import { currentAdventure } from "$lib/adventureData";
+    import { screenChoice, createAlert } from "$lib/dashboardState";
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -18,7 +21,9 @@
       },
       body: JSON.stringify({ idToken }),
     });
-    createUserDoc();
+    createUserDoc().then(() => {
+      window.location.href = "/dashboard/play/";
+    });
   }
 
   async function signOutSSR() {
@@ -30,17 +35,44 @@
     console.log("creating doc");
     const batch = writeBatch(db);
     batch.set(doc(db, "users", $user!.uid), {
-      published: true,
-      bio: "New User",
-      adventures: [
-        {
-          title: "Test Adventure Title"
-        },
-      ],
+      published: true
     });
 
     await batch.commit();
   }
+
+  async function promptForCredentials() {
+    const credential = prompt(
+      "Please enter your password to confirm account deletion."
+    );
+    return credential;
+  }
+
+  async function deleteThisUser(thisUser) {
+        let userRef = doc(db, "users", thisUser.uid);
+        let userSnap = await getDoc(userRef);
+        let deleteId = userSnap.id;
+        console.log(deleteId, userSnap.data())
+
+        deleteDoc(userRef)
+        .then(() => {
+            console.log("User successfully deleted!");
+            signOutSSR();
+        }).catch((error) => {
+            console.error("Error removing user: ", error);
+        });
+    }
+
+  async function handleDeleteUser(thisUser) {
+      try {
+        await deleteThisUser(thisUser);
+      } catch {
+        console.log (error)
+      } finally {
+        createAlert(`Your account has been deleted`)
+      }
+    }
+
 
 
 </script>
@@ -195,9 +227,9 @@
       {#if $user}
       <h2>Welcome, {$user.displayName}</h2>
       <p>You are logged in</p>
-      <a href="/dashboard" >Dashboard</a>
+      <a href="/dashboard/play" >Dashboard</a>
       <a on:click={signOutSSR}>Sign out</a>
-      <a on:click={() => deleteAccount(auth.currentUser)}>Delete Account</a>
+      <a on:click={() => handleDeleteUser($user)}>Delete Account</a>
       {:else}
         <h2>Login</h2>
         <a on:click={signInWithGoogle}>Sign in with Google</a>

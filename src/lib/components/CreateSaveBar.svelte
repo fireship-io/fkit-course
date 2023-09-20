@@ -12,18 +12,22 @@
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
     import { currentAdventure } from "$lib/adventureData";
+    import { createAlert } from "$lib/dashboardState";
     
     export let clearAdventureData;
 
     let screenSize = 0;
+    let disabledSave = false;
 
   async function saveAdventureToFirebase(currentAdventure) {
     console.log("saveAdventureToFirebase fired", currentAdventure);
 
+    disabledSave = true;
+
     const adventuresRef = collection(db, "users", $user.uid, "adventures");
 
     if (currentAdventure.title === "") {
-      alert("Please enter a title for your adventure");
+      createAlert("Please enter a title for your adventure.");
       return;
     }
 
@@ -36,7 +40,10 @@
         ...currentAdventure,
         map : JSON.stringify(currentAdventure.map)
       });
-      alert ("Adventure saved!");
+      createAlert(`${currentAdventure.title} saved!`)
+      setTimeout(() => {
+          disabledSave = false;
+        }, 3000);      
     } else {
       console.log("updating new adventure to firebase", currentAdventure);
       const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
@@ -44,9 +51,14 @@
         ...currentAdventure,
         map : JSON.stringify(currentAdventure.map)
       });
-      alert ("Adventure updated!");
+      createAlert(`${currentAdventure.title} updated!`)
+      setTimeout(() => {
+          disabledSave = false;
+        }, 3000); 
     }
     }
+
+
 
 </script>
 
@@ -148,16 +160,21 @@
     }
 
 </style>
+
+<svelte:window bind:innerWidth = {screenSize}/>
+
+
 <div class="createSaveBar" class:dungeonBorder = "{screenSize > 1500}" class:mobileCreateSaveBar = "{screenSize < 1500}">
     <div class="titleBar">
-        <input type="text" class="createAdventureTextArea" placeholder="Give your adventure a title to save it" bind:value={$currentAdventure.title}/>
+        <input type="text" class="createAdventureTextArea" placeholder="Give your adventure a title to save it" maxlength="300" bind:value={$currentAdventure.title}/>
+        <div class="alert" id="titleAlert">You're adventure needs a title.</div>
     </div>
     <div class="saveBar">
         <a  on:click={clearAdventureData} class="brutalismBorder">New Adventure</a>
         {#if $currentAdventure.title != "" && $currentAdventure.adventureId === ""}
-        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder">Save Adventure</a>
+        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder" class:disabledButton = "{disabledSave}">Save Adventure</a>
         {:else if $currentAdventure.adventureId != ""}
-        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder">Update Adventure</a>
+        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder" class:disabledButton = "{disabledSave}">Update Adventure</a>
         {/if}
     </div>
 </div>
