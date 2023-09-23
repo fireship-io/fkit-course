@@ -421,7 +421,7 @@
   <section class="batlasSection singleColumn">
     <div class="batlasColumn">
           <h2>Make a free account and poke around.</h2>
-          <a class="CTA">Create a free account</a>
+          <a href="/login" class="CTA">Create a free account</a>
     </div>
   </section>
 
@@ -441,7 +441,7 @@
   <section class="batlasSection singleColumn">
     <div class="batlasColumn">
           <h2>Now, gather your party & make some memories.</h2>
-          <a class="CTA">Create a free account</a>
+          <a href="/login" class="CTA">Create a free account</a>
     </div>
   </section>
 
