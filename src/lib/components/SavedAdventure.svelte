@@ -78,6 +78,7 @@
             flex-direction: column;
             grid-template-columns: 9fr 1fr;
             grid-template-rows: auto;
+            z-index: 5;
         }
         .savedAdventure h4{
             font-size: 1.4em;

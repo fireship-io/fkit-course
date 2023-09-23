@@ -184,7 +184,7 @@
         height: auto;
         background-color: var(--batlas-white);
         transition: all 0.3s ease-in-out;
-        background-color: red;
+        z-index: 999;
     }
 
     .offScreenMenu svg {

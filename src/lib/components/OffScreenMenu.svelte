@@ -135,6 +135,7 @@
         background-color: var(--batlas-white);
         transform: translateX(0vw);
         transition: all 0.3s ease-in-out;
+        z-index: 999;
     }
 
     .offScreenMenu svg {
