@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTileOptions, setActiveTileOptions } from "$lib/dashboardState";
+    import { activeTile, setActiveTile } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
@@ -19,7 +19,7 @@
         newMap[rowIndex][columnIndex].chosenTile = tile;
         console.log(newMap[rowIndex][columnIndex])
         currentAdventure.set({ ...$currentAdventure, map: newMap});
-        activeTileOptions.set({tileOptions: null, rowIndex: null, columnIndex: null});
+        activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null});
     }
 
 
