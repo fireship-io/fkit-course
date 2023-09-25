@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTileOptions, setActiveTileOptions } from "$lib/dashboardState";
+    import { activeTile, setActiveTile } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
 

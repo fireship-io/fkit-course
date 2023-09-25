@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 import { randomChoice } from './promptGen';
 import { v4 as uuidv4 } from 'uuid';
 import { tiles } from './tiles';
-import { activeTileOptions } from './dashboardState';
+import { activeTile } from './dashboardState';
 import { currentAdventure } from './adventureData';
 
 export let map = writable([]);
@@ -237,7 +237,8 @@ function returnMapArray(template) {
                     "id": uuidv4(),
                     "zIndex": 0,
                     "chosenTile": tiles.type.blank[0],
-                    "tileOptions": null
+                    "tileOptions": null,
+                    "tileNotes": "Default Notes"
                 };
                 continue;
             };
@@ -249,7 +250,8 @@ function returnMapArray(template) {
                 "id": uuidv4(),
                 "zIndex": i+1,
                 "chosenTile": chosenTile,
-                "tileOptions": tileOptions
+                "tileOptions": tileOptions,
+                "tileNotes": "Default Notes"
             };
         }
     }
@@ -265,5 +267,5 @@ export function generateMap() {
   });
   // map.set(mapArray);
   temporaryTemplates = sourceTemplates.map(template => template.map(tile => tile.slice(0)));
-  activeTileOptions.set({tileOptions: null, rowIndex: null, columnIndex: null});
+  activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
 }

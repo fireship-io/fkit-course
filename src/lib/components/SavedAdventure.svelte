@@ -70,9 +70,6 @@
         text-decoration: underline;
     }
 
-
-    @media screen and (max-width: 1500px) {
-
         .savedAdventure {
             display: flex;
             flex-direction: column;
@@ -81,7 +78,7 @@
             z-index: 5;
         }
         .savedAdventure h4{
-            font-size: 1.4em;
+            font-size: 1.3em;
             margin: 0.2em;
         }
 
@@ -110,7 +107,6 @@
             min-width: 3em;
             width: 100%;
         }
-    }
 
 
 </style>
@@ -122,6 +118,5 @@
         <a href="/dashboard/create" on:click={setActive}>Edit</a>
         <a href="#" on:click={() => handleDeleteClick(adventureData)}>Delete</a>
     </div>
-    <div class="savedAdventureDescription">{adventureData.notes.enemy}</div>
 </a>
 

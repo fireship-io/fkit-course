@@ -1,38 +1,37 @@
 <script>
     import Planner from "$lib/components/Planner.svelte";
     import Map from "$lib/components/Map.svelte";
-    import CreateSaveBar from "$lib/components/CreateSaveBar.svelte";
-    import { auth, user } from "$lib/firebase";
-    import { v4 as uuidv4 } from 'uuid';
+    import { user } from "$lib/firebase";
     import {currentAdventure} from "$lib/adventureData";
-    import { screenChoice } from "$lib/dashboardState";
-    import PromptOptions from '$lib/components/PromptOptions.svelte';
-    import { map } from "$lib/mapGen";
+    import { screenChoice, activeTile } from "$lib/dashboardState";
     import { onMount } from "svelte";
 
 
     let screenSize = 0;
 
     function clearAdventureData() {
-        console.log("clearAdventureData fired")
-        let emptyAdventureData = {
-            title: "",
-            notes: {
-                enemy: "",
-                quest: "",
-                npc: "",
-                goal: "",
-                scene: "",
-                push: "",
-                gimmick: ""
-            },
-            map: "",
-            userId: $user?.uid,
-            adventureId: "",
-        };
+    console.log("clearAdventureData fired")
+    let emptyAdventureData = {
+        title: "",
+        notes: {
+            enemy: "",
+            quest: "",
+            npc: "",
+            goal: "",
+            scene: "",
+            push: "",
+            gimmick: ""
+        },
+        map: [],
+        userId: $user?.uid,
+        adventureId: "",
+    };
 
-        currentAdventure.set(emptyAdventureData);
-    }
+    currentAdventure.set(emptyAdventureData);
+    activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
+
+}
+
 
     onMount(() => {
         screenChoice.set("createPlanner");
@@ -62,26 +61,28 @@
         display: none;
     }
 
-    .content {
+    .planner {
         width: 100%;
-        grid-column: 5/10;
+        grid-column: 1/5;
+        grid-row: 1/3;
         height: 100%;
-        padding: 0.8em;
         overflow-y: scroll;
     }
 
-    .content::-webkit-scrollbar {
+    .planner::-webkit-scrollbar {
+        width: 0.2em;
         color: var(--batlas-black);
         background-color: var(--batlas-white);
     }
 
-    .content::-webkit-scrollbar-thumb {
-        color: var(--batlas-black);
-        background: var(--batlas-black);
-        border: 0.1em solid var(--batlas-white);
+    .planner::-webkit-scrollbar-thumb {
+        width: 0.4em;
+        color: var(--batlas-white);
+        background: var(--batlas-white);
+        border: 0.2em solid var(--batlas-black);
     }
 
-    .content::-webkit-scrollbar-corner {
+    .planner::-webkit-scrollbar-corner {
         display: none;
     }
 
@@ -98,7 +99,9 @@
 
 }
 .mapColumn {
-    grid-column: 10/17;
+    grid-column: 5/18;
+    grid-row: 1/3;
+    margin-right: 2em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -154,16 +157,7 @@
 
 <svelte:window bind:innerWidth = {screenSize}/>
 
-<div class="options dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "createGenerator"}>
-    <h2>Get some ideas</h2>
-    <PromptOptions />
-</div>
-{#if screenSize > 1500}
-<div class="saveBar" class:invisible={screenSize < 1500 && $screenChoice != "createPlanner"}>
-    <CreateSaveBar {clearAdventureData}/>
-</div>
-{/if}
-<div class="content dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "createPlanner"} >
+<div class="planner dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "createPlanner"} >
     <Planner {clearAdventureData}/>
 </div>
 <div class="mapColumn" class:invisible={screenSize < 1500 && $screenChoice != "createMap"}>

@@ -1,4 +1,6 @@
 import { writable } from "svelte/store";
+import { db, user } from "./firebase";
+
 
 export const screenChoice = writable("adventures");
 export const offScreenMenu = writable(true);
@@ -6,17 +8,20 @@ export const activeRule = writable({
     "title": "Select a category to know more.",
     "content": ""
 });
-export const activeTileOptions = writable({
+export const activeTile = writable({
         "rowIndex": null,
         "columnIndex": null,
-        "tileOptions": null
+        "tileOptions": null,
+        "tileNotes": ""
 });
 
-export function setActiveTileOptions(tile, rowIndex, columnIndex) {
-    activeTileOptions.set({
+export function setActiveTile(tile, rowIndex, columnIndex) {
+    console.log("setActiveTileOptions", tile, rowIndex, columnIndex);
+    activeTile.set({
         "rowIndex": rowIndex,
         "columnIndex": columnIndex,
-        "tileOptions": tile.tileOptions
+        "tileOptions": tile.tileOptions,
+        "tileNotes": tile.tileNotes
     });
 };
 
@@ -32,3 +37,5 @@ export function createAlert(message) {
         document.querySelector(".batlasDashboardGrid").removeChild(alert);
     }, 3000);
 }
+
+

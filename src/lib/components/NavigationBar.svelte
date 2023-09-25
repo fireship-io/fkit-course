@@ -3,14 +3,16 @@
 
     import {page} from '$app/stores';
     import { currentAdventure, playAdventureCurrent } from '$lib/adventureData';
-    import { screenChoice, offScreenMenu, activeRule } from "$lib/dashboardState";
+    import { screenChoice, offScreenMenu, activeRule, activeTile } from "$lib/dashboardState";
     import { db, userData, auth, user } from "$lib/firebase";
     import { GoogleAuthProvider, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential } from "firebase/auth";
 
 
     let screenSize = 0;
 
-
+    function clearActiveTile() {
+        activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
+    }
 
     function toggleOffScreenMenu() {
         offScreenMenu.set(!$offScreenMenu);
@@ -58,6 +60,7 @@
     function navigateFromPlay() {
         if($page.route.id?.includes('play') && $playAdventureCurrent){
         clearCurrentAdventureAndScreenChoice();
+        clearActiveTile();
         setScreenChoice('');
         } else {
             return;

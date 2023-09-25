@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTileOptions, setActiveTileOptions } from "$lib/dashboardState";
+    import { activeTile, setActiveTile } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
@@ -21,21 +21,20 @@
         newMap[rowIndex][columnIndex].chosenTile = tile;
         console.log(newMap[rowIndex][columnIndex])
         currentAdventure.set({ ...$currentAdventure, map: newMap});
-        activeTileOptions.set({tileOptions: null, rowIndex: null, columnIndex: null});
+        activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null});
     }
 
-    // map.subscribe(value => {
-    //     currentAdventure.update(adventure => {
-    //         adventure.map = JSON.stringify(value);
-    //         return adventure;
-    //     })
-    //     console.log('Map updated', value);
-    //     console.log($currentAdventure);
-    // })
+    function handleTileClick(cell, i, j){
+      setActiveTile(cell, i, j)
+      console.log("cell", cell, i, j);
+    }
+
+
 
 
     function handleMapGenerate() {
       disabledMapButton = true;
+      activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
       generateMap();
       setTimeout(() => {
         disabledMapButton = false
@@ -147,16 +146,30 @@
     transform: translateX(5em);
   }
 
-  .mapToolbar {
-        display: none;
-    }
+  .tileOptionsBar {
+    display: block;
+    width: calc(100% - 16em);
 
-    .mapToolbarActive{
+  }
+
+  .tileInfoBar {
+    display: none;
+  }
+
+  .tileOptionsBarActive{
         display: block;
         position: absolute;
         bottom: 0em;
-        width: 100%;
-    }
+  }
+
+  .tileInfoBarActive{
+        display: block;
+        position: absolute;
+        top: 0em;
+        right: 0em;
+        width: 16em;;
+        height: 100%;
+  }
 
   .tileOptions {
     display: flex;
@@ -219,10 +232,10 @@
   .tileSelector {
     visibility: hidden;
     position: absolute;
-    bottom: calc(50% - 1.5em);
-    left: calc(50% - 1.5em);
-    height: 3em;
-    width: 3em;
+    bottom: calc(50% - 2.5em);
+    left: calc(50% - 2.5em);
+    height: 5em;
+    width: 5em;
     border: 0.2em solid var(--batlas-white);
     background: rgba(0, 0, 0, 0.4);
     border-radius: 3em;
@@ -236,9 +249,13 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 2em;
     padding: 1em;
+    position: relative;
+    top: 0em;
+    left: 0em;
+    background-color: transparent;
   }
 
   .mapSettings p {
@@ -275,6 +292,29 @@
     text-overflow: ellipsis;
   }
 
+  .tileNotesIndicator {
+    min-width: 2em;
+    min-height: 2em;
+    padding: 0.2em;
+    border: 0.2em solid var(--batlas-white);
+    border-radius: 10em;
+    aspect-ratio: 1/1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--batlas-black);
+    top: 1em;
+  }
+
+  .icon {
+        cursor: pointer;
+        display: inline;
+        width: 60%;        
+        height: auto;
+        fill: var(--batlas-white);
+    }
+
   @media screen and (max-width: 1500px) {
     .mapSettings {
       flex-direction: column;
@@ -291,15 +331,8 @@
 <div class="mapContainer dungeonBorder">
   {#if !$page.route.id.includes("play")}
     <div class="mapSettings">
-      {#if $currentAdventure.title !== ""}
-        <p class="editingTitle">Editing: {$currentAdventure.title}</p>
-      {/if} 
-        <a on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton" class:disabledButton = "{disabledMapButton}">Generate New Map</a>
-        {#if $currentAdventure.map.length > 0 && !$page.route.id.includes("map-maker") && screenSize > 1500}
-            <a href="map-maker" class="brutalismBorderWhite mapGenButton">Edit fullscreen</a>
-        {:else if screenSize > 1500}
-            <a href="create" class="brutalismBorderWhite mapGenButton">Edit in Planner</a>
-        {/if}
+        <a on:click={handleMapGenerate} class="brutalismBorderWhite mapGenButton" class:disabledButton = "{disabledMapButton}">New Map</a>
+        <a on:click={() => console.log($currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes)} class="brutalismBorderWhite mapGenButton" class:disabledButton = "{disabledMapButton}">Log Map</a>
     </div>
   {/if}
     <div class="map">
@@ -307,9 +340,14 @@
                 <div class="gridRow">
                     {#each row as cell, j}
                     <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
+                      {#if cell.tileNotes != "Default Notes"}
+                      <div class="tileNotesIndicator">
+                        <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
+                      </div>
+                      {/if}
                         {#if cell.tileOptions != null &&   !$page.route.id.includes("play")}
                             <div class="tileSelectorHoverDetector">
-                                <div on:click={() => setActiveTileOptions(cell, i, j)} class="tileSelector"></div>
+                                <div on:click={() => handleTileClick(cell, i, j)} class="tileSelector"></div>
                             </div>
                         {/if}
                         <img src="/img/{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
@@ -318,17 +356,24 @@
                 </div>
             {/each}
     </div>
-    <div class="mapToolbar dungeonBorder" class:mapToolbarActive="{$activeTileOptions.tileOptions}" class:dungeonBorder="{$activeTileOptions.tileOptions}">
-        <div class="tileOptions" class:hideScrollbar="{!$activeTileOptions.tileOptions}">
-            {#if $activeTileOptions.tileOptions}
-                {#each $activeTileOptions.tileOptions as tile}
-                    <div on:click={() => setChosenTile(tile, $activeTileOptions.rowIndex, $activeTileOptions.columnIndex)} class="tileOption">
+    {#if $activeTile.rowIndex !== null}
+    <div class="tileInfoBar dungeonBorder" class:tileInfoBarActive="{$activeTile.tileOptions}" class:dungeonBorder="{$activeTile.tileOptions}">
+      <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
+          <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
+      </div>
+    </div>
+    {/if}
+    <div class="tileOptionsBar dungeonBorder" class:tileOptionsBar="{$activeTile.tileOptions}" class:dungeonBorder="{$activeTile.tileOptions}">
+        <div class="tileOptions" class:hideScrollbar="{!$activeTile.tileOptions}">
+            {#if $activeTile.tileOptions}
+                {#each $activeTile.tileOptions as tile}
+                    <div on:click={() => setChosenTile(tile, $activeTile.rowIndex, $activeTile.columnIndex)} class="tileOption">
                         <img src="/img/{tile.img}" alt="{tile.img}" />
                     </div>
                 {/each}
             {/if}
-            </div>
         </div>
     </div>
+</div>
 
 
