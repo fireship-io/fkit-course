@@ -251,7 +251,21 @@ function returnMapArray(template) {
                 "zIndex": i+1,
                 "chosenTile": chosenTile,
                 "tileOptions": tileOptions,
-                "tileNotes": "Default Notes"
+                "tileNotes": "Default Notes",
+                "interestPoints": [
+                  {
+                    "title": "Default Title 1",
+                    "info": "Default Info 1",
+                  },
+                  {
+                    "title": "Default Title 2",
+                    "info": "Default Info 2",
+                  },
+                  {
+                    "title": "Default Title 3",
+                    "info": "Default Info 3",
+                  }
+                ]
             };
         }
     }
