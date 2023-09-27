@@ -48,6 +48,20 @@
         e.target.closest('div').classList.toggle("interestPointActive");
     }
 
+    function handlePointOfInterestDelete(interestPoint){
+      console.log(interestPoint);
+      let newMap = deepCloneArray($currentAdventure.map);
+      let interestPointIndex = newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.findIndex(point => point.title === interestPoint.title);
+      newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.splice(interestPointIndex, 1);
+      currentAdventure.set({ ...$currentAdventure, map: newMap});!$page.route.id.includes("play")
+    }
+
+    function handlePointOfInterestCreation(){
+      let newMap = deepCloneArray($currentAdventure.map);
+      newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.push({title: "New point of interest", info: "New point of interest info"});
+      currentAdventure.set({ ...$currentAdventure, map: newMap});
+    }
+
 
 </script>
 
@@ -397,6 +411,21 @@
       display: none;
     }
 
+    .interestPointPlay {
+      grid-template-columns: 5fr 1fr;
+    }
+
+    .interestPointTitle {
+      width: 100%;
+      font-size: 1em;
+      border: none;
+      font-family: var(--batlas-font);
+    }
+
+    .interestPointTitle::-webkit-scrollbar {
+      display:none;
+    }
+
   @media screen and (max-width: 1500px) {
     .mapSettings {
       flex-direction: column;
@@ -422,16 +451,14 @@
                 <div class="gridRow">
                     {#each row as cell, j}
                     <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
-                      {#if cell.tileNotes != "Default Notes"}
+                      {#if cell.tileNotes != "" || cell.interestPoints.length > 0}
                       <div class="tileNotesIndicator">
                         <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
                       </div>
                       {/if}
-                        {#if cell.tileOptions != null &&   !$page.route.id.includes("play")}
                             <div class="tileSelectorHoverDetector">
                                 <div on:click={() => handleTileClick(cell, i, j)} class="tileSelector"></div>
                             </div>
-                        {/if}
                         <img src="/img/{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
                     </div>
                     {/each}
@@ -442,21 +469,43 @@
     <div class="tileInfoBar dungeonBorder" class:tileInfoBarActive="{$activeTile.tileOptions}" class:dungeonBorder="{$activeTile.tileOptions}">
       <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
         <h4>Room details</h4>
+        {#if !$page.route.id.includes("play")}
           <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
+        {:else}
+          <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}</p>
+        {/if}
           <div class="interestPointsList hideScrollbar">
             <h4>Points of interest</h4>
-            {#each $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints as interestPoint}
-              <div class="interestPoint" on:click={setActive} class:interestPointActive={false}>
+            {#each $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints as interestPoint, i}
+              <div class="interestPoint" class:interestPointActive={false} class:interestPointPlay={$page.route.id.includes("play")}>
+                {#if !$page.route.id.includes("play")}
+                <textarea class="interestPointTitle" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="POI Info" rows="2" maxlength="22" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].title}></textarea>
+              {:else}
+              <div class="interestPointTitle">
                 <p>{interestPoint.title}</p>
-                <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
-                <svg on:click={console.log('DELETE POI')} class="icon" viewBox="0 0 133 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M52.376,79.218l0,-19.043c-10.535,-5.152 -17.798,-15.977 -17.798,-28.486c-0,-17.49 14.199,-31.689 31.689,-31.689c17.489,-0 31.688,14.199 31.688,31.689c0,12.509 -7.263,23.334 -17.798,28.486l-0,19.043l52.376,-0l0,21.798l-34.578,-0l0,105.32l-31.688,53.158l-31.689,-53.158l-0,-105.32l-34.578,-0l0,-21.798l52.376,-0Zm2.112,19.889c0.059,0.629 0.09,1.265 0.09,1.909l-0,99.811c-0,0 11.689,19.608 11.689,19.608l11.688,-19.608l0,-99.811c0,-0.644 0.031,-1.28 0.09,-1.909c-4.556,-0.478 -8.656,-2.485 -11.778,-5.5c-3.123,3.015 -7.223,5.022 -11.779,5.5Zm11.779,-53.323c1.48,-1.429 3.195,-2.643 5.104,-3.576c3.893,-1.904 6.584,-5.898 6.584,-10.519c0,-6.451 -5.237,-11.689 -11.688,-11.689c-6.452,0 -11.689,5.238 -11.689,11.689c-0,4.621 2.691,8.615 6.584,10.519c1.909,0.933 3.624,2.147 5.105,3.576Z"/></svg>
-                <div class="interestPointInfo"><p>{interestPoint.info}</p></div>
+              </div>
+              {/if}
+                <svg on:click={setActive} class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
+                {#if !$page.route.id.includes("play")}
+                <svg on:click={() => handlePointOfInterestDelete(interestPoint)} class="icon" viewBox="0 0 133 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2; z-index:999;"><path d="M52.376,79.218l0,-19.043c-10.535,-5.152 -17.798,-15.977 -17.798,-28.486c-0,-17.49 14.199,-31.689 31.689,-31.689c17.489,-0 31.688,14.199 31.688,31.689c0,12.509 -7.263,23.334 -17.798,28.486l-0,19.043l52.376,-0l0,21.798l-34.578,-0l0,105.32l-31.688,53.158l-31.689,-53.158l-0,-105.32l-34.578,-0l0,-21.798l52.376,-0Zm2.112,19.889c0.059,0.629 0.09,1.265 0.09,1.909l-0,99.811c-0,0 11.689,19.608 11.689,19.608l11.688,-19.608l0,-99.811c0,-0.644 0.031,-1.28 0.09,-1.909c-4.556,-0.478 -8.656,-2.485 -11.778,-5.5c-3.123,3.015 -7.223,5.022 -11.779,5.5Zm11.779,-53.323c1.48,-1.429 3.195,-2.643 5.104,-3.576c3.893,-1.904 6.584,-5.898 6.584,-10.519c0,-6.451 -5.237,-11.689 -11.688,-11.689c-6.452,0 -11.689,5.238 -11.689,11.689c-0,4.621 2.691,8.615 6.584,10.519c1.909,0.933 3.624,2.147 5.105,3.576Z"/></svg>
+                {/if}
+                {#if !$page.route.id.includes("play")}
+                  <textarea class="interestPointInfo" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="POI Info" rows="20" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].info}></textarea>
+                {:else}
+                <div class="interestPointInfo">
+                  <p>{interestPoint.info}</p>
+                </div>
+                {/if}
               </div>
             {/each}
+            {#if !$page.route.id.includes("play")}
+              <p on:click={() => handlePointOfInterestCreation()}>+</p>
+            {/if}
           </div>
         </div>
     </div>
     {/if}
+    {#if !$page.route.id.includes("play")}
     <div class="tileOptionsBar dungeonBorder" class:tileOptionsBar="{$activeTile.tileOptions}" class:dungeonBorder="{$activeTile.tileOptions}">
         <div class="tileOptions" class:hideScrollbar="{!$activeTile.tileOptions}">
             {#if $activeTile.tileOptions}
@@ -468,6 +517,7 @@
             {/if}
         </div>
     </div>
+    {/if}
 </div>
 
 

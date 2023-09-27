@@ -114,7 +114,7 @@
 <a class="savedAdventure brutalismBorder">
     <div class="savedAdventureTitle"><h4>{adventureData.title}</h4></div>
     <div class="savedAdventureOptions">
-        <a href="#" on:click={setActive}>Play</a>
+        <a href={`/dashboard/play/${adventureData.adventureId}`}>Play</a>
         <a href="/dashboard/create" on:click={setActive}>Edit</a>
         <a href="#" on:click={() => handleDeleteClick(adventureData)}>Delete</a>
     </div>

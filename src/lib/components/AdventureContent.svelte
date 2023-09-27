@@ -25,7 +25,7 @@
         height: 100%;
         max-height: calc(100lvh - 4em);
         gap: 2em;
-        padding: 1em;
+        padding: 0.8em;
         overflow: scroll;
     }
 
@@ -47,6 +47,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-left: 0.15em;
     }
 
     .adventureOptionsBar {
@@ -72,7 +73,6 @@
         justify-content: space-evenly;
         align-items: center;
         gap: 2em;
-        padding: 0.5em;
         padding-top: 1em;
     }
 
@@ -128,6 +128,7 @@
 <svelte:window bind:innerWidth={screenSize} />
 
 <div class="adventureContentGrid">
+
 
     <div class="adventureTitle">
         <h2>{$currentAdventure.title}</h2>
