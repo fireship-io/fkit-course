@@ -160,6 +160,16 @@ h1, h2, h3, h4, h5, h6 {
     pointer-events: none;
   }
 
+  .iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .iconContainer:hover{
+    cursor: pointer;
+  }
+
   @keyframes slide-in-alert {
     0% {
       transform: translateY(-120%);

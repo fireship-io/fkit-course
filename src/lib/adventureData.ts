@@ -17,7 +17,7 @@ export const currentAdventure = writable({
         push: "",
         gimmick: ""
     },
-    map: "",
+    map: [],
     userId: "",
     adventureId: "",
 });

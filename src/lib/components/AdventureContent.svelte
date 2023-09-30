@@ -1,5 +1,6 @@
 <script>
   import AdventureTools from './AdventureTools.svelte';
+  import Icons from '$lib/components/Icons.svelte';
 
     import { currentAdventure } from '$lib/adventureData';
     $currentAdventure;
@@ -9,6 +10,8 @@
     function emptyCurrentAdventure() {
         currentAdventure.set({});
     };
+
+    export let toggleActive;
 
 </script>
 
@@ -40,7 +43,7 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        gap: 2em;
+        gap: 0em;
     }
 
     .adventureTitle h2 {
@@ -122,6 +125,10 @@
         .adventureNotes {
             grid-column: 1 / 7;
         }
+
+        .mobileHidden {
+            display: none;
+        }
     }
 </style>
 
@@ -131,6 +138,9 @@
 
 
     <div class="adventureTitle">
+        <div on:click={(e) => toggleActive(e)} class="iconContainer brutalismBorderWhite mapGenButton mobileHidden">
+            <Icons icon={"leftChevron"} size={"medium"} color={"black"} />
+        </div>
         <h2>{$currentAdventure.title}</h2>
     </div>
 

@@ -4,6 +4,8 @@
     import { currentAdventure, playAdventureCurrent } from "$lib/adventureData";
     import { screenChoice, createAlert } from "$lib/dashboardState";
     import { error } from "@sveltejs/kit";
+    import Icons from '$lib/components/Icons.svelte';
+
 
     async function handleDeleteClick(adventureData) {
         try {
@@ -19,6 +21,7 @@
     function setActive(e) {
         playAdventureCurrent.set(true);
         currentAdventure.set({ ...adventureData});
+        console.log("currentAdventure on adventure set", $currentAdventure)
         screenChoice.set("playAdventureNotes");
 
         document.querySelectorAll('.savedAdventure').forEach((element) => {
@@ -33,6 +36,7 @@
     .savedAdventure {
         display: grid;
         grid-template-columns: 2fr 1fr;
+        grid-template-rows: 1fr;
         width: 100%;
         height: auto;
         padding: 1em;
@@ -43,10 +47,8 @@
 
 
     .savedAdventureOptions {
-        grid-row: 1 / 3;
-        grid-column: 2 / 3;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
         gap: 0.6em;
@@ -71,10 +73,9 @@
     }
 
         .savedAdventure {
-            display: flex;
-            flex-direction: column;
-            grid-template-columns: 9fr 1fr;
-            grid-template-rows: auto;
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+            grid-template-rows: 1fr;
             z-index: 5;
         }
         .savedAdventure h4{
@@ -82,19 +83,9 @@
             margin: 0.2em;
         }
 
-        .savedAdventureTitle {
-            grid-column: 1 / 9;
-            grid-row: 1 / 2;
-        }
-
-        .savedAdventureDescription {
-            grid-column: 1 / 9;
-            grid-row: 2 / 3;
-        }
-
         .savedAdventureOptions {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         height: 100%;
         width: 100% !important;
         width: 0.5em;
@@ -108,15 +99,31 @@
             width: 100%;
         }
 
+        .adventureBlurb {
+            width: 100%;
+            max-height: 5em;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
 
 </style>
     
 <a class="savedAdventure brutalismBorder">
-    <div class="savedAdventureTitle"><h4>{adventureData.title}</h4></div>
+    <div class="savedAdventureTitle">
+        <h4>{adventureData.title}</h4>
+        <p class="adventureBlurb">{adventureData.notes.quest}</p>
+    </div>
     <div class="savedAdventureOptions">
-        <a href={`/dashboard/play/${adventureData.adventureId}`}>Play</a>
-        <a href="/dashboard/create" on:click={setActive}>Edit</a>
-        <a href="#" on:click={() => handleDeleteClick(adventureData)}>Delete</a>
+        <a href={`/dashboard/play/${adventureData.adventureId}`}>
+            <Icons icon={"d20"} size={"small"} color={"white"} />
+        </a>
+        <a href="/dashboard/create" on:click={setActive}>
+            <Icons icon={"edit"} size={"small"} color={"white"} />
+        </a>
+        <a href="#" on:click={() => handleDeleteClick(adventureData)}>
+            <Icons icon={"remove"} size={"small"} color={"white"} />
+        </a>
     </div>
 </a>
 

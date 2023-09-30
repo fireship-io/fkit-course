@@ -9,6 +9,7 @@
     import { collection, query, where, getDocs, doc, getDoc, updateDoc, arrayRemove, onSnapshot, deleteDoc } from "firebase/firestore";
     import { writable } from 'svelte/store';
 
+
     let screenSize = 0;
 
     async function deleteAdventure(adventure) {

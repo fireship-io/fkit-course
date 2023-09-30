@@ -2,25 +2,44 @@
 
 import { error } from '@sveltejs/kit';
 import {adventureListStore, currentAdventure, playAdventureCurrent} from "$lib/adventureData";
-import { collection, getDocs, limit, query, where, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, limit, query, where, onSnapshot, doc } from "firebase/firestore";
 import { onMount } from "svelte";
 import { page } from '$app/stores';
 import { db, user } from "$lib/firebase";
 import Map from '$lib/components/Map.svelte';
 import AdventureContent from "$lib/components/AdventureContent.svelte";
+import Icons from '$lib/components/Icons.svelte';
+import { screenChoice } from '$lib/dashboardState';
 
-let playingAdventure = {};
 let pageId = $page.params.adventureId;
+let playingAdventure = {};
+let adventuresNotesCollapsed = false;
+
+let screenSize = 0;
+
+
+
 
 onMount(() => {
-    pageId = $page.params.adventureId;
-    playingAdventure = $adventureListStore.find(adventure => adventure.adventureId === pageId);
-    console.log(pageId, playingAdventure);
-
-    currentAdventure.set({
-        ...playingAdventure
+    try {
+        screenChoice.set("playAdventureNotes");
+        onSnapshot(doc(db, "users", $user.uid, "adventures", pageId), (adventure) => {
+            playingAdventure = adventure.data();
+            playingAdventure.map = JSON.parse(playingAdventure.map);
+            console.log("adventure", adventure.data());
+            console.log("adventure", playingAdventure);
+            currentAdventure.set({
+            ...playingAdventure
+        });
     });
+    } catch {
+        console.log(error);
+    }
 });
+
+function toggleActive(e) {
+    adventuresNotesCollapsed = !adventuresNotesCollapsed;
+    }
 
 </script>
 
@@ -45,6 +64,17 @@ onMount(() => {
         display: none;
     }
 
+    .optionsCollapsed {
+        grid-column: 1/2;
+        grid-row: 1/2;
+        padding: 0.4em;
+    }
+
+    .optionsCollapsed + .map {
+        grid-column: 2/17;
+        grid-row: auto / span 2;
+    }
+
     .content {
         width: 100%;
         grid-column: 5/11;
@@ -63,6 +93,7 @@ onMount(() => {
     background-color: var(--batlas-white);
 }
 .map {
+    padding: 0em;
     grid-column: 4/17;
     grid-row: auto / span 2;
     display: flex;
@@ -72,10 +103,16 @@ onMount(() => {
     height: calc(100%);
 }
 
+.icon   {
+    width: 2em;
+    height: 2em;
+    fill: var(--batlas-black);
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1500px) {
 
 .options, .content, .map {
-    grid-column: 1/3;
     height: 100%;
 }
 .options {
@@ -91,6 +128,10 @@ onMount(() => {
     overflow-x: hidden;
 }
 
+.currentScreen {
+    grid-template-columns: 1;
+}
+
 
 
 }
@@ -99,10 +140,20 @@ onMount(() => {
 
 </style>
 
-<div class="options dungeonBorder">
-    <AdventureContent />
-</div>
+<svelte:window bind:innerWidth = {screenSize}/>
 
-<div class="map">
+{#if adventuresNotesCollapsed === true}
+    <div class="optionsCollapsed dungeonBorder">
+        <div on:click={(e) => toggleActive(e)} class="iconContainer brutalismBorderWhite mapGenButton">
+            <Icons icon={"rightChevron"} size={"medium"} color={"black"} />
+        </div>
+    </div>
+{:else}
+    <div class="options dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "playAdventureNotes"}>
+        <AdventureContent {toggleActive}/>
+    </div>
+{/if}
+
+<div class="map" class:invisible={screenSize < 1500 && $screenChoice != "playAdventureMap"}>
     <Map />
 </div>

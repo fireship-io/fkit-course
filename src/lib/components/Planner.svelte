@@ -26,6 +26,7 @@
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
     import { createAlert } from "$lib/dashboardState";
+    import Icons from "./Icons.svelte";
     
 
     let disabledSave = false;
@@ -46,7 +47,7 @@
 
     function promptGen(prompts) {
         generateMultiplePrompts(prompts);
-        let monsterString = `You're fighting ${((vowelCheck($monster.description) ? 'an ' : 'a '))} ${$monster.description} with ${$offensiveQuirk.description} and ${$defensiveQuirk.description}. It's left behind ${$monster.clue}, ${$offensiveQuirk.clue}, and ${$defensiveQuirk.clue}.`;
+        let monsterString = `You're fighting ${((vowelCheck($monster.description) ? 'an ' : 'a '))} ${$monster.description} with ${$offensiveQuirk.description} and ${$defensiveQuirk.description}. Signs of it include ${$monster.clue}, ${$offensiveQuirk.clue}, and ${$defensiveQuirk.clue}.`;
         let questString = `${$questLocation} ${$problem}.`;
         let npcString = `A ${$npc.descriptor} ${$npc.sex} ${$npc.race} whose ${$npc.personality}. They wear ${$npc.clothes}, speak ${$npc.speech}, and ${$npc.idiosyncrasy}.`
         let titleString = $currentAdventure.title
@@ -83,6 +84,14 @@
         }
         if (npcChange) {
             npcString = $currentAdventure.notes.npc;
+        }
+
+        if ($questLocation === "" && !questChange) {
+            questString = "";
+        }
+
+        if ($npc.race === "" && !npcChange) {
+            npcString = "";
         }
 
         currentAdventure.set({
@@ -397,14 +406,12 @@ textarea {
         <div class="alert" id="titleAlert">You're adventure needs a title.</div>
     </div>
     <div class="saveBar">
-        <a  on:click={clearAdventureData} class="brutalismBorder">Clear all</a>
-        {#if $currentAdventure.title != "" && $currentAdventure.adventureId === ""}
-        <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder" class:disabledButton = "{disabledSave}">
-            <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
+        <a  on:click={clearAdventureData} class="brutalismBorder">
+            <Icons icon={"remove"} size={"small"} color={"white"} />
         </a>
-        {:else if $currentAdventure.adventureId != ""}
+        {#if $currentAdventure.title != ""}
         <a  on:click={() => saveAdventureToFirebase($currentAdventure)} class="brutalismBorder" class:disabledButton = "{disabledSave}">
-            <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
+            <Icons icon={"save"} size={"small"} color={"white"} />
         </a>
         {/if}
     </div>
@@ -413,24 +420,30 @@ textarea {
     <div class="createAdventureNotesSection">
         <div class="plannerSectionHeader">
             <h4 class="plannerSectionTitle">The Enemy</h4>
-            <svg on:click={() => promptGen(["monster", "offensiveQuirk", "defensiveQuirk"])} class="icon" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M182.757,40.076c-16.532,-11.399 -36.566,-18.076 -58.147,-18.076c-56.632,0 -102.61,45.978 -102.61,102.61l-22,-0c-0,-68.774 55.836,-124.61 124.61,-124.61c28.705,0 55.157,9.727 76.235,26.062l23.897,-18.515l15.825,85.389l-78.73,-36.651l20.92,-16.209Zm-126.17,188.931l-20.213,20.213l-26.448,-82.717l82.717,26.448l-20.086,20.086c15.264,9.011 33.059,14.183 52.053,14.183c56.632,-0 102.61,-45.978 102.61,-102.61l22,-0c-0,68.774 -55.836,124.61 -124.61,124.61c-25.091,-0 -48.46,-7.432 -68.023,-20.213Z"/></svg>
+            <div class="iconContainer" on:click={() => promptGen(["monster", "offensiveQuirk", "defensiveQuirk"])}>
+                <Icons icon={"generate"} size={"medium"} color={"black"} />
+            </div>
         </div>
         <textarea on:change={() => enemyChange = true} bind:value={$currentAdventure.notes.enemy} class="createAdventureTextArea brutalismBorder" placeholder="Details the antoganist of this adventure. What is it? Does it have minions? What signs of it couuld be found throughout the dungeon?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <div class="plannerSectionHeader">
             <h4 class="plannerSectionTitle">The Quest</h4>
-            <svg on:click={() => promptGen(["questLocation", "problem"])} class="icon" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M182.757,40.076c-16.532,-11.399 -36.566,-18.076 -58.147,-18.076c-56.632,0 -102.61,45.978 -102.61,102.61l-22,-0c-0,-68.774 55.836,-124.61 124.61,-124.61c28.705,0 55.157,9.727 76.235,26.062l23.897,-18.515l15.825,85.389l-78.73,-36.651l20.92,-16.209Zm-126.17,188.931l-20.213,20.213l-26.448,-82.717l82.717,26.448l-20.086,20.086c15.264,9.011 33.059,14.183 52.053,14.183c56.632,-0 102.61,-45.978 102.61,-102.61l22,-0c-0,68.774 -55.836,124.61 -124.61,124.61c-25.091,-0 -48.46,-7.432 -68.023,-20.213Z"/></svg>
+            <div class="iconContainer" on:click={() => promptGen(["questLocation", "problem"])}>
+                <Icons icon={"generate"} size={"medium"} color={"black"} />
+            </div>
         </div>
 
-        <textarea on:change={() => enemyChange = true} bind:value={$currentAdventure.notes.quest} class="createAdventureTextArea brutalismBorder" placeholder="Detail the hook and context of the adventure. Why is the party doing this? What parties are involved?" rows="6"/>
+        <textarea on:change={() => questChange = true} bind:value={$currentAdventure.notes.quest} class="createAdventureTextArea brutalismBorder" placeholder="Detail the hook and context of the adventure. Why is the party doing this? What parties are involved?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <div class="plannerSectionHeader">
             <h4 class="plannerSectionTitle">The NPC</h4>
-            <svg on:click={() => promptGen(["npc"])} class="icon" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M182.757,40.076c-16.532,-11.399 -36.566,-18.076 -58.147,-18.076c-56.632,0 -102.61,45.978 -102.61,102.61l-22,-0c-0,-68.774 55.836,-124.61 124.61,-124.61c28.705,0 55.157,9.727 76.235,26.062l23.897,-18.515l15.825,85.389l-78.73,-36.651l20.92,-16.209Zm-126.17,188.931l-20.213,20.213l-26.448,-82.717l82.717,26.448l-20.086,20.086c15.264,9.011 33.059,14.183 52.053,14.183c56.632,-0 102.61,-45.978 102.61,-102.61l22,-0c-0,68.774 -55.836,124.61 -124.61,124.61c-25.091,-0 -48.46,-7.432 -68.023,-20.213Z"/></svg>
+            <div class="iconContainer" on:click={() => promptGen(["npc"])}>
+                <Icons icon={"generate"} size={"medium"} color={"black"} />
+            </div>
         </div>
-        <textarea bind:value={$currentAdventure.notes.npc} class="createAdventureTextArea brutalismBorder" placeholder="Detail the NPC the party will be spending the most time with. What do they look like? How do they speak and act? Why are they in their current situation?" rows="6"/>
+        <textarea on:change={() => npcChange = true} bind:value={$currentAdventure.notes.npc} class="createAdventureTextArea brutalismBorder" placeholder="Detail the NPC the party will be spending the most time with. What do they look like? How do they speak and act? Why are they in their current situation?" rows="6"/>
     </div>
     <div class="createAdventureNotesSection">
         <h4>The party's goal</h4>

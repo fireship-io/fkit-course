@@ -38,17 +38,17 @@ const prompts = {
     [
         {
           "description": "Air Elemental",
-          "clue": "Whirling winds and the sensation of weightlessness",
+          "clue": "whirlwinds",
           "environment": "Dungeon, Airborne"
         },
         {
           "description": "Animated Armor",
-          "clue": "Clanking metal and the sound of shifting plates",
+          "clue": "clanking echoes",
           "environment": "Dungeon, Urban"
         },
         {
           "description": "awakened plant",
-          "clue": "rustling leaves and wriggling twigs",
+          "clue": "leaves that move without a breeze",
           "environment": "Forest, Mountain, Swamp, Cavern"
         },
         {
