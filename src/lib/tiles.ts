@@ -3,6 +3,336 @@ export const tiles = {
         "rooms": [
             {
                 "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r1-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r2-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r3-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r4-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r5-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r6-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r7-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r8-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r9-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r10-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r11-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r12-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r13-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r14-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r15-pillar.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
                 "img": "/tiles/dungeon/r1-v1.webp",
                 "edges": {
                     "NW": {

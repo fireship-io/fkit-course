@@ -537,7 +537,7 @@
             {/each}
     </div>
     {#if $activeTile.rowIndex !== null}
-    <div class="tileInfoBar dungeonBorder" class:tileInfoBarActive="{$activeTile.tileOptions}" class:tileInfoBarActivePlay="{$activeTile.tileOptions && $page.route.id.includes("play")}" class:dungeonBorder="{$activeTile.tileOptions}">
+    <div class="tileInfoBar dungeonBorder" class:tileInfoBarActive="{$activeTile.tileOptions}" class:tileInfoBarActivePlay="{$activeTile.tileOptions && $page.route.id.includes("play ")}" class:dungeonBorder="{$activeTile.tileOptions}">
       <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
         <div on:click={clearActiveTile} class="iconContainer">
           <Icons icon={"remove"} size={"small"} color={"black"} />

@@ -53,12 +53,12 @@ const prompts = {
         },
         {
           "description": "Bandit",
-          "clue": "Hushed whispers and the glint of hidden weapons",
+          "clue": "shattered booze bottles",
           "environment": "Urban, Forest, Mountain"
         },
         {
           "description": "Banshee",
-          "clue": "Eerie wailing and the sense of foreboding",
+          "clue": "Eerie wailing",
           "environment": "Dungeon, Cavern, Swamp"
         },
         {
@@ -68,87 +68,87 @@ const prompts = {
         },
         {
           "description": "Black Dragon",
-          "clue": "Acrid smoke and the deep rumble of a growl",
+          "clue": "Acrid smoke",
           "environment": "Dungeon, Swamp, Cavern"
         },
         {
           "description": "Blink Dog",
-          "clue": "Teleporting woofs and the flicker of disappearing",
+          "clue": "the smell of singed fur",
           "environment": "Forest, Dungeon"
         },
         {
           "description": "Blue Dragon",
-          "clue": "Crackling electricity and the faint odor of ozone",
+          "clue": "the faint odor of ozone",
           "environment": "Dungeon, Desert, Cavern"
         },
         {
           "description": "Bugbear",
-          "clue": "Low growls and the faint rustle of fur",
+          "clue": "the stink of a animal den",
           "environment": "Dungeon, Cavern, Forest"
         },
         {
           "description": "Centaur",
-          "clue": "Hoofbeats and the rustle of leaves",
+          "clue": "Hoofprints",
           "environment": "Forest, Field"
         },
         {
           "description": "Chimera",
-          "clue": "Roaring roars and a mix of distinct animal scents",
+          "clue": "traces of multiple distinct animals",
           "environment": "Mountain, Field"
         },
         {
           "description": "Cloud Giant",
-          "clue": "Distorted voices and a floating sensation",
+          "clue": "wisps of cloud",
           "environment": "Mountain, Airborne"
         },
         {
           "description": "Cultist",
-          "clue": "Chanting voices and the scent of incense",
+          "clue": "occult symbols",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Dire Wolf",
-          "clue": "Deep growls and the sound of snapping jaws",
+          "clue": "slaughtered wildlife",
           "environment": "Forest, Mountain"
         },
         {
           "description": "Displacer Beast",
-          "clue": "Flickering shadows and the illusion of multiple forms",
+          "clue": "pawprints that vanish",
           "environment": "Forest, Dungeon"
         },
         {
           "description": "Djinni",
-          "clue": "Whirling winds and the sweet smell of spices",
+          "clue": "the sweet smell of spices",
           "environment": "Desert, Dungeon, Urban"
         },
         {
           "description": "Doppleganger",
-          "clue": "Mirrored reflections and the flicker of shadows",
+          "clue": "rumors of people seeing themselves",
           "environment": "Dungeon, Urban"
         },
         {
           "description": "Drow Elf",
-          "clue": "Quiet footsteps and the hushed rustle of silk",
+          "clue": "talk of a black skinned stranger",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Druid",
-          "clue": "footprints that change",
+          "clue": "ritualistic wooden carvings",
           "environment": "Forest, Cavern, Mountain, Swamp, Arctic, Desert"
         },
         {
           "description": "Dryad",
-          "clue": "Whispers in the wind and the scent of blossoms",
+          "clue": "trees that whisper in the wind",
           "environment": "Forest"
         },
         {
           "description": "Earth Elemental",
-          "clue": "Grinding stones and the faint tremor of the ground",
+          "clue": "tremors",
           "environment": "Dungeon, Cavern, Mountain"
         },
         {
           "description": "Efreeti",
-          "clue": "Crackling flames and the acrid scent of smoke",
+          "clue": "unseasonable heat",
           "environment": "Desert, Dungeon, Urban"
         },
         {
@@ -158,37 +158,37 @@ const prompts = {
         },
         {
           "description": "Fire Elemental",
-          "clue": "Crackling flames and the scent of burning embers",
+          "clue": "lingering smoke",
           "environment": "Dungeon, Urban, Desert"
         },
         {
           "description": "Flesh Golem",
-          "clue": "Wet slaps and the odor of rotting flesh",
+          "clue": "the stink of rotting flesh",
           "environment": "Dungeon, Urban"
         },
         {
           "description": "Flumph",
-          "clue": "Popping noises and a faint aroma of spices",
+          "clue": "Popping noises",
           "environment": "Dungeon, Urban, Forest"
         },
         {
           "description": "flying snake",
-          "clue": "lots of dead birds",
+          "clue": "dead birds",
           "environment": "Forest, Mountain, Field"
         },
         {
           "description": "Frost Giant",
-          "clue": "Frosty breath and the sound of cracking ice",
+          "clue": "frozen craters",
           "environment": "Arctic, Mountain"
         },
         {
           "description": "Gargoyle",
-          "clue": "Stone scraping on stone and an eerie silence",
+          "clue": "the feeling of being watched",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Gelatinous Cube",
-          "clue": "Squelching noises and the tangy scent of acid",
+          "clue": "trails of slime",
           "environment": "Dungeon, Cavern"
         },
         {
@@ -198,17 +198,17 @@ const prompts = {
         },
         {
           "description": "Ghoul",
-          "clue": "Eerie moans and the stench of decayed flesh",
+          "clue": "Eerie moans",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
           "description": "Giant",
-          "clue": "Tremors in the ground and a looming shadow",
+          "clue": "huge footprints",
           "environment": "Mountain, Field"
         },
         {
           "description": "Giant Bat",
-          "clue": "Flapping wings and echoes bouncing off the walls",
+          "clue": "a shadow that blocks the moon",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
@@ -218,7 +218,7 @@ const prompts = {
         },
         {
           "description": "giant cat",
-          "clue": "hissing and mewling in the night",
+          "clue": "deep hissing and mewling in the night",
           "environment": null
         },
         {
@@ -228,12 +228,12 @@ const prompts = {
         },
         {
           "description": "Giant Crab",
-          "clue": "Clicking claws and the salty smell of seawater",
+          "clue": "the smell of brine",
           "environment": "Underwater, Coastal"
         },
         {
           "description": "Giant Eagle",
-          "clue": "Piercing cries and the sound of powerful wingbeats",
+          "clue": "Piercing shrieks",
           "environment": "Mountain, Airborne"
         },
         {
@@ -243,27 +243,27 @@ const prompts = {
         },
         {
           "description": "Giant Octopus",
-          "clue": "Suction cup sounds and the smell of oceanic musk",
+          "clue": "the smell of the ocean",
           "environment": "Underwater"
         },
         {
           "description": "Giant Owl",
-          "clue": "Silent wings and the hoot of nocturnal hunting",
+          "clue": "A silent shadow that glides through the night sky",
           "environment": "Forest, Dungeon, Mountain"
         },
         {
           "description": "Giant Rat",
-          "clue": "Squeaking noises and chewed-up scraps of food",
+          "clue": "food stores have been raided",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Giant Scorpion",
-          "clue": "Clicking pincers and the sound of scuttling claws",
+          "clue": "poisoned cattle",
           "environment": "Dungeon, Cavern, Desert"
         },
         {
           "description": "Giant Shark",
-          "clue": "Rushing water and the ominous shadow beneath the waves",
+          "clue": "an ominous shadow beneath the waves",
           "environment": "Underwater, Coastal"
         },
         {
@@ -278,62 +278,57 @@ const prompts = {
         },
         {
           "description": "Giant Toad",
-          "clue": "Wet croaking and the slurping of a long tongue",
+          "clue": "giant tadpoles",
           "environment": "Swamp, Forest"
         },
         {
           "description": "Gibbering Mouther",
-          "clue": "Gurgling sounds and an unsettling cacophony",
+          "clue": "Gurgling sounds",
           "environment": "Dungeon, Cavern"
         },
         {
           "description": "Gnoll",
-          "clue": "Howling laughter and the smell of wet fur",
+          "clue": "Howling laughter",
           "environment": "Dungeon, Cavern, Desert"
         },
         {
           "description": "Goblin",
-          "clue": "High-pitched laughter and the smell of rotting food",
+          "clue": "High-pitched laughter",
           "environment": "Dungeon, Urban, Forest"
         },
         {
           "description": "Golem",
-          "clue": "Creaking joints and the grinding of stone",
+          "clue": "Deep footprints",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Gorgon",
-          "clue": "Metallic clinking and the scent of rust",
+          "clue": "petrified victims",
           "environment": "Dungeon, Cavern, Field"
         },
         {
           "description": "Green Dragon",
-          "clue": "Lingering scent of acid and the rustling of leaves",
+          "clue": "air that hurts to breath",
           "environment": "Forest, Swamp"
         },
         {
           "description": "Grell",
-          "clue": "Squelching suction and the sound of a beak snapping",
+          "clue": "the broken bones of wildlife",
           "environment": "Dungeon, Cavern"
         },
         {
           "description": "Harpy",
-          "clue": "Haunting melodies and the sound of beating wings",
-          "environment": "Mountain, Forest"
-        },
-        {
-          "description": "Harpy",
-          "clue": "Haunting melodies and the sound of beating wings",
+          "clue": "wailing shrieks",
           "environment": "Mountain, Forest"
         },
         {
           "description": "Hellhound",
-          "clue": "Guttural growls and the smell of sulfur",
+          "clue": "Ashen pawprints",
           "environment": "Dungeon, Urban, Swamp"
         },
         {
           "description": "Hill Giant",
-          "clue": "Earthquaking footfalls and deep, rumbling laughter",
+          "clue": "landslides",
           "environment": "Mountain, Field"
         },
         {
@@ -348,27 +343,27 @@ const prompts = {
         },
         {
           "description": "Hook Horror",
-          "clue": "Echoing clicks and the scratching of talons",
+          "clue": "Echoing clicks",
           "environment": "Dungeon, Cavern"
         },
         {
           "description": "Imp",
-          "clue": "Sinister chuckling and the faint whiff of brimstone",
+          "clue": "the faint whiff of brimstone",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Intellect Devourer",
-          "clue": "Strange buzzing and a metallic taste in the air",
+          "clue": "Strange buzzing",
           "environment": "Dungeon, Urban"
         },
         {
           "description": "Invisible Stalker",
-          "clue": "Whispering winds and the feeling of being watched",
+          "clue": "Whispering winds",
           "environment": "Dungeon, Urban"
         },
         {
           "description": "Iron Golem",
-          "clue": "Heavy footfalls and the metallic clang of movement",
+          "clue": "Heavy footfalls",
           "environment": "Dungeon, Urban"
         },
         {
@@ -383,7 +378,7 @@ const prompts = {
         },
         {
           "description": "Kraken",
-          "clue": "Deep rumbling and the sound of crashing waves",
+          "clue": "Deep rumbling",
           "environment": "Underwater, Coastal"
         },
         {
@@ -393,37 +388,37 @@ const prompts = {
         },
         {
           "description": "Lich",
-          "clue": "Whispers of forbidden knowledge and a cold aura",
+          "clue": "a plague of nightmares",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
           "description": "mage",
-          "clue": "a stranger asking for strange ingredients and curios",
+          "clue": "a stranger asking for curious things",
           "environment": null
         },
         {
           "description": "Manticore",
-          "clue": "Roaring growls and the sound of flapping wings",
+          "clue": "roars on the wind",
           "environment": "Mountain, Desert"
         },
         {
           "description": "Medusa",
-          "clue": "The sound of slithering scales and a lingering hiss",
+          "clue": "petrified victims",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
           "description": "Merfolk",
-          "clue": "Soft singing and the scent of sea breeze",
+          "clue": "ethereal singing",
           "environment": "Underwater, Coastal"
         },
         {
           "description": "mimic",
-          "clue": "objects appearing and disappearing",
+          "clue": "objects that move when nobody is looking",
           "environment": null
         },
         {
           "description": "Minotaur",
-          "clue": "Heavy footsteps and the distant sound of snorting",
+          "clue": "Snorting and violence",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
@@ -443,12 +438,12 @@ const prompts = {
         },
         {
           "description": "Ochre Jelly",
-          "clue": "Squishy movements and the sound of dissolving matter",
+          "clue": "dissolved trenches",
           "environment": "Dungeon, Cavern, Swamp"
         },
         {
           "description": "Ogre",
-          "clue": "Deep grunts and the thud of heavy footsteps",
+          "clue": "scraps of meat and the stink of sweat",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
@@ -463,47 +458,47 @@ const prompts = {
         },
         {
           "description": "Owlbear",
-          "clue": "Deep hoots and the rustling of underbrush",
+          "clue": "Deep hoots",
           "environment": "Forest, Mountain"
         },
         {
           "description": "Pegasus",
-          "clue": "Hooves on clouds and the soft flutter of wings",
+          "clue": "a flying shimmer in the sunlight",
           "environment": "Airborne, Mountain"
         },
         {
           "description": "Pixie",
-          "clue": "Musical laughter and the faint glimmer of fairy dust",
+          "clue": "glimmering dust in the air",
           "environment": "Forest, Urban"
         },
         {
           "description": "quaggoth",
-          "clue": "mint coloured fur and claw marks",
+          "clue": "mint coloured fur",
           "environment": null
         },
         {
           "description": "Red Dragon",
-          "clue": "Sulphurous fumes and the heat of an approaching fire",
+          "clue": "ash falling from the sky",
           "environment": "Dungeon, Mountain"
         },
         {
           "description": "revenant",
-          "clue": "a mysterious stranger in the night",
+          "clue": "a mysterious stranger pursuing a local",
           "environment": null
         },
         {
           "description": "Rust Monster",
-          "clue": "all their tools rusting away",
+          "clue": "rusted metal",
           "environment": "Dungeon, Urban, Cavern"
         },
         {
           "description": "Sahuagin",
-          "clue": "Bubbling and the smell of saltwater",
+          "clue": "the smell of saltwater",
           "environment": "Underwater"
         },
         {
           "description": "Satyr",
-          "clue": "Lively flute tunes and the smell of nature",
+          "clue": "Lively flute tunes",
           "environment": "Forest"
         },
         {
@@ -518,7 +513,7 @@ const prompts = {
         },
         {
           "description": "Sea Hag",
-          "clue": "Cackling laughter and the pungent odor of decay",
+          "clue": "Cackling laughter and the pungent odor of low tide",
           "environment": "Underwater, Coastal, Swamp"
         },
         {
@@ -528,27 +523,22 @@ const prompts = {
         },
         {
           "description": "Specter",
-          "clue": "Wisps of ethereal mist and a chilling touch",
+          "clue": "Wisps of ethereal mist",
           "environment": "Dungeon, Cavern, Urban"
         },
         {
-          "description": "specter",
-          "clue": "a plague of nightmares",
-          "environment": null
-        },
-        {
           "description": "Sprite",
-          "clue": "Faint tinkling sounds and the scent of flowers",
+          "clue": "Faint tinkling sounds",
           "environment": "Forest, Dungeon"
         },
         {
           "description": "Storm Giant",
-          "clue": "Crackling thunder and the scent of ozone",
+          "clue": "sudden storms",
           "environment": "Mountain, Airborne"
         },
         {
           "description": "Treant",
-          "clue": "Creaking wood and the aroma of fresh soil",
+          "clue": "Creaking wood and the scent of pine needles",
           "environment": "Forest"
         },
         {
@@ -563,37 +553,37 @@ const prompts = {
         },
         {
           "description": "Unicorn",
-          "clue": "Distant whinnies and the aroma of purity",
+          "clue": "Distant whinnies and a sense of calm",
           "environment": "Forest"
         },
         {
-          "description": "Vampiric Mist",
-          "clue": "Whispers in the air and a cold misty presence",
+          "description": "Vampire",
+          "clue": "victims drained of blood",
           "environment": "Dungeon, Swamp, Cavern"
         },
         {
           "description": "Water Elemental",
-          "clue": "Dripping water and the rhythmic sound of waves",
+          "clue": "pools of water",
           "environment": "Dungeon, Underwater"
         },
         {
           "description": "Werewolf",
-          "clue": "Eerie howls carried on the wind and the smell of fur",
+          "clue": "Eerie howls carried on the wind",
           "environment": "Forest, Mountain"
         },
         {
           "description": "White Dragon",
-          "clue": "Icy breath and the sound of cracking ice",
+          "clue": "unseasonable snowfall",
           "environment": "Arctic, Mountain"
         },
         {
           "description": "wight",
-          "clue": "the stink of rotting flesh and wisps of mysterious light",
+          "clue": "wisps of mysterious light",
           "environment": null
         },
         {
           "description": "Winter Wolf",
-          "clue": "Frosty breath and the howl of an icy wind",
+          "clue": "Frosty pawprints",
           "environment": "Arctic, Forest"
         },
         {
@@ -608,13 +598,8 @@ const prompts = {
         },
         {
           "description": "Yeti",
-          "clue": "Roaring growls and the crunch of snow underfoot",
+          "clue": "Roars and missing people",
           "environment": "Arctic, Mountain"
-        },
-        {
-          "description": "Yuan-Ti",
-          "clue": "Serpentine hissing and the flicker of forked tongues",
-          "environment": "Dungeon, Cavern, Swamp"
         },
         {
           "description": "Zombie",
@@ -623,7 +608,7 @@ const prompts = {
         },
         {
           "description": "Zombie Dragon",
-          "clue": "Rotting flesh and the faint sound of wings flapping",
+          "clue": "dead skin falling from the sky",
           "environment": "Dungeon, Swamp, Cavern"
         },
         {
