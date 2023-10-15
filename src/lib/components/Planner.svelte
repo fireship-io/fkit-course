@@ -49,7 +49,7 @@
         generateMultiplePrompts(prompts);
         let monsterString = `You're fighting ${((vowelCheck($monster.description) ? 'an ' : 'a '))} ${$monster.description} with ${$offensiveQuirk.description} and ${$defensiveQuirk.description}. Signs of them include ${$monster.clue}, ${$offensiveQuirk.clue}, and ${$defensiveQuirk.clue}.`;
         let questString = `${$questLocation} ${$problem}.`;
-        let npcString = `A ${$npc.descriptor} ${$npc.sex} ${$npc.race} whose ${$npc.personality}. They wear ${$npc.clothes}, speak ${$npc.speech}, and ${$npc.idiosyncrasy}.`
+        let npcString = `${((vowelCheck($npc.descriptor) ? 'An' : 'A'))} ${$npc.descriptor} ${$npc.race} whose ${$npc.personality}. They wear ${$npc.clothes}, speak ${$npc.speech}, and ${$npc.idiosyncrasy}.`
         let titleString = $currentAdventure.title
 
         if ($currentAdventure.adventureId === "") {
@@ -84,6 +84,10 @@
         }
         if (npcChange) {
             npcString = $currentAdventure.notes.npc;
+        }
+
+        if ($monster.description === "" && !enemyChange) {
+            monsterString = "";
         }
 
         if ($questLocation === "" && !questChange) {
