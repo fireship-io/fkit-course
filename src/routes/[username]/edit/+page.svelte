@@ -26,7 +26,7 @@
       title: "",
       url: "https://",
     };
-    const formData = writable(formDefaults);
+    const formData = writable({...formDefaults});
   
     let showForm = false;
   
@@ -50,11 +50,7 @@
         }),
       });
   
-      formData.set({
-        icon: "",
-        title: "",
-        url: "",
-      });
+      formData.set({...formDefaults});
   
       showForm = false;
     }
@@ -74,7 +70,7 @@
     }
   
     function cancelLink() {
-      formData.set(formDefaults);
+      formData.set({...formDefaults});
       showForm = false;
     }
   </script>
