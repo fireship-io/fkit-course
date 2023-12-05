@@ -1,6 +1,4 @@
 <script>
-  import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
-
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
     import { activeTile, setActiveTile } from "$lib/dashboardState";
@@ -422,10 +420,11 @@
     .interestPoint {
       width: 100%;
       padding: 0.4em 0em;;
-      border-bottom: 0.1em solid var(--batlas-black);
+      border: 0.25em solid var(--batlas-black);
+      border-radius: 2em;
       display: grid;
       position: relative;
-      grid-template-columns: 4fr 1fr 1fr;
+      grid-template-columns: 1fr 4fr 1fr;
       grid-template-rows: auto;
       cursor: pointer;
     }
@@ -452,7 +451,20 @@
     .interestPointInfo {
       display: none;
       grid-column: 1/4;
-      padding: 0.4em;
+      padding: 1em;
+      border:none;
+      background-color: transparent;
+      outline: none;
+      font-family: var(--batlas-font);
+    }
+
+    .interestPointInfo:focus {
+      display: block;
+      grid-column: 1/4;
+      padding: 1em;
+      border:none;
+      background-color: transparent;
+      outline: none;
     }
 
     .interestPointPlay {
@@ -565,40 +577,39 @@
 
 </style>
 
-<svelte:window bind:innerWidth = {screenSize}/>
-
-<div class="mapContainer">
-  {#if !$page.route.id.includes("play")}
-    <div class="mapSettings">
-      <div on:click={handleMapGenerate} class="iconContainer brutalismBorderWhite mapGenButton">
-        <Icons icon={"generate"} size={"medium"} color={"white"} />
-      </div>
-    </div>
-  {/if}
-    <div class="map">
-            {#each $currentAdventure.map as row, i}
-                <div class="gridRow">
-                    {#each row as cell, j}
-                    <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
-                      {#if cell.tileNotes != "" || cell.interestPoints.length > 0}
-                      <div class="tileNotesIndicator">
-                        <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
-                      </div>
-                      {/if}
-                      {#if  !$page.route.id.includes("play") || cell.interestPoints.length > 0 || cell.tileNotes != ""}
-                            <div class="tileSelectorHoverDetector">
-                                <div on:click={() => handleTileClick(cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
-                            </div>
-                      {/if}
-                        <img src="/img/{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
+         <div class="interestPointsList hideScrollbar">
+            {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.length > 0}
+              {#each $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints as interestPoint, i}
+                <div  class="interestPoint" class:interestPointActive={false} class:interestPointPlay={$page.route.id.includes("play")}>
+                  <div on:click={(e) => toggleActive(e)} class="iconContainer">
+                    <Icons icon={"downChevron"} size={"medium"} color={"black"} />
+                  </div>
+                  {#if !$page.route.id.includes("play")}
+                    <textarea class="interestPointTitle" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Interesting thing" rows="1" maxlength="22" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].title}></textarea>
+                  {:else}
+                  <div class="interestPointTitle">
+                    <p>{interestPoint.title}</p>
+                  </div>
+                  {/if}
+                  {#if !$page.route.id.includes("play")}
+                    <div on:click={() => handlePointOfInterestDelete(interestPoint)} class="iconContainer">
+                      <Icons icon={"remove"} size={"medium"} color={"black"} />
                     </div>
-                    {/each}
+                  {/if}
+                  {#if !$page.route.id.includes("play")}
+                    <textarea class="interestPointInfo" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Info about the thing" rows="5" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].info}></textarea>
+                  {:else}
+                  <div class="interestPointInfo">
+                    <p>{interestPoint.info}</p>
+                  </div>
+                  {/if}
                 </div>
-            {/each}
-    </div>
-    {#if $activeTile.rowIndex !== null}
-      <ActiveTileOptionsWindows />
-    {/if}
-</div>
-
+              {/each}
+            {/if}
+            {#if !$page.route.id.includes("play")}
+              <div on:click={() => handlePointOfInterestCreation()} class="iconContainer centerAlignIcon pointOfInterestAddIcon">
+                <Icons icon={"add"} size={"large"} color={"black"} />
+              </div>
+            {/if}
+          </div>
 
