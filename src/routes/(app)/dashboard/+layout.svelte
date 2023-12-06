@@ -58,7 +58,7 @@
         grid-template-columns: repeat(17, 1fr);
         grid-template-rows: 1fr 9fr;
         margin-top: 2em;
-        max-height: calc(100lvh - 4em);
+        max-height: calc(100% - 2em);
         height: 100%;
     }
 

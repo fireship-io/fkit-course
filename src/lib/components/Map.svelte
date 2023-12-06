@@ -1,4 +1,6 @@
 <script>
+  import UserControls from './UserControls.svelte';
+
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
 
     import { page } from '$app/stores';
@@ -28,9 +30,14 @@
         mapDisabled = false;
     }
 
-    function handleTileClick(cell, i, j){
+    function handleTileClick(e, cell, i, j){
       mapDisabled = true;
       setActiveTile(cell, i, j)
+      let floatingTiles = document.getElementsByClassName("tileFloat");
+      for (let i = 0; i < floatingTiles.length; i++) {
+        floatingTiles[i].classList.remove("tileFloat");
+      }
+      e.target.closest('.gridTile').classList.toggle("tileFloat");
     }
 
     function clearActiveTile(){
@@ -86,11 +93,9 @@
         justify-content: space-between;
         align-items: stretch;
         grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-rows: 1fr;
         height: 100%;
-        max-height: calc(100lvh - 4em);
         width: 100%;
-        overflow-y: hidden;
         position: relative;
     }
 
@@ -183,7 +188,6 @@
   .tileOptionsBar {
     display: block;
     width: calc(100% - 16em);
-
   }
 
   .tileInfoBar {
@@ -316,7 +320,7 @@
     transition: all 0.3s ease;
   }
 
-  .tileSelectorHoverDetector:hover + img {
+  .tileSelectorHoverDetector:hover + img, .tileFloat img {
     transform: translate(0em, -0.5em);
   }
 
@@ -528,6 +532,40 @@
       border-radius: 0.5em 0em 0em 0.5em;
     }
 
+    .dialogueContainer {
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: flex-end;
+      height: 100%;
+      max-height: calc(100lvh - 4em);
+      width: 100%;
+      position: absolute;
+      bottom: 2em;
+      right: 2em;
+      pointer-events: none;
+      gap: 2em;
+    }
+
+    :global(.dialogueContainer *) {
+      pointer-events: auto;
+    }
+    .addButton {
+      position: absolute;
+      bottom: 0em;
+      right: 0em;
+      width: 4em;
+      height: 4em;
+      border-radius: 2em;
+      background-color: var(--batlas-black);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 999;
+    }
+
   @media screen and (max-width: 1500px) {
     .mapSettings {
       flex-direction: column;
@@ -568,26 +606,19 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 <div class="mapContainer">
-  {#if !$page.route.id.includes("play")}
-    <div class="mapSettings">
-      <div on:click={handleMapGenerate} class="iconContainer brutalismBorderWhite mapGenButton">
-        <Icons icon={"generate"} size={"medium"} color={"white"} />
-      </div>
-    </div>
-  {/if}
     <div class="map">
             {#each $currentAdventure.map as row, i}
                 <div class="gridRow">
                     {#each row as cell, j}
                     <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
-                      {#if cell.tileNotes != "" || cell.interestPoints.length > 0}
+                      {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
                       <div class="tileNotesIndicator">
                         <svg class="icon" viewBox="0 0 188 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,9.381l0,240.732c0,5.178 -4.203,9.381 -9.381,9.381l-168.863,0c-5.177,0 -9.381,-4.203 -9.381,-9.381l-0,-240.732c-0,-5.177 4.204,-9.381 9.381,-9.381l168.863,-0c5.178,-0 9.381,4.204 9.381,9.381Zm-19.759,126.492c0,-0.396 -0.321,-0.717 -0.718,-0.717l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.717l0,12.92c0,0.397 0.322,0.718 0.718,0.718l146.671,0c0.397,0 0.718,-0.321 0.718,-0.718l0,-12.92Zm-42.77,81.078c0,-0.396 -0.321,-0.718 -0.718,-0.718l-103.901,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l103.901,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm42.77,-108.103c0,-0.397 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.321 -0.718,0.718l0,12.92c0,0.396 0.322,0.717 0.718,0.717l146.671,0c0.397,0 0.718,-0.321 0.718,-0.717l0,-12.92Zm0,54.051c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,-135.358c0,-0.926 -0.752,-1.678 -1.678,-1.678l-144.75,-0c-0.927,-0 -1.679,0.752 -1.679,1.678l0,30.214c0,0.927 0.752,1.679 1.679,1.679l144.75,-0c0.926,-0 1.678,-0.752 1.678,-1.679l0,-30.214Zm0,54.281c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,-0c-0.396,-0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Zm0,108.103c0,-0.396 -0.321,-0.718 -0.718,-0.718l-146.671,0c-0.396,0 -0.718,0.322 -0.718,0.718l0,12.92c0,0.396 0.322,0.718 0.718,0.718l146.671,-0c0.397,-0 0.718,-0.322 0.718,-0.718l0,-12.92Z"/></svg>
                       </div>
                       {/if}
-                      {#if  !$page.route.id.includes("play") || cell.interestPoints.length > 0 || cell.tileNotes != ""}
+                      {#if  !$page.route.id.includes("play")}
                             <div class="tileSelectorHoverDetector">
-                                <div on:click={() => handleTileClick(cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
+                                <div on:click={(e) => handleTileClick(e, cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
                             </div>
                       {/if}
                         <img src="/img/{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
@@ -596,9 +627,13 @@
                 </div>
             {/each}
     </div>
-    {#if $activeTile.rowIndex !== null}
-      <ActiveTileOptionsWindows />
-    {/if}
+    <div class="dialogueContainer">
+      <UserControls/>
+      {#if $activeTile.rowIndex !== null}
+        <ActiveTileOptionsWindows />
+      {/if}
+    </div>
 </div>
+<div class="tileFloat"><img></div>
 
 

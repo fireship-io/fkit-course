@@ -8,11 +8,1037 @@
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
+    import { tiles } from '$lib/tiles';
 
     let screenSize = 0;
     let mapDisabled = false;
 
     let disabledMapGenButton = false;
+
+    let windowMode = "tile";
+    let tileMode = "rooms";
+
+
+    let chosenTileOptions = {
+      type: tileMode,
+      connections: {
+        NE: true,
+        SE: true,
+        NW: true,
+        SW: true
+      }
+    }
+
+    let controlTilesArray = {
+      "type": {
+        "room": [
+          {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r1-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r2-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r3-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r4-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r5-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r6-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r7-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r8-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r9-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r10-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r11-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r12-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r13-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r14-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/r15-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            }
+          ],
+        "hall": [
+          {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c1-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c2-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c3-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c4-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c5-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c6-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c7-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c8-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c9-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c10-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c11-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c12-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c13-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c14-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/c15-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            }
+          ],
+          "descent": [
+          {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d1-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d2-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d3-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d4-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d5-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d6-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d7-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d8-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d9-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d10-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d11-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d12-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d13-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d14-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": true,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": false,
+                        "type": "tile"
+                    }
+                }
+            },
+            {
+                "set": "simplified_shapeset",
+                "img": "/tiles/dungeon/d15-v1.webp",
+                "edges": {
+                    "NW": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "NE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SE": {
+                        "connection": false,
+                        "type": "tile"
+                    },
+                    "SW": {
+                        "connection": true,
+                        "type": "tile"
+                    }
+                }
+            }
+          ]
+      }
+    }
+
+    let controlTile = tiles.type.rooms[0];
+    let controlTiles = tiles.type.rooms;
+
+
+    function updateChosenTileOptionImage(chosenTileOptions){
+      let newControlTiles = tiles.type[chosenTileOptions.type].filter(tile => tile.edges.NE.connection === chosenTileOptions.connections.NE && tile.edges.SE.connection === chosenTileOptions.connections.SE && tile.edges.NW.connection === chosenTileOptions.connections.NW && tile.edges.SW.connection === chosenTileOptions.connections.SW);
+      controlTile = newControlTiles[0];
+      controlTiles = newControlTiles;
+    }
 
 
 
@@ -26,6 +1052,10 @@
         currentAdventure.set({ ...$currentAdventure, map: newMap});
         activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null});
         mapDisabled = false;
+        let floatingTiles = document.getElementsByClassName("tileFloat");
+        for (let i = 0; i < floatingTiles.length; i++) {
+          floatingTiles[i].classList.remove("tileFloat");
+        }
     }
 
     function handleTileClick(cell, i, j){
@@ -56,7 +1086,7 @@
     }
 
     function toggleActive(e) {
-      e.target.closest('.interestPoint').classList.toggle("interestPointActive");
+      e.target.closest('.tileOptionToggle').classList.toggle("interestPointActive");
     }
 
     function handlePointOfInterestDelete(interestPoint){
@@ -73,41 +1103,30 @@
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
+    function changeWindowMode(newMode){
+      windowMode = newMode;
+    }
+    
+    function changeTileMode(newMode){
+      tileMode = newMode;
+      chosenTileOptions.type = tileMode;
+      updateChosenTileOptionImage(chosenTileOptions);
+    }
+
+    function toggleActiveConnection(e, direction) {
+      e.target.closest('.control').classList.toggle("activeConnection");
+      chosenTileOptions.connections[direction] = !chosenTileOptions.connections[direction];
+      updateChosenTileOptionImage(chosenTileOptions);
+    }
+
+    function toggleInfoBarActive() {
+      activeTileOptionsWindow = !activeTileOptionsWindow;
+    }
 
 </script>
 
 <style>
 
-
-    .mapContainer {
-        background-color: var(--batlas-black);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: stretch;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        height: 100%;
-        max-height: calc(100lvh - 4em);
-        width: 100%;
-        overflow-y: hidden;
-        position: relative;
-    }
-
-    .map::-webkit-scrollbar {
-        color: var(--batlas-black);
-        background-color: var(--batlas-black);
-    }
-
-    .map::-webkit-scrollbar-thumb {
-        color: var(--batlas-black);
-        background: var(--batlas-black);
-        border: 0.1em solid var(--batlas-white);
-    }
-
-    .map::-webkit-scrollbar-corner {
-        display: none;
-    }
 
     .tileOptions::-webkit-scrollbar {
         color: var(--batlas-black);
@@ -126,64 +1145,14 @@
 
 
 
-    .map {
-        overflow:scroll;
-        background-color: var(--batlas-black);
-        height: 100%;
-        max-height: calc(100lvh - 2em);
-    }
-
-
-    .gridTile{
-    width: 10em;
-    height: 7.5em;
-    margin: 0px;
-    padding: 0px;
-    overflow: visible;
-    background-size: cover;
-    background-position: bottom ;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    pointer-events: none;
-  }
-
-  
-  .gridTile img {
-    width: 10em;
-    object-fit: cover;
-    object-position: bottom center;
-    overflow: visible;
-    pointer-events: none;
-  }
-
-  .gridRow {
-    display: flex;
-    flex-direction: row;
-    padding: 0px;
-    margin: 0px;
-    overflow: visible;
-    margin-top: -5em;
-  }
-  
-  .gridRow:nth-child(1){
-    margin-top: 3em;
-  }
-  
-  .gridRow:nth-last-child(1){
-    margin-bottom: 3em;
-  }
-  
-  .gridRow:nth-child(even){
-    transform: translateX(5em);
-  }
+   
 
   .tileOptionsBar {
     display: block;
-    width: calc(100% - 16em);
-
+    width: 100%;
+    height: auto;
+    overflow-y: scroll;
+    border-radius: 2em;
   }
 
   .tileInfoBar {
@@ -226,16 +1195,6 @@
     margin-bottom: 2em;
   }
 
-  .interestPointsList {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0.4em;
-    height: 100%;
-    width: 100%;
-    overflow-y: scroll;
-  }
 
   .tileOptionsBarActive{
         display: block;
@@ -245,25 +1204,23 @@
 
   .tileInfoBarActive{
         display: block;
-        position: absolute;
-        top: 0em;
-        right: 0em;
         width: 22em;
-        height: 100%;
+        height: calc(100% - 2em);
   }
 
 
   .tileOptions {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-end;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    background-color: var(--batlas-black);
-    gap: 1em;
-    padding: 0em 1em;
-    padding-top: 1em;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: var(--batlas-white);
+    gap: 2em;
+    padding: 0em;
+    width: 100%;
   }
 
   .tileOption {
@@ -271,14 +1228,16 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    aspect-ratio: 1/1;
+    aspect-ratio: 3/2;
     transition: all 0.1s ease-in-out;
-    border: 0.2em solid var(--batlas-black);  
+    border: 0.25em solid var(--batlas-black);
+    border-radius: 2em;
+    background-color: var(--batlas-black);
+    width: calc(50% - 1em); 
   }
 
   .tileOption:hover {
     cursor: pointer;
-    border: 0.2em solid var(--batlas-white);
   }
 
   .hideScrollbar::-webkit-scrollbar {
@@ -292,8 +1251,13 @@
 
   .tileOption img {
     height: 100%;
-    width: 6em;
+    width: 100%;
     object-fit: contain;
+    transition: all 0.3s ease;
+  }
+
+  .tileOption img:hover {
+    transform: scale(1.1);
   }
 
 
@@ -488,23 +1452,51 @@
     }
 
     .roomOptionsToggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
       width: 100%;
       background-color: var(--batlas-white);
-      border: 0.25em solid var(--batlas-black);
-      border-radius: 3em;
       text-align: center;
     }
 
-    .roomOptionsToggle p {
+    .roomOptionsToggle a {
+      width: 35%;
       margin: 0px;
-      padding: 0.25em;
+      padding: 0.5em 2em;
       font-weight: 600;
-      border-radius: 0.5em 0em 0em 0.5em;
+      line-height: 1;
+      border: 0.25em solid var(--batlas-black);
+      border-radius: 2em;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
     }
 
-    .roomOptionsToggleActive {
+    p.tileOptionsToggle{
+      padding: 0.5em;
+      width: auto;
+      border: 0.25em solid var(--batlas-black);
+      border-radius: 2em;
+      padding: 0.5em 1em;
+      cursor: pointer;
+    }
+
+    .tileOptionsToggleContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+      gap: 2em;
+      background-color: var(--batlas-white);
+      text-align: center;
+    }
+
+    .tileOptionsToggleContainer .active {
+      background-color: var(--batlas-black);
+      color: var(--batlas-white);
+    }
+
+    .roomOptionsToggleActive, .tileOptionsToggle:hover {
       background-color: var(--batlas-black);
       color: var(--batlas-white);
     }
@@ -519,6 +1511,19 @@
       text-align: center;
     }
 
+    .roomTitle {
+      background: transparent;
+      outline: none;
+      border: none;
+      color: var(--batlas-black);
+      margin: 0px;
+      padding: 0.25em 0.5em;
+      font-weight: 600;
+      font-size: 1em;
+      border-radius: 0.5em 0em 0em 0.5em;
+      font-family: var(--batlas-font);
+    }
+
     .roomOptionsTitle p {
       background-color: var(--batlas-black);
       color: var(--batlas-white);
@@ -526,6 +1531,62 @@
       padding: 0.25em;
       font-weight: 600;
       border-radius: 0.5em 0em 0em 0.5em;
+    }
+
+    .connectionsControls {
+      display: flex;
+      gap: 2em;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      background-color: var(--batlas-white);
+      text-align: center;
+    }
+
+    .connectionsController {
+      position: relative;
+      display: block;
+      width: calc(100% - 4em);
+      height: auto;
+    }
+
+    .control {
+      position: absolute;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      opacity: 0.5;
+    }
+
+    .control:hover {
+      transform: translateY(-0.25em);
+    }
+
+    .NEControl {
+      top: 1em;
+      right: 1em;
+    }
+    .SEControl {
+      bottom: 2em;
+      right: 1em;
+    }
+    .NWControl {
+      top: 1em;
+      left: 1em;
+    }
+    .SWControl {
+      bottom: 2em;
+      left: 1em;
+    }
+
+    .activeConnection {
+      opacity: 1;
+    }
+
+    .centralControl {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
     }
 
   @media screen and (max-width: 1500px) {
@@ -565,35 +1626,52 @@
 
 </style>
 
-<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.tileOptions}" class:tileInfoBarActivePlay="{$activeTile.tileOptions && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.tileOptions}">
+<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}">
       <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
         <div class="roomOptionsToggle">
-          <p class="roomOptionsToggleActive">Tile</p>
-          <p>Notes</p>
+          <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
+          <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
         </div>
-        <div class="roomOptionsTitle">
-          <p>Title</p>
-        </div>
-        {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
-          {#if !$page.route.id.includes("play")}
-            <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
-          {:else}
-            <p class="roomDescription">{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}</p>
+        {#if windowMode === "notes"}
+          <div class="roomOptionsTitle">
+            <p>Title</p>
+            <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
+          </div>
+          {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
+            {#if !$page.route.id.includes("play")}
+              <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
+            {:else}
+              <p class="roomDescription">{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}</p>
+            {/if}
           {/if}
+            <InterestPointList/>
+        {:else if windowMode === "tile"}
+        <div class="connectionsControls">
+          <p>Connections</p>
+          <div class="connectionsController">
+            <img class="NEControl control activeConnection" src="/img/tileOptionsArrowNorthEast.webp" alt="North East Control" on:click={(e) => toggleActiveConnection(e, "NE")}/>
+            <img class="SEControl control activeConnection" src="/img/tileOptionsArrowSouthEast.webp" alt="South East Control" on:click={(e) => toggleActiveConnection(e, "SE")}/>
+            <img class="NWControl control activeConnection" src="/img/tileOptionsArrowNorthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "NW")}/>
+            <img class="SWControl control activeConnection" src="/img/tileOptionsArrowSouthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "SW")}/>
+            <img class="centralControl activeConnection" src="/img/{controlTile.img}" alt="Empty Square"/>
+          </div>
+          <div class="tileOptionsToggleContainer">
+            <p class="tileOptionsToggle" class:active="{tileMode === 'rooms'}" on:click={() => changeTileMode('rooms')}>Room</p>
+            <p class="tileOptionsToggle" class:active="{tileMode === 'connectors'}" on:click={() => changeTileMode('connectors')}>Hall</p>
+            <p class="tileOptionsToggle" class:active="{tileMode === 'descenders'}" on:click={() => changeTileMode('descenders')}>Descent</p>
+          </div>
+        </div>
+        <div class="tileOptionsBar">
+          <div class="tileOptions hideScrollbar">
+              {#if $activeTile.rowIndex != null}
+                  {#each controlTiles as tile}
+                      <div on:click={() => setChosenTile(tile, $activeTile.rowIndex, $activeTile.columnIndex)} class="tileOption">
+                          <img src="/img/{tile.img}" alt="{tile.img}" />
+                      </div>
+                  {/each}
+              {/if}
+          </div>
+        </div>
         {/if}
-          <InterestPointList/>
-        </div>
+          </div>
     </div>
-
-    <div class="tileOptionsBar" class:tileOptionsBar="{$activeTile.tileOptions}">
-      <div class="tileOptions" class:hideScrollbar="{!$activeTile.tileOptions}">
-          {#if $activeTile.tileOptions}
-              {#each $activeTile.tileOptions as tile}
-                  <div on:click={() => setChosenTile(tile, $activeTile.rowIndex, $activeTile.columnIndex)} class="tileOption">
-                      <img src="/img/{tile.img}" alt="{tile.img}" />
-                  </div>
-              {/each}
-          {/if}
-      </div>
-  </div>
-
