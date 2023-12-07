@@ -1,13 +1,11 @@
 <script>
-  import TileNotesIndicator from './TileNotesIndicator.svelte';
-
   import UserControls from './UserControls.svelte';
 
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
 
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
+    import { activeTile, setActiveTile } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
@@ -20,12 +18,12 @@
 
     function notesOrder() {
       let tileNotesIndicators = document.getElementsByClassName("tileNotesIndicator");
+      console.log(tileNotesIndicators);
       for (let i = 0; i < tileNotesIndicators.length; i++) {
-        tileNotesIndicators[i].removeChild(tileNotesIndicators[i].firstChild);
         let index = document.createElement("p");
         index.style = "margin: 0px; padding: 0px; font-size: 0.8em; font-weight: 600; color: white;";
         index.innerHTML = i + 1;
-        tileNotesIndicators[i].appendChild(index);
+        tileNotesIndicators[i].replaceChildren(index);
       }
     }
 
@@ -92,6 +90,10 @@
       newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.push({title: "", info: ""});
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
+
+    onMount(() => {
+      notesOrder();
+    })
 
 
 </script>
@@ -413,6 +415,7 @@
     align-items: center;
     background-color: var(--batlas-black);
     top: 1em;
+    z-index: 99
   }
 
   .icon {
@@ -620,36 +623,6 @@
 
 </style>
 
-<svelte:window bind:innerWidth = {screenSize}/>
-
-<div class="mapContainer">
-    <div class="map">
-            {#each $currentAdventure.map as row, i}
-                <div class="gridRow">
-                    {#each row as cell, j}
-                    <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;">
-                      {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
-                        <TileNotesIndicator/>
-                      {/if}
-                      {#if $playMode === false}
-                            <div class="tileSelectorHoverDetector">
-                                <div on:click={(e) => handleTileClick(e, cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
-                            </div>
-                      {/if}
-                        <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
-
-                    </div>
-                    {/each}
-                </div>
-            {/each}
-    </div>
-    <div class="dialogueContainer">
-      <UserControls/>
-      {#if $activeTile.rowIndex !== null}
-        <ActiveTileOptionsWindows />
-      {/if}
-    </div>
+<div class="tileNotesIndicator">
 </div>
-<div class="tileFloat"><img></div>
-
 

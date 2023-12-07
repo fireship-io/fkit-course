@@ -3,20 +3,21 @@
 
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, setActiveTile } from "$lib/dashboardState";
+    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
     import { tiles } from '$lib/tiles';
 
+
     let screenSize = 0;
     let mapDisabled = false;
 
     let disabledMapGenButton = false;
 
-    let windowMode = "tile";
     let tileMode = "rooms";
+    let windowMode = "tile";
 
 
     let chosenTileOptions = {
@@ -1104,7 +1105,7 @@
     }
 
     function changeWindowMode(newMode){
-      windowMode = newMode;
+        windowMode = newMode;
     }
     
     function changeTileMode(newMode){
@@ -1122,6 +1123,15 @@
     function toggleInfoBarActive() {
       activeTileOptionsWindow = !activeTileOptionsWindow;
     }
+
+    onMount(() => {
+      if($playMode === true){
+        windowMode = "notes";
+      }
+      else {
+        windowMode = "tile";
+      }
+    });
 
 </script>
 
@@ -1625,13 +1635,14 @@
   }
 
 </style>
-
-<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}">
-      <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
+<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" on:blur={() => console.log('blur?')}>
+    <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
+    {#if $playMode === false}
         <div class="roomOptionsToggle">
           <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
           <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
         </div>
+    {/if}
         {#if windowMode === "notes"}
           <div class="roomOptionsTitle">
             <p>Title</p>

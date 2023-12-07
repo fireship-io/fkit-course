@@ -3,7 +3,7 @@
 
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, setActiveTile } from "$lib/dashboardState";
+    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
@@ -46,10 +46,12 @@
     }
 
 
-    function handleMapGenerate() {
+    function handleMapGenerate(currentAdventure) {
       disabledMapGenButton = true;
       activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: "", tileTitle: ""});
       generateMap();
+      currentAdventure.adventureId = "";
+      currentAdventure.title = "";
       setTimeout(() => {
         disabledMapGenButton = false
       }, 500);
@@ -198,6 +200,19 @@
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
+    function togglePlayMode() {
+      if ($playMode === false) {
+        playMode.set(true);
+        activeTile.set(blankTile);
+        let floatingTiles = document.getElementsByClassName("tileFloat");
+        for (let i = 0; i < floatingTiles.length; i++) {
+          floatingTiles[i].classList.remove("tileFloat");
+        }
+      } else {
+        playMode.set(false);
+      }
+    }
+
 
 
 </script>
@@ -206,6 +221,7 @@
   .userControlContainer, .mapControlsContainer {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     width: auto;
@@ -307,11 +323,25 @@
     justify-content: space-evenly;
   }
 
+  .controlRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+  }
+
+  .halfWidth {
+    width: 50%;
+  }
+
   :global(.iconContainer) {
     pointer-events: all;
   }
 
 </style>
+{#if $playMode === false}
 <div class="mapControlsContainer">
   <div class="userControlNoHover labelledControl mapControls">
     <div class="mapControlLabel">
@@ -358,24 +388,33 @@
     </div>
   </div>
 </div>
+{/if}
 <div class="userControlContainer">
+  {#if $playMode === false}
       <div class="userControlNoHover labelledControl">
         <div class="controlLabel">
           <p>Title</p>
         </div>
         <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
       </div>
-      <div class="userControl" on:click={handleMapGenerate}>
-        <p>Random map</p>
+      <div class="controlRow">
+      <div class="userControl halfWidth" on:click={() => handleMapGenerate($currentAdventure)}>
+        <p>New map</p>
       </div>
-      <div class="userControl" on:click={() => saveAdventureToFirebase($currentAdventure)}>
+      <div class="userControl halfWidth" on:click={() => saveAdventureToFirebase($currentAdventure)}>
         <p>Save map</p>
       </div>
+    </div>
       <div class="userControl">
         <p>Export map</p>
       </div>
-      <div class="userControl">
-        <p>Play mode</p>
+  {/if}
+      <div class="userControl" on:click={togglePlayMode}>
+        {#if $playMode === false}
+          <p>Play mode</p>
+          {:else}
+          <p>Edit mode</p>
+        {/if}
       </div>
 </div>
 
