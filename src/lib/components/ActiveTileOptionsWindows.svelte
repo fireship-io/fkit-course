@@ -9,6 +9,7 @@
     import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
     import { tiles } from '$lib/tiles';
+    import { fly } from 'svelte/transition';
 
 
     let screenSize = 0;
@@ -1635,7 +1636,7 @@
   }
 
 </style>
-<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" on:blur={() => console.log('blur?')}>
+<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
     <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
     {#if $playMode === false}
         <div class="roomOptionsToggle">

@@ -12,6 +12,8 @@
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
+    import { fly } from 'svelte/transition';
+
 
     let screenSize = 0;
     let mapDisabled = false;
@@ -637,7 +639,6 @@
                             </div>
                       {/if}
                         <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
-
                     </div>
                     {/each}
                 </div>
