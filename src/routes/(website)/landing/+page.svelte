@@ -8,34 +8,107 @@
 
 
     let stepCount = 0;
+    let stepSize = 0;
     let stepPositions = [
-        {
-            x: 5,
-            y: -5
-        },
-        {
-            x: -10,
-            y: -12
-        },
-        {
-            x: -30,
-            y: -30
-        },
-        {
-            x: -46,
-            y: -45
-        },
-        {
-            x: -63,
-            y: -55
-        },
-        {
-            x: -78,
-            y: -72
-        }
+        //mobile
+        [
+            {
+                x: 5,
+                y: -5
+            },
+            {
+                x: -10,
+                y: -12
+            },
+            {
+                x: -30,
+                y: -30
+            },
+            {
+                x: -46,
+                y: -45
+            },
+            {
+                x: -63,
+                y: -55
+            },
+            {
+                x: -78,
+                y: -72
+            }
+        ],
+        //tablet
+        [
+            {
+                x: 15,
+                y: -0
+            },
+            {
+                x: 0,
+                y: -12
+            },
+            {
+                x: -20,
+                y: -20
+            },
+            {
+                x: -38,
+                y: -40
+            },
+            {
+                x: -55,
+                y: -50
+            },
+            {
+                x: -75,
+                y: -75
+            }
+        ],
+        //desktop
+        [
+            {
+                x: 35,
+                y: -0
+            },
+            {
+                x: 10,
+                y: -12
+            },
+            {
+                x: -10,
+                y: -30
+            },
+            {
+                x: -20,
+                y: -45
+            },
+            {
+                x: -40,
+                y: -55
+            },
+            {
+                x: -60,
+                y: -72
+            }
+        ]
     ]
     let translateStep = 0;
 
+    function detectScreenSize(screenSize){
+        if (screenSize < 460) {
+            console.log('mobile');
+            return 'mobile';
+        } else if (screenSize < 700) {
+            console.log('tablet');
+            return 'tablet';
+        } else if (screenSize < 900) {
+            console.log('desktop');
+            return 'desktop';
+        } else {
+            console.log('desktop');
+            return 'desktop';
+        }
+    }
 
     function toggleAboutOpen() {
         aboutOpen = !aboutOpen;
@@ -47,11 +120,28 @@
         } else if (step === 'previous' && stepCount !== 0) {
             stepCount --;
         }
-        document.getElementById('heroSlider').style.transform = `translate(${stepPositions[stepCount].x}%, ${stepPositions[stepCount].y}%)`;
+
+        if (detectScreenSize(screenSize) === "mobile"){
+            stepSize = 0;
+        } else if (detectScreenSize(screenSize) === "tablet") {
+            stepSize = 1;
+        } else if (detectScreenSize(screenSize) === "desktop") {
+            stepSize = 2;
+        }
+
+        document.getElementById('heroSlider').style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
     }
 
     onMount(() => {
-        document.getElementById('heroSlider').style.transform = `translate(${stepPositions[stepCount].x}%, ${stepPositions[stepCount].y}%)`;
+        if (detectScreenSize(screenSize) === "mobile"){
+            stepSize = 0;
+        } else if (detectScreenSize(screenSize) === "tablet") {
+            stepSize = 1;
+        } else if (detectScreenSize(screenSize) === "desktop") {
+            stepSize = 2;
+        }
+        document.getElementById('heroSlider').style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
+        console.log(stepPositions[stepSize][stepCount].x);
     })
 
 </script>
@@ -59,6 +149,12 @@
     p, a, h1, h2, h3 {
         margin: 0;
         color: var(--batlas-white)
+    }
+
+    h2 {
+        font-size: 2em;
+        -webkit-text-stroke: 0px var(--batlas-white);
+        letter-spacing: 1px;
     }
 
     .header div {
@@ -72,6 +168,7 @@
         align-items: center;
         height: 100%;
         width: 100%;
+        cursor: pointer;
     }
 
     .header .logo {
@@ -130,13 +227,31 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: calc(100% - 3em);
+        min-width: 5em;
     }
 
     .controls .control {
         width: auto;
         padding: 1em;
         z-index: 888;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .controls .control:hover {
+        transform: translateY(-0.3em)
+    }
+
+    .control.next {
+        position: fixed;
+        top: 8em;
+        right: 1.5em;
+    }
+
+    .control.previous {
+        position: fixed;
+        top: 6em;
+        right: 6em;
     }
 
     .footerButtons {
@@ -162,7 +277,7 @@
         height: 5vh;
         width: 100%;
         gap: 1em;
-        padding: 1em 3em;
+        padding: 1em 1em;
         background-color: var(--batlas-black);
         border: 1px solid var(--batlas-white);
         border-radius: 0.6em;
@@ -333,11 +448,15 @@
         width: 100vw;
         overflow: visible;
         z-index: 5;
-    }
+        }
 
-    .slider .slideImage img {
-        width: 200%;
-    }
+        .slider .slideImage img {
+            width: 200%;
+        }
+
+        .footer {
+            padding-bottom: 2em;
+        }
     }
 
     @media only screen and (min-width: 700px) {
@@ -360,11 +479,11 @@
     }
 
     .slideContent {
-        max-width: 40%;
+        max-width: 20em;
         justify-self: flex-start;
     }
 
-    .slideTitle, .slideSubtitle, .slideDescription p, .slideSubtitle h3 {
+    .slideTitle, .slideTitle h2, .slideSubtitle, .slideDescription, .slideDescription p, .slideSubtitle h3, .slideSubtitle h2 {
         align-self: flex-start;
         text-align: left;
     }
@@ -375,10 +494,15 @@
         align-items: flex-start;
         gap: 1em;
         padding: 0em 1.5em;
+        padding-bottom: 2em;
     }
 
     .footerButtons {
-        width: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 20em;
         justify-self: flex-start;
         align-self: flex-start;
     }
@@ -390,8 +514,8 @@
         justify-content: space-between;
         align-items: center;
         gap: 1em;
-        bottom: 1em;
-        right: 1em;
+        bottom: 2em;
+        right: 1.5em;
         width: auto;
         background-color: var(--batlas-black);
         padding: 0.3em 0.6em;
@@ -399,17 +523,110 @@
         z-index: 999;
     }
 
-    @media only screen and (min-width: 900px) {
-        .slider .slideImage img {
-            max-width: 1920px;
-            width: 100%;
-        }
-        .slideContent {
-        max-width: 33%;
-        justify-self: flex-start;
+    .controls .control img{
+        min-width: 6em;
     }
+
+    .control.next {
+        position: fixed;
+        top: auto;
+        bottom: 6em;
+        right: 1.5em;
+    }
+
+    .control.previous {
+        position: fixed;
+        top: auto;
+        bottom: 8.75em;
+        right: 6em;
+    }
+
+    .about {
+        z-index: 99;
+    }
+
+    .aboutContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: var(--batlas-black);
+        z-index: 999;
+        padding: 5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .aboutContainer .copy{
+        height: auto;
+        max-width: 40em;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .aboutContainer .button {
+        max-width: 10em;
+    }
+
+    .aboutContainer h2 {
+        color: var(--batlas-white);
+    }
+
+    .aboutContainer .close {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        width:auto;
+        display: inline;
+        padding: 0.5em 1em;
+        height: auto;
+    }
+
+    .aboutContainer .aboutImage {
+        max-width: 40em;
+        max-height: 20em;
+        height: 80%;
+        width: auto;
+        object-fit: contain;
     }
 }
+@media only screen and (min-width: 900px) {
+        .footer {
+            padding-bottom: 2em;
+
+        }
+        .slider .slideImage img {
+            max-width: 2000px;
+        }
+        .slideContent {
+        max-width: 20em;
+        justify-self: flex-start;
+    }
+
+    .control.next {
+        position: fixed;
+        top: auto;
+        bottom: calc(50% - 3.5em);
+        right: auto;
+        left: 8em;
+
+    }
+
+    .control.previous {
+        position: fixed;
+        top: auto;
+        bottom: calc(50% - 0em);
+        right: auto;
+    }
+    }
 
 </style>
 
@@ -435,12 +652,12 @@
     {/if}
     <div class="footer">
         <div class="footerButtons controls">
-            <div class="control" on:click={() => changeStep('previous')}>
+            <div class="control previous" on:click={() => changeStep('previous')}>
                 {#if stepCount !== 0}
                 <img src="/img/previousControl.webp">
                 {/if}
             </div>
-            <div class="control" on:click={() => changeStep('next')}>
+            <div class="control next" on:click={() => changeStep('next')}>
                 {#if stepCount !== 5}
                 <img src="/img/nextControl.webp">
                 {/if}
@@ -484,21 +701,21 @@
             </div>
             {:else if stepCount === 5}
             <div class="transitionContainer" in:fade={{delay:300, duration:150}} out:fade={{delay:0, duration:150}}>
-                <div class="slideTitle"><h2>Your long rest is over</h2></div>
-                <div class="slideSubtitle"><h3>Delve into the dungeon!</h3></div>
-                <div class="button"><a>Login</a></div>
+                <div class="slideTitle"><h2>Delve into the dungeon</h2></div>
+                <div class="slideSubtitle"><h3>It's free!</h3></div>
+                <div class="button"><a>Sign up</a></div>
             </div>
             {/if}
         </div>
         </div>
         </div>
         <div class="footerButtons">
-            <div class="button patreon"><a>Patreon</a></div>
-            <div class="button login"><a>Login</a></div>
+            <div class="button patreon"><a href="https://patreon.com/batlas/" target="_blank">Patreon</a></div>
+            <div class="button login"><a href="/login" target="_blank">Log in</a></div>
         </div>
         <div class="footerLinks">
-            <div class="footerLink"><a>Legalities & Policies</a></div>
-            <div class="footerLink"><a>Made by Tanner J</a></div>
+            <div class="footerLink"><a href="/legalities/" target="_blank">Legalities & Policies</a></div>
+            <div class="footerLink"><a href="https://tannerj.dev" target="_blank">Made by Tanner J</a></div>
         </div>
     </div>
 </div>
