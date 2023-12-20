@@ -2,10 +2,13 @@
   import { onMount } from 'svelte';
   import SlideContent from '../../../lib/components/SlideContent.svelte';
   import { fade, slide, fly } from 'svelte/transition';
+  import lottie from 'lottie-web';
+  import { map } from '$lib/mapGen';
 
     let aboutOpen = false;
     let screenSize = 0;
 
+    let animationContainer;
 
     let stepCount = 0;
     let stepSize = 0;
@@ -13,16 +16,16 @@
         //mobile
         [
             {
-                x: 5,
-                y: -5
+                x: 2,
+                y: -15
             },
             {
-                x: -10,
-                y: -12
+                x: -15,
+                y: -22
             },
             {
-                x: -30,
-                y: -30
+                x: -35,
+                y: -35
             },
             {
                 x: -46,
@@ -40,16 +43,16 @@
         //tablet
         [
             {
-                x: 15,
-                y: -0
+                x: 10,
+                y: -10
             },
             {
-                x: 0,
-                y: -12
+                x: -10,
+                y: -15
             },
             {
-                x: -20,
-                y: -20
+                x: -25,
+                y: -25
             },
             {
                 x: -38,
@@ -60,19 +63,19 @@
                 y: -50
             },
             {
-                x: -75,
-                y: -75
+                x: -68,
+                y: -65
             }
         ],
         //desktop
         [
             {
-                x: 35,
-                y: -0
+                x: 20,
+                y: -10
             },
             {
                 x: 10,
-                y: -12
+                y: -20
             },
             {
                 x: -10,
@@ -128,9 +131,12 @@
         } else if (detectScreenSize(screenSize) === "desktop") {
             stepSize = 2;
         }
-
         document.getElementById('heroSlider').style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
+        mapAnimation.playSegments([stepCount * 100, (stepCount * 100) + 100], false);
     }
+
+
+    let mapAnimation;
 
     onMount(() => {
         if (detectScreenSize(screenSize) === "mobile"){
@@ -140,9 +146,19 @@
         } else if (detectScreenSize(screenSize) === "desktop") {
             stepSize = 2;
         }
-        document.getElementById('heroSlider').style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
-        console.log(stepPositions[stepSize][stepCount].x);
-    })
+
+        animationContainer.style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
+        mapAnimation = lottie.loadAnimation({
+            container: animationContainer,
+            path: '/img/lottieTest3.json',
+            renderer: 'svg',
+            loop: true,
+            autoplay: false,
+            name: 'mapAnimation',
+            initialSegment: [0, 1],
+    });
+        mapAnimation.playSegments([0, 100], false);
+    });
 
 </script>
 <style>
@@ -363,6 +379,9 @@
     #heroSlider {
         z-index: 1;
         pointer-events: none;
+        width: 300%;
+        transition: all 0.5s ease-in-out;
+        z-index: 1;
     }
 
     .visibleContent {
@@ -457,6 +476,10 @@
         .footer {
             padding-bottom: 2em;
         }
+
+        #heroSlider {
+            width: 200%;
+        }
     }
 
     @media only screen and (min-width: 700px) {
@@ -475,6 +498,10 @@
     }
 
     .slider .slideImage img {
+        width: 150%;
+    }
+
+    #heroSlider {
         width: 150%;
     }
 
@@ -626,7 +653,11 @@
         bottom: calc(50% - 0em);
         right: auto;
     }
+
+    #heroSlider {
+        max-width: 2000px;
     }
+}
 
 </style>
 
@@ -635,7 +666,7 @@
 <div class="container">
     <div class="header">
         <div class="about" on:click={toggleAboutOpen}><p>About</p></div>
-        <div class="logo"><img src="/img/batlasLogo_white_outline.webp"></div>
+        <div class="logo" on:click={() => mapAnimation}><img src="/img/batlasLogo_white_outline.webp"></div>
     </div>
     {#if aboutOpen}
     <div class="aboutContainer" in:fade={{delay:300, duration:150}} out:fade={{delay:0, duration:150}}>
@@ -657,7 +688,7 @@
                 <img src="/img/previousControl.webp">
                 {/if}
             </div>
-            <div class="control next" on:click={() => changeStep('next')}>
+            <div class="control next" on:click={() => changeStep('next')} >
                 {#if stepCount !== 5}
                 <img src="/img/nextControl.webp">
                 {/if}
@@ -666,7 +697,8 @@
         <div class="slider">
             <div class="slide">
                 <div class="slideImage">
-                    <img id="heroSlider" src="/img/landingPageSlider.webp">
+                    <div class="animation" id="heroSlider" bind:this={animationContainer}></div>
+                    <!-- <img id="heroSlider" src="/img/landingPageSlider.webp"> -->
                 </div>   
         <div class="slideContent">    
             {#if stepCount === 0}
