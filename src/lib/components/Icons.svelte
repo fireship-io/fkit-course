@@ -69,6 +69,16 @@ class="icon"
         <svg width="100%" height="100%" viewBox="0 0 260 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M182.311,0l11.811,0l65.372,65.373l0,168.172c0,14.322 -11.627,25.949 -25.949,25.949l-207.596,0c-14.321,0 -25.949,-11.627 -25.949,-25.949l-0,-207.596c-0,-14.321 11.628,-25.949 25.949,-25.949l24.952,0l-0,50.812c-0,11.77 9.555,21.325 21.324,21.325l88.762,0c11.769,0 21.324,-9.555 21.324,-21.325l0,-50.812Zm-21.709,8.163c3.113,0.515 5.491,3.223 5.491,6.482l-0,34.495c-0,3.627 -2.944,6.571 -6.571,6.571l-13.141,-0c-3.626,-0 -6.57,-2.944 -6.57,-6.571l-0,-34.495c-0,-3.259 2.377,-5.967 5.491,-6.482l15.3,-0Zm47.992,142.909c-0,-11.77 -9.556,-21.325 -21.325,-21.325l-115.044,0c-11.769,0 -21.324,9.555 -21.324,21.325l-0,42.649c-0,11.77 9.555,21.325 21.324,21.325l115.044,0c11.769,0 21.325,-9.555 21.325,-21.325l-0,-42.649Z"/></svg>
     {:else if icon === "add"}
         <svg class="icon" viewBox="0 0 260 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M259.494,12.975l0,233.544c0,7.161 -5.814,12.975 -12.975,12.975l-233.544,0c-7.161,0 -12.975,-5.814 -12.975,-12.975l-0,-233.544c-0,-7.161 5.814,-12.975 12.975,-12.975l233.544,-0c7.161,-0 12.975,5.814 12.975,12.975Zm-239.494,7.025l-0,219.494l219.494,0l0.001,-219.494l-219.495,-0Zm95.444,95.444l0,-52.597c0,-0.79 0.641,-1.431 1.431,-1.431l25.745,0c0.789,0 1.43,0.641 1.43,1.431l-0,52.597l52.598,0c0.789,0 1.43,0.641 1.43,1.431l-0,25.745c-0,0.789 -0.641,1.43 -1.43,1.43l-52.598,-0l-0,52.598c-0,0.789 -0.641,1.43 -1.43,1.43l-25.745,-0c-0.79,-0 -1.431,-0.641 -1.431,-1.43l0,-52.598l-52.597,-0c-0.79,-0 -1.431,-0.641 -1.431,-1.43l0,-25.745c0,-0.79 0.641,-1.431 1.431,-1.431l52.597,0Z"/></svg>
+    {:else if icon === "upChevron"}
+    <svg viewBox="0 0 452 344" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+        <g transform="matrix(1,0,0,1,-6137.78,-2306.92)">
+            <g transform="matrix(3.36311,0,0,1,-10264.4,-268.79)">
+                <g transform="matrix(0.297343,2.25514e-17,-6.72205e-18,1,3572.11,645.433)">
+                    <path d="M4430.8,2232.28L4614.8,1972.28L4798.8,2232.28"/>
+                </g>
+            </g>
+        </g>
+    </svg>
     {:else if icon === "downChevron"}
         <svg viewBox="0 0 452 344" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
             <g transform="matrix(1,0,0,1,-4181.63,-2034.76)">

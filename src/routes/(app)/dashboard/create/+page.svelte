@@ -99,7 +99,7 @@
 
 }
 .mapColumn {
-    grid-column: 5/18;
+    grid-column: 1/18;
     grid-row: 1/3;
     margin-right: 2em;
     display: flex;
@@ -156,10 +156,6 @@
 </style>
 
 <svelte:window bind:innerWidth = {screenSize}/>
-
-<div class="planner dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "createPlanner"} >
-    <Planner {clearAdventureData}/>
-</div>
 <div class="mapColumn" class:invisible={screenSize < 1500 && $screenChoice != "createMap"}>
     <Map />
 </div>

@@ -98,6 +98,6 @@
 
 </style>
 
-<div class="mapColumn" class:invisible={$screenChoice != "mapMaker"}>
+<div class="mapColumn">
     <Map />
 </div>
