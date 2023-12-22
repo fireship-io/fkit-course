@@ -1,8 +1,16 @@
 <script>
     import Header from "$lib/components/Header.svelte";
     import Footer from "$lib/components/Footer.svelte";
+    import { page } from '$app/stores';
+
+    let landing = $page.url.pathname === '/landing';
 
 </script>
-<!-- <Header /> -->
-<slot />
-<!-- <Footer /> -->
+
+{#if landing}
+    <slot />
+{:else}
+    <Header />
+    <slot />
+    <Footer />
+{/if}

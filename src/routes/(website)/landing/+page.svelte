@@ -150,7 +150,7 @@
         animationContainer.style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
         mapAnimation = lottie.loadAnimation({
             container: animationContainer,
-            path: '/img/lottieTest3.json',
+            path: '/img/lottie4.json',
             renderer: 'svg',
             loop: true,
             autoplay: false,
@@ -162,6 +162,7 @@
 
 </script>
 <style>
+
     p, a, h1, h2, h3 {
         margin: 0;
         color: var(--batlas-white)
