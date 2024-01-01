@@ -150,7 +150,7 @@
         animationContainer.style.transform = `translate(${stepPositions[stepSize][stepCount].x}%, ${stepPositions[stepSize][stepCount].y}%)`;
         mapAnimation = lottie.loadAnimation({
             container: animationContainer,
-            path: '/img/lottie4.json',
+            path: '/img/lottie5.json',
             renderer: 'svg',
             loop: true,
             autoplay: false,
@@ -162,6 +162,12 @@
 
 </script>
 <style>
+
+    .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 4fr 4fr;
+    }
 
     p, a, h1, h2, h3 {
         margin: 0;
@@ -228,7 +234,7 @@
 
     .footer {
         position: fixed;
-        bottom: 0;
+        bottom: 1.5em;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -357,13 +363,12 @@
         grid-template-rows: 1fr;
     }
 
-    .slideContent h1, h2, h3, p {
-        text-align: center;
+    .slideContent h1, .slideContent h2, .slideContent h3, .slideContent p {
+        text-align: left;
     }
 
     .slideContent h2 {
         font-size: 2em;
-    
     }
 
     .slideOverlay {
@@ -394,8 +399,8 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
+        justify-content: flex-end;
+        align-items: flex-start;
         gap: 1em;
         padding-bottom: 2em;
     }
@@ -663,6 +668,10 @@
 </style>
 
 <svelte:window bind:innerWidth = {screenSize}/>
+<svelte:head>
+	<title>Batlas</title>
+	<meta name="description" content="Batlas is an isometric dungeon creator to make prepping for TTRPG's lightning fast!" />
+</svelte:head>
 
 <div class="container">
     <div class="header">

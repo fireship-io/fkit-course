@@ -6,6 +6,7 @@
     import { error } from "@sveltejs/kit";
     import { currentAdventure } from "$lib/adventureData";
     import { screenChoice, createAlert } from "$lib/dashboardState";
+  import { onMount } from "svelte";
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -73,7 +74,11 @@
       }
     }
 
-
+    setInterval(() => {
+      if ($user) {
+        window.location.href = "/dashboard/create";
+      }
+    }, 1000)
 
 </script>
 
@@ -167,30 +172,38 @@
     justify-content: center;
     align-items: center;
     max-width: 30em;
-
+    color: var(--batlas-white);
   }
 
   .loginBox a {
+    transition: all 0.3 ease;
     margin-top: 1em;
     font-family: 'Poppins', sans-serif;
-    border: 0.2em solid var(--batlas-black);
-    font-size: 1.3em;
-    font-weight: 600;
-    background-color: var(--batlas-white);
+    border: 0.1em solid var(--batlas-white);
+    border-radius: 0.6em;
+    font-size: 1em;
+    font-weight: 400;
+    background-color: var(--batlas-black);
     padding: 0.5em 1em;
-    color: var(--batlas-black)
+    color: var(--batlas-white);
   }
 
   .loginBox a:hover {
     cursor: pointer;
-    background-color: var(--batlas-black);
-    color: var(--batlas-white);
+    background-color: var(--batlas-white);
+    color: var(--batlas-black);
+  }
+
+  .loginBox h2 {
+    color: var(--batlas-white)
   }
 
   .loginBox p {
     font-size: 0.8em;
     text-align: center;
     margin-top: 3em;
+    color: var(--batlas-white);
+
   }
 
   @media screen and (max-width: 1500px) {
@@ -221,15 +234,15 @@
 
 
 
-<div class="batlasSection singleColumn fillHeight">
+<div class="batlasSection singleColumn">
   <div class="batlasColumn">
-    <div class=" loginBox dungeonBorder">
+    <div class=" loginBox">
       {#if $user}
       <h2>Welcome, {$user.displayName}</h2>
-      <p>You are logged in</p>
-      <a href="/dashboard/play" >Dashboard</a>
-      <a on:click={signOutSSR}>Sign out</a>
-      <a on:click={() => handleDeleteUser($user)}>Delete Account</a>
+      <p>You will be redirected to your dashboard.</p>
+      <a href="/dashboard/play" >If you aren't redirected, click here</a>
+      <!-- <a on:click={signOutSSR}>Sign out</a>
+      <a on:click={() => handleDeleteUser($user)}>Delete Account</a> -->
       {:else}
         <h2>Login</h2>
         <a on:click={signInWithGoogle}>Sign in with Google</a>

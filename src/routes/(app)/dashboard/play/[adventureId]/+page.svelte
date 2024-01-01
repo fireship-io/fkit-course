@@ -94,7 +94,7 @@ function toggleActive(e) {
 }
 .map {
     padding: 0em;
-    grid-column: 4/17;
+    grid-column: 1/17;
     grid-row: auto / span 2;
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@ function toggleActive(e) {
 
 <svelte:window bind:innerWidth = {screenSize}/>
 
-{#if adventuresNotesCollapsed === true}
+<!-- {#if adventuresNotesCollapsed === true}
     <div class="optionsCollapsed dungeonBorder">
         <div on:click={(e) => toggleActive(e)} class="iconContainer brutalismBorderWhite mapGenButton">
             <Icons icon={"rightChevron"} size={"medium"} color={"black"} />
@@ -152,7 +152,7 @@ function toggleActive(e) {
     <div class="options dungeonBorder" class:invisible={screenSize < 1500 && $screenChoice != "playAdventureNotes"}>
         <AdventureContent {toggleActive}/>
     </div>
-{/if}
+{/if} -->
 
 <div class="map" class:invisible={screenSize < 1500 && $screenChoice != "playAdventureMap"}>
     <Map />

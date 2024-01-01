@@ -1600,6 +1600,32 @@
       object-fit: contain;
     }
 
+    .roomTitlePlay {
+        padding: 0.3em;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        font-size: 1.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--batlas-black);
+        text-align: left;
+    }
+
+    .roomTitlePlay p:hover {
+        cursor: default;
+    }
+
+    p.roomDescription {
+        padding: 0.6em;
+        width: 100%;
+        font-size: 1em;
+        color: var(--batlas-black);
+        text-align: left;
+    }
+
   @media screen and (max-width: 1500px) {
     .mapSettings {
       flex-direction: column;
@@ -1638,17 +1664,23 @@
 </style>
 <div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
     <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
-    {#if $playMode === false}
+    {#if !$page.route.id.includes("/play/")}
         <div class="roomOptionsToggle">
           <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
           <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
         </div>
     {/if}
-        {#if windowMode === "notes"}
-          <div class="roomOptionsTitle">
-            <p>Title</p>
-            <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
-          </div>
+        {#if windowMode === "notes" || $page.route.id.includes("/play/")}
+            {#if $page.route.id.includes("/play/")}
+            <div class="roomTitlePlay">
+                <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
+            </div>
+            {:else}
+                <div class="roomOptionsTitle">
+                    <p>Title</p>
+                    <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
+                </div>
+            {/if}
           {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
             {#if !$page.route.id.includes("play")}
               <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>

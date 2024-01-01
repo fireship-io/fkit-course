@@ -30,7 +30,7 @@
     }
 
     .navigation {
-        grid-column: 1 / 2;
+        grid-column: 1 / 3;
         grid-row: 1 / 2;
         gap: 2em;
         padding: 0.8em;
@@ -41,7 +41,7 @@
     }
     
     .options {
-        grid-column: 2 / 6;
+        grid-column: 3 / 7;
         grid-row: 1 / 2;
         gap: 2em;
         padding: 0.8em;

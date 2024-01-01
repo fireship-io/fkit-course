@@ -94,7 +94,16 @@
           disabledSave = false;
         }, 3000); 
     }
+    
+    if ($page.url.pathname !== `/dashboard/create/${currentAdventure.adventureId}`) {
+      window.location.href === `/dashboard/create/${currentAdventure.adventureId}`;
     }
+  }
+
+  function enterPlayMode(currentAdventure) {
+    playMode.set(true);
+    window.location.href = `/dashboard/play/${currentAdventure.adventureId}`;
+  }
 
     function addBottomRow() {
       let mapColumns = $currentAdventure.map[0].length;
@@ -213,8 +222,6 @@
       }
     }
 
-
-
 </script>
 
 <style>
@@ -236,6 +243,9 @@
 
   .mapControlsContainer {
     min-width: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 
   .userControl, .userControlNoHover {
@@ -341,7 +351,7 @@
   }
 
 </style>
-{#if $playMode === false}
+{#if !$page.route.id.includes("/play/")}
 <div class="mapControlsContainer">
   <div class="userControlNoHover labelledControl mapControls">
     <div class="mapControlLabel">
@@ -390,7 +400,7 @@
 </div>
 {/if}
 <div class="userControlContainer">
-  {#if $playMode === false}
+  {#if !$page.route.id.includes("/play/")}
       <div class="userControlNoHover labelledControl">
         <div class="controlLabel">
           <p>Title</p>
@@ -405,16 +415,19 @@
         <p>Save map</p>
       </div>
     </div>
-      <div class="userControl">
-        <p>Export map</p>
+    {/if}
+  <div class="controlRow">
+    {#if !$page.route.id.includes("/play/")}
+      <div class="userControl halfWidth">
+        <p>Export</p>
       </div>
-  {/if}
-      <div class="userControl" on:click={togglePlayMode}>
-        {#if $playMode === false}
-          <p>Play mode</p>
-          {:else}
-          <p>Edit mode</p>
-        {/if}
+      <div class="userControl halfWidth" on:click={() => enterPlayMode($currentAdventure)}>
+          <a>Play</a>
       </div>
-</div>
-
+        {:else}
+        <div class="userControl" on:click={togglePlayMode}>
+        <p>Edit</p>
+      </div>
+      {/if}
+    </div>
+  </div>

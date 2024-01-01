@@ -52,7 +52,6 @@
       for (let i = 0; i < floatingTiles.length; i++) {
         floatingTiles[i].classList.remove("tileFloat");
       }
-      e.target.closest('.gridTile').classList.toggle("tileFloat");
     }
 
     function clearActiveTile(){
@@ -94,6 +93,8 @@
       newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.push({title: "", info: ""});
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
+
+
 
 
 </script>
@@ -633,12 +634,16 @@
                       {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
                         <TileNotesIndicator/>
                       {/if}
-                      {#if $playMode === false}
+                      {#if !$page.route.id.includes("/play/") || cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
                             <div class="tileSelectorHoverDetector">
                                 <div on:click={(e) => handleTileClick(e, cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
                             </div>
                       {/if}
+                      {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/play/")}
+                        <img src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
+                      {:else}
                         <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
+                      {/if}
                     </div>
                     {/each}
                 </div>
