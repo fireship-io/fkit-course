@@ -11,6 +11,8 @@
     import { tiles } from '$lib/tiles';
     import { fly } from 'svelte/transition';
 
+    export let handleFogToggle;
+
 
     let screenSize = 0;
     let mapDisabled = false;
@@ -1171,9 +1173,18 @@
     border-radius: 2em;
   }
 
+  .tileOptionsBar::-webkit-scrollbar {
+    display: none;
+  }
+
   .tileInfoBar {
     padding: 0.8em;
     display: none;
+    overflow-y: scroll;
+  }
+
+  .tileInfoBar::-webkit-scrollbar {
+    display:none;
   }
 
   .tileInfo {
@@ -1198,6 +1209,8 @@
   }
 
   .tileInfoText {
+    overflow-y: scroll;
+    max-height: 20em;
     width: 100%;
     outline: none;
     border: 0.3em solid var(--batlas-black);
@@ -1205,6 +1218,10 @@
     padding: 1em;
     font-size: 1em;
     font-family: var(--batlas-font);
+  }
+
+  .tileInfoText::-webkit-scrollbar {
+    display: none;
   }
 
   p.roomDescription {
@@ -1221,7 +1238,7 @@
   .tileInfoBarActive{
         display: block;
         width: 22em;
-        height: calc(100% - 2em);
+        max-height: calc(100% - 2em);
   }
 
 
@@ -1629,8 +1646,8 @@
     }
 
     .closeButton {
-        position: static;
-        width: 100%;
+        position: sticky;
+        width: auto;
         height: auto;
         display: flex;
         justify-content: flex-start;
@@ -1638,6 +1655,7 @@
         cursor: pointer;
         padding: 0.3em 0.6em;
         transition: all 0.2s ease-in-out;
+        top: 1em;
     }
 
     .closeButton:hover {
@@ -1646,11 +1664,35 @@
 
     .fogOfWar {
         opacity: 0.5;
+        cursor: pointer;
     }
 
     .activeConnection {
       opacity: 1;
     }
+
+    .tileInfoTopbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        background-color: var(--batlas-white);
+        text-align: center;
+    }
+
+    .roomOptionsToggles {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        background-color: var(--batlas-white);
+        text-align: center;
+        gap: 1em;
+    }
+
+
 
   @media screen and (max-width: 1500px) {
     .mapSettings {
@@ -1689,8 +1731,15 @@
 
 </style>
 <div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
-    <div class="closeButton" on:click={() => clearActiveTile()}>
-        <Icons icon={"remove"} size={"medium"} color={"black"}/>
+    <div class="tileInfoTopbar">
+        <div class="closeButton" on:click={() => clearActiveTile()}>
+            <Icons icon={"remove"} size={"medium"} color={"black"}/>
+        </div>
+        <div class="roomOptionsToggles">
+            <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+                <Icons icon={"d20"} size={"medium"} color={"black"}/>
+            </div>
+        </div>
     </div>
     <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
     {#if !$page.route.id.includes("/player/")}
@@ -1701,19 +1750,15 @@
     {/if}
         {#if windowMode === "notes" || $page.route.id.includes("/player/")}
             {#if $page.route.id.includes("/player/")}
-            <div class="roomTitlePlay">
-                <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
-            </div>
+                {#if $activeTile.tileTitle !== ""}
+                <div class="roomTitlePlay">
+                    <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
+                </div>
+                {/if}
             {:else}
                 <div class="roomOptionsTitle">
                     <p>Title</p>
                     <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
-                </div>
-                <div class="roomOptionsToggles">
-                    <div class="fogOfWar" on:click={(e) => toggleFogOfWar(e)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
-                        <Icons icon={"d20"} size={"medium"} color={"black"}/>
-                        <p>Fog of War</p>
-                    </div>
                 </div>
             {/if}
           {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}

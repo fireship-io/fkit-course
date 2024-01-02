@@ -60,11 +60,16 @@
 
     function handleTileClick(e, cell, i, j){
       mapDisabled = true;
-      setActiveTile(cell, i, j)
-      let floatingTiles = document.getElementsByClassName("tileFloat");
-      for (let i = 0; i < floatingTiles.length; i++) {
-        floatingTiles[i].classList.remove("tileFloat");
-      }
+
+        setActiveTile(cell, i, j)
+        let floatingTiles = document.getElementsByClassName("tileFloat");
+        for (let i = 0; i < floatingTiles.length; i++) {
+          floatingTiles[i].classList.remove("tileFloat");
+        }
+    }
+
+    function openTileContextMenu(i, j){
+      currentAdventure.set(...$currentAdventure, currentAdventure.map[i][j].contextMenu = true);
     }
 
     function clearActiveTile(){
@@ -404,14 +409,21 @@
     z-index: 999;
   }
 
+  .gridTile:hover .fogToggler {
+    visibility: visible;
+    cursor: pointer;
+    opacity: 1;
+  }
+
   .fogToggler {
     visibility: visible;
+    opacity: 0;
     position: absolute;
-    top: 0;
-    left: calc(50% - 0.5em);
-    height: 1em;
-    width: 1em;
-    background: red;
+    background-color: var(--batlas-white);
+    bottom: 0em;
+    right: 2em;
+    height: auto;
+    width: auto;
     border-radius: 3em;
     pointer-events: auto;
     cursor: pointer;
@@ -701,14 +713,10 @@
                       {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
                         <TileNotesIndicator/>
                       {/if}
-                      {#if cell.chosenTile?.img !== "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
-                      <div class="fogToggler" on:click={(e) => handleFogToggle(e, $currentAdventure, cell, i, j)}>
+                      {#if cell.chosenTile?.img !== "/tiles/dungeon/roomBlank.webp" || !$page.route.id.includes("/player/")}
+                      <div class="tileSelectorHoverDetector">
+                        <div on:click={(e) => handleTileClick(e, cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
                       </div>
-                      {/if}
-                      {#if !$page.route.id.includes("/player/") || cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
-                            <div class="tileSelectorHoverDetector">
-                                <div on:click={(e) => handleTileClick(e, cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
-                            </div>
                       {/if}
                       {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
                         <img src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
@@ -723,7 +731,7 @@
     <div class="dialogueContainer">
       <UserControls/>
       {#if $activeTile.rowIndex !== null}
-        <ActiveTileOptionsWindows />
+        <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
       {/if}
     </div>
 </div>

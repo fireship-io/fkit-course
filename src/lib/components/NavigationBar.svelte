@@ -213,7 +213,7 @@
 {#if screenSize > 1500}
     <a href="/dashboard/play" class="iconBox active" class:active="{$page.route.id.includes("play")}" on:click={setScreenChoice('adventures')}>
         <Icons icon={"sword"} size={"full"} color={"white"} />
-        <p>Play</p>
+        <p>Adventures</p>
     </a>
     <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateFromPlay}>
         <Icons icon={"add"} size={"full"} color={"white"} />

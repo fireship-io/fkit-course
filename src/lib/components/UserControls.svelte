@@ -227,6 +227,16 @@
       currentAdventure.set({ ...$currentAdventure, public: !$currentAdventure.public});
     }
 
+    function fogAllTiles() {
+      let newMap = deepCloneArray($currentAdventure.map);
+      newMap.forEach((row) => {
+        row.forEach((tile) => {
+          tile.fogOfWar = true;
+        });
+      });
+      currentAdventure.set({ ...$currentAdventure, map: newMap});
+    }
+
 </script>
 
 <style>
@@ -339,7 +349,9 @@
   }
 
   .controlRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -423,6 +435,7 @@
   </div>
 </div>
 {/if}
+{#if !$page.route.id.includes("/player/")}
 <div class="userControlContainer">
   {#if !$page.route.id.includes("/player/")}
       <div class="userControlNoHover labelledControl">
@@ -432,6 +445,9 @@
         <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
       </div>
       <div class="controlRow">
+        <div class="userControl" on:click={fogAllTiles}>
+          <p>Fog all</p>
+        </div>
           <div class="publicToggle" on:click={togglePublic} class:activeConnection="{$currentAdventure.public}">
               {#if $currentAdventure.public}
               <p>Public</p>
@@ -441,22 +457,23 @@
           </div>
       </div>
       <div class="controlRow">
-      <div class="userControl halfWidth" on:click={() => handleMapGenerate($currentAdventure, $user)}>
+      <div class="userControl" on:click={() => handleMapGenerate($currentAdventure, $user)}>
         <p>New map</p>
       </div>
-      <div class="userControl halfWidth" on:click={() => saveAdventureToFirebase($currentAdventure)}>
+      <div class="userControl" on:click={() => saveAdventureToFirebase($currentAdventure)}>
         <p>Save map</p>
       </div>
     </div>
     {/if}
   <div class="controlRow">
     {#if !$page.route.id.includes("/player/")}
-      <div class="userControl halfWidth">
+      <div class="userControl">
         <p>Export</p>
       </div>
-      <div class="userControl halfWidth" on:click={() => enterPlayMode($currentAdventure)}>
+      <div class="userControl" on:click={() => enterPlayMode($currentAdventure)}>
           <a>Play</a>
       </div>
       {/if}
     </div>
   </div>
+  {/if}

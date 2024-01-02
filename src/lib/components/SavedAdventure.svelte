@@ -4,6 +4,7 @@
     import { currentAdventure, playAdventureCurrent } from "$lib/adventureData";
     import { screenChoice, createAlert } from "$lib/dashboardState";
     import { error } from "@sveltejs/kit";
+    import { db, user } from "$lib/firebase";
     import Icons from '$lib/components/Icons.svelte';
 
 
@@ -28,6 +29,11 @@
             element.classList.remove("brutalismBorderInverted");
         });
         e.target.closest('a').classList.toggle("brutalismBorderInverted");
+    }
+
+    function playAdventure() {;
+        currentAdventure.set({ ...adventureData});
+        window.location.href = `/dashboard/player/${$user.uid}/${adventureData.adventureId}`;
     }
 </script>
 
@@ -115,7 +121,7 @@
         <p class="adventureBlurb">{adventureData.notes.quest}</p>
     </div>
     <div class="savedAdventureOptions">
-        <a href={`/dashboard/play/${adventureData.adventureId}`}>
+        <a href="#" on:click={() => playAdventure()}>
             <Icons icon={"d20"} size={"small"} color={"white"} />
         </a>
         <a href="/dashboard/create" on:click={setActive}>
