@@ -1134,6 +1134,11 @@
       }
     });
 
+    function toggleFogOfWar(e){
+        $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar = !$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar;
+        console.log("Fog toggle", $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar);
+    }
+
 </script>
 
 <style>
@@ -1590,9 +1595,6 @@
       left: 1em;
     }
 
-    .activeConnection {
-      opacity: 1;
-    }
 
     .centralControl {
       width: 100%;
@@ -1624,6 +1626,30 @@
         font-size: 1em;
         color: var(--batlas-black);
         text-align: left;
+    }
+
+    .closeButton {
+        position: static;
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        padding: 0.3em 0.6em;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .closeButton:hover {
+        transform: translateY(-0.05em);
+    }
+
+    .fogOfWar {
+        opacity: 0.5;
+    }
+
+    .activeConnection {
+      opacity: 1;
     }
 
   @media screen and (max-width: 1500px) {
@@ -1663,15 +1689,18 @@
 
 </style>
 <div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
+    <div class="closeButton" on:click={() => clearActiveTile()}>
+        <Icons icon={"remove"} size={"medium"} color={"black"}/>
+    </div>
     <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
-    {#if !$page.route.id.includes("/play/")}
+    {#if !$page.route.id.includes("/player/")}
         <div class="roomOptionsToggle">
           <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
           <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
         </div>
     {/if}
-        {#if windowMode === "notes" || $page.route.id.includes("/play/")}
-            {#if $page.route.id.includes("/play/")}
+        {#if windowMode === "notes" || $page.route.id.includes("/player/")}
+            {#if $page.route.id.includes("/player/")}
             <div class="roomTitlePlay">
                 <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
             </div>
@@ -1679,6 +1708,12 @@
                 <div class="roomOptionsTitle">
                     <p>Title</p>
                     <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
+                </div>
+                <div class="roomOptionsToggles">
+                    <div class="fogOfWar" on:click={(e) => toggleFogOfWar(e)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+                        <Icons icon={"d20"} size={"medium"} color={"black"}/>
+                        <p>Fog of War</p>
+                    </div>
                 </div>
             {/if}
           {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}

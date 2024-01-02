@@ -1,5 +1,6 @@
 <script lang="ts">
     import { user } from "$lib/firebase";
+    import { page } from '$app/stores';
   </script>
 
 <style>
@@ -131,7 +132,7 @@
    }
 </style>
   
-  {#if $user}
+  {#if $user || $page.route.id.includes("/player/")}
     <slot />
   {:else}
   <section class="batlasSection singleColumn fillHeight">

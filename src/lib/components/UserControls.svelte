@@ -46,12 +46,13 @@
     }
 
 
-    function handleMapGenerate(currentAdventure) {
+    function handleMapGenerate(currentAdventure, user) {
       disabledMapGenButton = true;
       activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: "", tileTitle: ""});
       generateMap();
       currentAdventure.adventureId = "";
       currentAdventure.title = "";
+      currentAdventure.userId = user.uid;
       setTimeout(() => {
         disabledMapGenButton = false
       }, 500);
@@ -102,7 +103,7 @@
 
   function enterPlayMode(currentAdventure) {
     playMode.set(true);
-    window.location.href = `/dashboard/play/${currentAdventure.adventureId}`;
+    window.location.href = `/dashboard/player/${$user.uid}/${currentAdventure.adventureId}`;
   }
 
     function addBottomRow() {
@@ -220,6 +221,10 @@
       } else {
         playMode.set(false);
       }
+    }
+
+    function togglePublic() {
+      currentAdventure.set({ ...$currentAdventure, public: !$currentAdventure.public});
     }
 
 </script>
@@ -350,8 +355,27 @@
     pointer-events: all;
   }
 
+  .publicToggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    width: 100%;
+    height: 3em;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border-radius: 3em;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  .activeConnection {
+    opacity: 1;
+  }
+
 </style>
-{#if !$page.route.id.includes("/play/")}
+{#if !$page.route.id.includes("/player/")}
 <div class="mapControlsContainer">
   <div class="userControlNoHover labelledControl mapControls">
     <div class="mapControlLabel">
@@ -400,7 +424,7 @@
 </div>
 {/if}
 <div class="userControlContainer">
-  {#if !$page.route.id.includes("/play/")}
+  {#if !$page.route.id.includes("/player/")}
       <div class="userControlNoHover labelledControl">
         <div class="controlLabel">
           <p>Title</p>
@@ -408,7 +432,16 @@
         <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
       </div>
       <div class="controlRow">
-      <div class="userControl halfWidth" on:click={() => handleMapGenerate($currentAdventure)}>
+          <div class="publicToggle" on:click={togglePublic} class:activeConnection="{$currentAdventure.public}">
+              {#if $currentAdventure.public}
+              <p>Public</p>
+              {:else}
+              <p>Private</p>
+              {/if}
+          </div>
+      </div>
+      <div class="controlRow">
+      <div class="userControl halfWidth" on:click={() => handleMapGenerate($currentAdventure, $user)}>
         <p>New map</p>
       </div>
       <div class="userControl halfWidth" on:click={() => saveAdventureToFirebase($currentAdventure)}>
@@ -417,16 +450,12 @@
     </div>
     {/if}
   <div class="controlRow">
-    {#if !$page.route.id.includes("/play/")}
+    {#if !$page.route.id.includes("/player/")}
       <div class="userControl halfWidth">
         <p>Export</p>
       </div>
       <div class="userControl halfWidth" on:click={() => enterPlayMode($currentAdventure)}>
           <a>Play</a>
-      </div>
-        {:else}
-        <div class="userControl" on:click={togglePlayMode}>
-        <p>Edit</p>
       </div>
       {/if}
     </div>

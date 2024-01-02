@@ -1,48 +1,22 @@
 <script>
-  import TileNotesIndicator from './TileNotesIndicator.svelte';
-
-  import UserControls from './UserControls.svelte';
+    import {page} from '$app/stores';
+    import { currentAdventure } from "$lib/adventureData";
+    import { onMount } from 'svelte';
+    import { collection, getDoc, limit, query, where, onSnapshot, doc } from "firebase/firestore";
+    import { db, user } from "$lib/firebase";
+    import TileNotesIndicator from './TileNotesIndicator.svelte';
+    import UserControls from './UserControls.svelte';
 
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
 
-    import { page } from '$app/stores';
-    import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
-    import { currentAdventure } from "$lib/adventureData";
-    import { db, user } from "$lib/firebase";
-    import {
-      arrayRemove,
-      arrayUnion,
-      doc,
-      setDoc,
-      updateDoc,
-      FieldValue,
-      collection,
-      addDoc,
-    } from "firebase/firestore";
-    import { v4 as uuidv4 } from "uuid";
-    import { createAlert } from "$lib/dashboardState";
-    import { onMount } from 'svelte';
-    import MapArray from './MapArray.svelte';
-    import Icons from './Icons.svelte';
-    import { fly } from 'svelte/transition';
+
 
 
     let screenSize = 0;
-    let mapDisabled = false;
+    let playingAdventure = {};
+    let adventureId = $page.params.adventureId;
+    let creatorId = $page.params.creatorId;
 
-    let disabledMapGenButton = false;
-
-    function notesOrder() {
-      let tileNotesIndicators = document.getElementsByClassName("tileNotesIndicator");
-      for (let i = 0; i < tileNotesIndicators.length; i++) {
-        tileNotesIndicators[i].removeChild(tileNotesIndicators[i].firstChild);
-        let index = document.createElement("p");
-        index.style = "margin: 0px; padding: 0px; font-size: 0.8em; font-weight: 600; color: white;";
-        index.innerHTML = i + 1;
-        tileNotesIndicators[i].appendChild(index);
-      }
-    }
 
 
 
@@ -50,100 +24,19 @@
         return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
     }
 
-    function setChosenTile(tile, rowIndex, columnIndex) {
-        let newMap = deepCloneArray($currentAdventure.map);
-        newMap[rowIndex][columnIndex].chosenTile = tile;
-        currentAdventure.set({ ...$currentAdventure, map: newMap});
-        activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null});
-        mapDisabled = false;
-    }
+      let adventureData = {};
 
-    function handleTileClick(e, cell, i, j){
-      mapDisabled = true;
-      setActiveTile(cell, i, j)
-      let floatingTiles = document.getElementsByClassName("tileFloat");
-      for (let i = 0; i < floatingTiles.length; i++) {
-        floatingTiles[i].classList.remove("tileFloat");
-      }
-    }
-
-    function clearActiveTile(){
-      activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null});
-      mapDisabled = false;
-    }
-
-
-    function handleMapGenerate() {
-      disabledMapGenButton = true;
-      activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
-      generateMap();
-      setTimeout(() => {
-        disabledMapGenButton = false
-      }, 500);
-    }
-
-    function setActive(e) {
-        document.querySelectorAll('.interestPoint').forEach((element) => {
-            element.classList.remove("interestPointActive");
+      onMount(async () => {
+        onSnapshot(doc(db, "users", creatorId, "adventures", adventureId), (doc) => {
+          if (doc.exists()) {
+            adventureData = doc.data();
+            adventureData.map = JSON.parse(adventureData.map);
+            currentAdventure.set(adventureData);
+          } else {
+            console.log("No such document!");
+          }
         });
-        e.target.closest('div').classList.toggle("interestPointActive");
-    }
-
-    function toggleActive(e) {
-      e.target.closest('.interestPoint').classList.toggle("interestPointActive");
-    }
-
-    function handlePointOfInterestDelete(interestPoint){
-      console.log(interestPoint);
-      let newMap = deepCloneArray($currentAdventure.map);
-      let interestPointIndex = newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.findIndex(point => point.title === interestPoint.title);
-      newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.splice(interestPointIndex, 1);
-      currentAdventure.set({ ...$currentAdventure, map: newMap});!$page.route.id.includes("play")
-    }
-
-    function handlePointOfInterestCreation(){
-      let newMap = deepCloneArray($currentAdventure.map);
-      newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.push({title: "", info: ""});
-      currentAdventure.set({ ...$currentAdventure, map: newMap});
-    }
-    
-    async function handleFogToggle(e, currentAdventure, cell, i, j) {
-      console.log("Fog toggle", currentAdventure.map[i][j].fogOfWar);
-      currentAdventure.map[i][j].fogOfWar = !currentAdventure.map[i][j].fogOfWar;
-
-      const adventuresRef = collection(db, "users", $user.uid, "adventures");
-
-      if (currentAdventure.title === "") {
-        createAlert("Please enter a title for your adventure.");
-        return;
-      }
-
-      if (currentAdventure.adventureId === "") {
-        let uniqueId = uuidv4();
-        currentAdventure.adventureId = uniqueId;
-        console.log("saving new adventure to firebase", currentAdventure);
-        const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
-        await setDoc(adventureRef, {
-          ...currentAdventure,
-          map : JSON.stringify(currentAdventure.map)
-        });
-        createAlert(`${currentAdventure.title} saved!`)
-        setTimeout(() => {
-          }, 3000);      
-      } else {
-        console.log("updating new adventure to firebase", currentAdventure);
-        const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
-        await setDoc(adventureRef, {
-          ...currentAdventure,
-          map : JSON.stringify(currentAdventure.map)
-        });
-        createAlert(`${currentAdventure.title} updated!`)
-        setTimeout(() => {
-          }, 3000); 
-      }
-  }
-
-
+      });
 
 </script>
 
@@ -362,6 +255,7 @@
     height: 100%;
     width: 6em;
     object-fit: contain;
+    transition: all 0.3s ease-in-out;
   }
 
 
@@ -398,20 +292,6 @@
     width: 5em;
     border: 0em solid var(--batlas-white);
     background: rgba(0, 0, 0, 0);
-    border-radius: 3em;
-    pointer-events: auto;
-    cursor: pointer;
-    z-index: 999;
-  }
-
-  .fogToggler {
-    visibility: visible;
-    position: absolute;
-    top: 0;
-    left: calc(50% - 0.5em);
-    height: 1em;
-    width: 1em;
-    background: red;
     border-radius: 3em;
     pointer-events: auto;
     cursor: pointer;
@@ -649,8 +529,14 @@
       color: var(--batlas-white);
     }
 
-    :global(.masterFoggedTile img) {
+    :global(.playerFoggedTile img) {
+      filter: brightness(0);
+      opacity: 0;
+    }
+
+    :global(.foggedTile) {
       filter: brightness(0.5);
+      opacity: 1;
     }
 
   @media screen and (max-width: 1500px) {
@@ -693,25 +579,14 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 <div class="mapContainer">
+  <h1 style="color:white;">Player Screen</h1>
     <div class="map">
             {#each $currentAdventure.map as row, i}
                 <div class="gridRow">
                     {#each row as cell, j}
-                    <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;" class:masterFoggedTile = {cell.fogOfWar}>
-                      {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
-                        <TileNotesIndicator/>
-                      {/if}
-                      {#if cell.chosenTile?.img !== "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
-                      <div class="fogToggler" on:click={(e) => handleFogToggle(e, $currentAdventure, cell, i, j)}>
-                      </div>
-                      {/if}
-                      {#if !$page.route.id.includes("/player/") || cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
-                            <div class="tileSelectorHoverDetector">
-                                <div on:click={(e) => handleTileClick(e, cell, i, j)} class="tileSelector" class:disabledHoverSelector = {mapDisabled}></div>
-                            </div>
-                      {/if}
-                      {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
-                        <img src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
+                    <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;" class:playerFoggedTile = {cell.fogOfWar}>
+                      {#if cell.chosenTile?.img == "/tiles/dungeon/roomBlank.webp"}
+                        <img class="foggedTile" src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
                       {:else}
                         <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
                       {/if}
@@ -720,13 +595,6 @@
                 </div>
             {/each}
     </div>
-    <div class="dialogueContainer">
-      <UserControls/>
-      {#if $activeTile.rowIndex !== null}
-        <ActiveTileOptionsWindows />
-      {/if}
-    </div>
 </div>
-<div class="tileFloat"><img></div>
 
 

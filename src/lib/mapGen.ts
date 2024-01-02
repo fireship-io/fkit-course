@@ -302,6 +302,7 @@ function returnMapArray(template) {
           tileNotes: "",
           tileTitle: "",
           interestPoints: [],
+          fogOfWar: false,
         };
         continue;
       }
@@ -320,6 +321,7 @@ function returnMapArray(template) {
         tileNotes: "",
         tileTitle: "",
         interestPoints: [],
+        fogOfWar: false,
       };
     }
   }
@@ -342,5 +344,6 @@ export function generateMap() {
     columnIndex: null,
     tileNotes: "",
     tileTitle: "",
+    fogOfWar: null,
   });
 }
