@@ -46,12 +46,13 @@
     }
 
 
-    function handleMapGenerate(currentAdventure) {
+    function handleMapGenerate(currentAdventure, user) {
       disabledMapGenButton = true;
       activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: "", tileTitle: ""});
       generateMap();
       currentAdventure.adventureId = "";
       currentAdventure.title = "";
+      currentAdventure.userId = user.uid;
       setTimeout(() => {
         disabledMapGenButton = false
       }, 500);
@@ -94,7 +95,16 @@
           disabledSave = false;
         }, 3000); 
     }
+    
+    if ($page.url.pathname !== `/dashboard/create/${currentAdventure.adventureId}`) {
+      window.location.href === `/dashboard/create/${currentAdventure.adventureId}`;
     }
+  }
+
+  function enterPlayMode(currentAdventure) {
+    playMode.set(true);
+    window.location.href = `/dashboard/player/${$user.uid}/${currentAdventure.adventureId}`;
+  }
 
     function addBottomRow() {
       let mapColumns = $currentAdventure.map[0].length;
@@ -213,7 +223,19 @@
       }
     }
 
+    function togglePublic() {
+      currentAdventure.set({ ...$currentAdventure, public: !$currentAdventure.public});
+    }
 
+    function fogAllTiles() {
+      let newMap = deepCloneArray($currentAdventure.map);
+      newMap.forEach((row) => {
+        row.forEach((tile) => {
+          tile.fogOfWar = true;
+        });
+      });
+      currentAdventure.set({ ...$currentAdventure, map: newMap});
+    }
 
 </script>
 
@@ -236,6 +258,9 @@
 
   .mapControlsContainer {
     min-width: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 
   .userControl, .userControlNoHover {
@@ -324,7 +349,9 @@
   }
 
   .controlRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -340,8 +367,27 @@
     pointer-events: all;
   }
 
+  .publicToggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    width: 100%;
+    height: 3em;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border-radius: 3em;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  .activeConnection {
+    opacity: 1;
+  }
+
 </style>
-{#if $playMode === false}
+{#if !$page.route.id.includes("/player/")}
 <div class="mapControlsContainer">
   <div class="userControlNoHover labelledControl mapControls">
     <div class="mapControlLabel">
@@ -389,8 +435,9 @@
   </div>
 </div>
 {/if}
+{#if !$page.route.id.includes("/player/")}
 <div class="userControlContainer">
-  {#if $playMode === false}
+  {#if !$page.route.id.includes("/player/")}
       <div class="userControlNoHover labelledControl">
         <div class="controlLabel">
           <p>Title</p>
@@ -398,23 +445,35 @@
         <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
       </div>
       <div class="controlRow">
-      <div class="userControl halfWidth" on:click={() => handleMapGenerate($currentAdventure)}>
+        <div class="userControl" on:click={fogAllTiles}>
+          <p>Fog all</p>
+        </div>
+          <div class="publicToggle" on:click={togglePublic} class:activeConnection="{$currentAdventure.public}">
+              {#if $currentAdventure.public}
+              <p>Public</p>
+              {:else}
+              <p>Private</p>
+              {/if}
+          </div>
+      </div>
+      <div class="controlRow">
+      <div class="userControl" on:click={() => handleMapGenerate($currentAdventure, $user)}>
         <p>New map</p>
       </div>
-      <div class="userControl halfWidth" on:click={() => saveAdventureToFirebase($currentAdventure)}>
+      <div class="userControl" on:click={() => saveAdventureToFirebase($currentAdventure)}>
         <p>Save map</p>
       </div>
     </div>
+    {/if}
+  <div class="controlRow">
+    {#if !$page.route.id.includes("/player/")}
       <div class="userControl">
-        <p>Export map</p>
+        <p>Export</p>
       </div>
+      <div class="userControl" on:click={() => enterPlayMode($currentAdventure)}>
+          <a>Play</a>
+      </div>
+      {/if}
+    </div>
+  </div>
   {/if}
-      <div class="userControl" on:click={togglePlayMode}>
-        {#if $playMode === false}
-          <p>Play mode</p>
-          {:else}
-          <p>Edit mode</p>
-        {/if}
-      </div>
-</div>
-

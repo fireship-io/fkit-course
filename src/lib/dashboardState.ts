@@ -14,6 +14,7 @@ export const activeTile = writable({
   tileOptions: null,
   tileTitle: "",
   tileNotes: "",
+  fogOfWar: null,
 });
 
 export function setActiveTile(tile, rowIndex, columnIndex) {
@@ -24,6 +25,7 @@ export function setActiveTile(tile, rowIndex, columnIndex) {
     tileOptions: tile.tileOptions,
     tileTitle: tile.tileTitle,
     tileNotes: tile.tileNotes,
+    fogOfWar: tile.fogOfWar,
   });
 }
 

@@ -37,7 +37,7 @@
     }
 
     .navigation {
-        grid-column: 1 / 2;
+        grid-column: 1 / 3;
         grid-row: 1 / 2;
         gap: 2em;
         padding: 0.8em;
@@ -51,7 +51,7 @@
     }
     
     .contentSlot {
-        grid-column: 2 / 19;
+        grid-column: 3 / 19;
         grid-row: 1 / 2;
         gap: 2em;
         display: grid;
@@ -99,7 +99,7 @@
             width: 100%;
             height: auto;
             color: var(--batlas-white);
-            grid-column: 1 / 2;
+            grid-column: 1 / 3;
             grid-row: 1 / 2;
             gap: 0em;
             display: flex;

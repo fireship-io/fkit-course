@@ -88,6 +88,10 @@
     overflow-y: scroll;
   }
 
+  .interestPointsList::-webkit-scrollbar {
+    display:none;
+  }
+
 
 
   .icon {
@@ -162,7 +166,14 @@
     }
 
     .interestPointPlay {
-      grid-template-columns: 5fr 1fr;
+      grid-template-columns: 1fr 5fr;
+      font-size: 1.2em;
+      line-height: 0em;
+    }
+
+    .interestPointPlay .interestPointInfo p {
+      margin: 0em;
+      font-size: 0.8em;
     }
 
     .interestPointTitle {

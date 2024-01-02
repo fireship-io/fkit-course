@@ -94,18 +94,27 @@
         width: 100%;
         height: 7em;
         padding: 0.8em;
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: 1fr 3fr;
         align-items: center;
         border-radius: 1em;
-        border: 0.3em solid var(--batlas-black)
+        border: 0.3em solid var(--batlas-black);
+        text-decoration: none;
     }
 
     .iconBox:hover {
-        color: var(--batlas-black);
+        color: var(--batlas-white);
         cursor: pointer;
         border: 0.3em solid var(--batlas-white)
 
+    }
+
+    .iconBox p {
+        margin: 0em;
+        margin-left: 1em;
+        text-align: left;
+        font-size: calc(0.5em + 0.5vw);
+        text-transform: uppercase;
     }
 
     .active {
@@ -148,13 +157,6 @@
         cursor: pointer;
     }
 
-    .icon {
-        fill: var(--batlas-white);
-        stroke: var(--batlas-white);
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
 
     .menuIcon svg{
         max-height: 30em;
@@ -211,18 +213,23 @@
 {#if screenSize > 1500}
     <a href="/dashboard/play" class="iconBox active" class:active="{$page.route.id.includes("play")}" on:click={setScreenChoice('adventures')}>
         <Icons icon={"sword"} size={"full"} color={"white"} />
+        <p>Adventures</p>
     </a>
     <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateFromPlay}>
         <Icons icon={"add"} size={"full"} color={"white"} />
+        <p>Create</p>
     </a>
     <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}">
         <Icons icon={"rules"} size={"full"} color={"white"} />
+        <p>Rules</p>
     </a>
     <a href="/dashboard/account" class="iconBox" class:active="{$page.route.id.includes("account")}">
         <Icons icon={"gear"} size={"full"} color={"white"} />
+        <p>Account</p>
     </a>
     <a href="/" class="iconBox" on:click={signOutSSR}>
         <Icons icon={"logOut"} size={"full"} color={"white"} />
+        <p>Log Out</p>
     </a>
 {:else}
     <div class="responsiveNav">

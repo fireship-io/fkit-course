@@ -199,6 +199,8 @@
       border: 0.2em solid var(--batlas-white);
       padding: 0em 1em;
       text-transform: uppercase;
+      position: fixed;
+      bottom: 0em;
     }
 
     .footer p {

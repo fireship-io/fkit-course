@@ -11,6 +11,8 @@
     import { tiles } from '$lib/tiles';
     import { fly } from 'svelte/transition';
 
+    export let handleFogToggle;
+
 
     let screenSize = 0;
     let mapDisabled = false;
@@ -1134,6 +1136,11 @@
       }
     });
 
+    function toggleFogOfWar(e){
+        $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar = !$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar;
+        console.log("Fog toggle", $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar);
+    }
+
 </script>
 
 <style>
@@ -1166,9 +1173,18 @@
     border-radius: 2em;
   }
 
+  .tileOptionsBar::-webkit-scrollbar {
+    display: none;
+  }
+
   .tileInfoBar {
     padding: 0.8em;
     display: none;
+    overflow-y: scroll;
+  }
+
+  .tileInfoBar::-webkit-scrollbar {
+    display:none;
   }
 
   .tileInfo {
@@ -1193,6 +1209,8 @@
   }
 
   .tileInfoText {
+    overflow-y: scroll;
+    max-height: 20em;
     width: 100%;
     outline: none;
     border: 0.3em solid var(--batlas-black);
@@ -1200,6 +1218,10 @@
     padding: 1em;
     font-size: 1em;
     font-family: var(--batlas-font);
+  }
+
+  .tileInfoText::-webkit-scrollbar {
+    display: none;
   }
 
   p.roomDescription {
@@ -1216,7 +1238,7 @@
   .tileInfoBarActive{
         display: block;
         width: 22em;
-        height: calc(100% - 2em);
+        max-height: calc(100% - 2em);
   }
 
 
@@ -1590,15 +1612,87 @@
       left: 1em;
     }
 
-    .activeConnection {
-      opacity: 1;
-    }
 
     .centralControl {
       width: 100%;
       height: auto;
       object-fit: contain;
     }
+
+    .roomTitlePlay {
+        padding: 0.3em;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        font-size: 1.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--batlas-black);
+        text-align: left;
+    }
+
+    .roomTitlePlay p:hover {
+        cursor: default;
+    }
+
+    p.roomDescription {
+        padding: 0.6em;
+        width: 100%;
+        font-size: 1em;
+        color: var(--batlas-black);
+        text-align: left;
+    }
+
+    .closeButton {
+        position: sticky;
+        width: auto;
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        padding: 0.3em 0.6em;
+        transition: all 0.2s ease-in-out;
+        top: 1em;
+    }
+
+    .closeButton:hover {
+        transform: translateY(-0.05em);
+    }
+
+    .fogOfWar {
+        opacity: 0.5;
+        cursor: pointer;
+    }
+
+    .activeConnection {
+      opacity: 1;
+    }
+
+    .tileInfoTopbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        background-color: var(--batlas-white);
+        text-align: center;
+    }
+
+    .roomOptionsToggles {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        background-color: var(--batlas-white);
+        text-align: center;
+        gap: 1em;
+    }
+
+
 
   @media screen and (max-width: 1500px) {
     .mapSettings {
@@ -1637,18 +1731,36 @@
 
 </style>
 <div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
+    <div class="tileInfoTopbar">
+        <div class="closeButton" on:click={() => clearActiveTile()}>
+            <Icons icon={"remove"} size={"medium"} color={"black"}/>
+        </div>
+        <div class="roomOptionsToggles">
+            <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+                <Icons icon={"d20"} size={"medium"} color={"black"}/>
+            </div>
+        </div>
+    </div>
     <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
-    {#if $playMode === false}
+    {#if !$page.route.id.includes("/player/")}
         <div class="roomOptionsToggle">
           <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
           <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
         </div>
     {/if}
-        {#if windowMode === "notes"}
-          <div class="roomOptionsTitle">
-            <p>Title</p>
-            <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
-          </div>
+        {#if windowMode === "notes" || $page.route.id.includes("/player/")}
+            {#if $page.route.id.includes("/player/")}
+                {#if $activeTile.tileTitle !== ""}
+                <div class="roomTitlePlay">
+                    <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
+                </div>
+                {/if}
+            {:else}
+                <div class="roomOptionsTitle">
+                    <p>Title</p>
+                    <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
+                </div>
+            {/if}
           {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
             {#if !$page.route.id.includes("play")}
               <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
