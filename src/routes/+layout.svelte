@@ -1,12 +1,9 @@
-<script lang="ts">
-   import { user, userData } from "$lib/firebase";
+<script lang="ts">;
     import "../app.css";
+    import Header from "$lib/components/Header.svelte";
+    import Footer from "$lib/components/Footer.svelte";
 
-
-   $user;
-   $userData; 
 </script>
 
-<div class="min-h-screen flex flex-col">
+
     <slot />
-</div>

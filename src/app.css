@@ -1,3 +1,196 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+
+:root {
+  --batlas-black: #000000;
+  --batlas-white: #fff;
+  --batlas-font: 'Poppins', sans-serif;
+  background-color: var(--batlas-black);
+  font-family: 'Poppins', sans-serif;
+}
+
+html {
+  min-height: 100lvh;
+  background-color: var(--batlas-black);
+  min-width: fit-content;
+}
+
+body::-webkit-scrollbar {
+  color: var(--batlas-black);
+  background-color: var(--batlas-black);
+}
+
+body::-webkit-scrollbar-thumb {
+  color: var(--batlas-black);
+  background: var(--batlas-black);
+  border: 0.2em solid var(--batlas-white);
+}
+
+body::-webkit-scrollbar-corner {
+  display: none;
+}
+
+body {
+  margin: 0;
+  min-height: 100lvh;
+  min-width: fit-content;
+
+}
+
+* {
+  box-sizing: border-box;
+};
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  margin: 0em;
+  }
+
+  h2 {
+    font-family: 'Pirata One', cursive;
+    margin: 0em;
+    font-size: 2.8em;
+    font-weight: 800;
+    color: var(--batlas-black);
+    -webkit-text-stroke: var(--batlas-black) 0.01em;
+    color: var(--batlas-white);
+    text-shadow: var(--batlas-black) -0.05em 0.05em;
+  }
+
+  h3 {
+    margin: 0em;
+  }
+
+  h4 {
+    margin: 0em;
+  }
+
+
+    .dungeonBorder {
+      border: 1em solid white;
+      border-image-slice: 103 107 107 111;
+      border-image-width: 1em;
+      border-image-outset: 0px 0px 0px 0px;
+      border-image-repeat: repeat repeat;
+      border-style: solid;
+      border-image-source: url('/img/border_full.png');
+      background-color: var(--batlas-white);
+  }
+
+  .brutalismBorder {
+    border: 0.3em solid var(--batlas-black);
+    border-radius: 0.8em;
+    box-shadow: var(--batlas-black) -0.4em 0.4em;
+  }
+
+  .brutalismBorderWhite {
+    border: 0.3em solid var(--batlas-white);
+    border-radius: 0.8em;
+    box-shadow: var(--batlas-white) -0.4em 0.4em;
+  }
+
+  
+  .brutalismBorderInverted {
+    border: 0.3em solid var(--batlas-black);
+    border-radius: 0.8em;
+    box-shadow: var(--batlas-black) -0.4em 0.4em;
+    background-color: var(--batlas-black) !important;
+    color: var(--batlas-white);
+  }
+
+  .brutalismBorderInverted .savedAdventureOptions {
+    border: none !important;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white)
+  }
+
+  .brutalismBorderInverted .savedAdventureOptions a {
+    border: 0.1em solid var(--batlas-white);
+    width: 100%;
+    padding: 0.2em 0.4em;
+    border-radius: 0.6em;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    text-align:center;
+  }
+
+  .firstLetter::first-letter {
+    font-size: 210%;
+    line-height: 1em;
+    float: left;
+    margin-right: 0.12em;
+    font-family: 'Pirata One', cursive;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    padding: 0.2em 0.3em;
+  }
+
+
+  .brutalismBorderInverted + .subsectionsContainer {
+    display: flex !important;
+    max-height: 100vh !important;
+  }
+
+  .invisible {
+    display: none;
+  }
+
+  .alert {
+    display: none;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border: 0.1em solid var(--batlas-white);
+    border-radius: 0.6em;
+    padding: 0.2em 0.8em;
+    text-align: center;
+    position: fixed;
+    top: 0.6em;
+    right: 0.6em;
+    z-index: 100;
+  }
+
+  .alertActive {
+    display: block;
+    animation: slide-in-alert 3s ease forwards;
+  }
+
+  .disabledButton {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .iconContainer:hover{
+    cursor: pointer;
+  }
+
+  @keyframes slide-in-alert {
+    0% {
+      transform: translateY(-120%);
+    }
+
+    20% {
+      transform: translateY(0%);
+    }
+    80% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-120%);
+    }
+  }
+
+  @media screen and (max-width: 1500px) {
+    h2 {
+      color: var(--batlas-black);
+      text-shadow: var(--batlas-black) -0.02em 0.02em;
+      -webkit-text-stroke: var(--batlas-black) 0em;
+      letter-spacing: 0.025em;
+    }
+  }
