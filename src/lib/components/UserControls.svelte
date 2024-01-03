@@ -1,45 +1,23 @@
 <script>
-  import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
-
     import { page } from '$app/stores';
-    import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile, currentAdventureChange } from "$lib/dashboardState";
+    import { generateMap } from "$lib/mapGen";
+    import { activeTile, currentAdventureChange } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
-    import { onMount } from 'svelte';
-    import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
     import { tiles } from '$lib/tiles';
-    import { db, userData, user } from "$lib/firebase";
+    import { db, user } from "$lib/firebase";
     import {
-      arrayRemove,
-      arrayUnion,
       doc,
       setDoc,
-      updateDoc,
-      FieldValue,
       collection,
-      addDoc,
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
     import { createAlert } from "$lib/dashboardState";
-
-
-
-    let screenSize = 0;
-    let mapDisabled = false;
 
     let disabledMapGenButton = false;
 
     
     let disabledSave = false;
-
-    let blankTile = {
-      tileOptions: null,
-      rowIndex: null,
-      columnIndex: null,
-      tileNotes: "",
-      tileTitle: "",
-    };
 
 
 
@@ -99,11 +77,6 @@
         }, 3000); 
     }    
     currentAdventureChange.set(false);
-  }
-
-  function enterPlayMode(currentAdventure) {
-    playMode.set(true);
-    window.location.href = `/dashboard/player/${$user.uid}/${currentAdventure.adventureId}`;
   }
 
     function addBottomRow() {
@@ -212,19 +185,6 @@
         row.shift();
       });
       currentAdventure.set({ ...$currentAdventure, map: newMap});
-    }
-
-    function togglePlayMode() {
-      if ($playMode === false) {
-        playMode.set(true);
-        activeTile.set(blankTile);
-        let floatingTiles = document.getElementsByClassName("tileFloat");
-        for (let i = 0; i < floatingTiles.length; i++) {
-          floatingTiles[i].classList.remove("tileFloat");
-        }
-      } else {
-        playMode.set(false);
-      }
     }
 
     function togglePublic() {
@@ -363,10 +323,6 @@
     width: 100%;
   }
 
-  .halfWidth {
-    width: 50%;
-  }
-
   :global(.iconContainer) {
     pointer-events: all;
   }
@@ -390,10 +346,6 @@
     opacity: 1;
   }
 
-  .invisible {
-    display: none;
-  }
-
   .changeAlert {
     margin: 0em;
   }
@@ -405,10 +357,20 @@
     <div class="mapControlLabel">
       <p>Bottom</p>
     </div>
-    <div class="iconContainer" on:click={addBottomRow}>
+    <div class="iconContainer"
+      on:click={addBottomRow}
+      on:keydown={addBottomRow}
+      role="button"
+      tabindex="0"
+    >
       <Icons icon={"add"} size={"medium"} color={"black"}/>
     </div>
-    <div class="iconContainer" on:click={removeBottomRow}>
+    <div class="iconContainer"
+      on:click={removeBottomRow}
+      on:keydown={removeBottomRow}
+      role="button"
+      tabindex="0"
+    >
       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
     </div>
   </div>
@@ -416,10 +378,20 @@
     <div class="mapControlLabel">
       <p>Top</p>
     </div>
-    <div class="iconContainer" on:click={addTopRow}>
+    <div class="iconContainer"
+      on:click={addTopRow}
+      on:keydown={addTopRow}
+      role="button"
+      tabindex="0"
+    >
       <Icons icon={"add"} size={"medium"} color={"black"} />
     </div>
-    <div class="iconContainer" on:click={removeTopRow}>
+    <div class="iconContainer"
+      on:click={removeTopRow}
+      on:keydown={removeTopRow}
+      role="button"
+      tabindex="0"
+      >
       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
     </div>
   </div>
@@ -427,10 +399,20 @@
     <div class="mapControlLabel">
       <p>Left</p>
     </div>
-    <div class="iconContainer" on:click={addColumnLeft}>
+    <div class="iconContainer"
+      on:click={addColumnLeft}
+      on:keydown={addColumnLeft}
+      role="button"
+      tabindex="0"
+      >
       <Icons icon={"add"} size={"medium"} color={"black"} />
     </div>
-    <div class="iconContainer" on:click={removeColumnLeft}>
+    <div class="iconContainer"
+      on:click={removeColumnLeft}
+      on:keydown={removeColumnLeft}
+      role="button"
+      tabindex="0"
+    >
       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
     </div>
   </div>
@@ -438,47 +420,78 @@
     <div class="mapControlLabel">
       <p>Right</p>
     </div>
-    <div class="iconContainer" on:click={addColumnRight}>
+    <div class="iconContainer"
+      on:click={addColumnRight}
+      on:keydown={addColumnRight}
+      role="button"
+      tabindex="0"
+    >
       <Icons icon={"add"} size={"medium"} color={"black"} />
     </div>
-    <div class="iconContainer" on:click={removeColumnRight}>
+    <div class="iconContainer"
+      on:click={removeColumnRight}
+      on:keydown={removeColumnRight}
+      role="button"
+            tabindex="0"
+      >
       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
     </div>
   </div>
 </div>
 {/if}
 {#if !$page.route.id.includes("/player/")}
-<div class="userControlContainer">
-  {#if !$page.route.id.includes("/player/")}
+  <div class="userControlContainer">
+    {#if !$page.route.id.includes("/player/")}
       <div class="userControlNoHover labelledControl">
         <div class="controlLabel">
           <p>Title</p>
         </div>
         <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
-      </div>
-      <div class="controlRow">
-        <div class="userControl" on:click={fogAllTiles}>
-          <p>Fog all</p>
         </div>
-          <div class="publicToggle" on:click={togglePublic} class:activeConnection="{$currentAdventure.public}">
+        <div class="controlRow">
+          <div class="userControl"
+            on:click={fogAllTiles}
+            on:keydown={fogAllTiles}
+            role="button"
+            tabindex="0"
+            >
+            <p>Fog all</p>
+          </div>
+          <div class="publicToggle"
+            on:click={togglePublic} 
+            on:keydown={togglePublic}
+            role="button"
+            tabindex="0" 
+            class:activeConnection="{$currentAdventure.public}"
+          >
               {#if $currentAdventure.public}
               <p>Public</p>
               {:else}
               <p>Private</p>
               {/if}
           </div>
-      </div>
-      <div class="controlRow">
-      <div class="userControl" on:click={() => handleMapGenerate($currentAdventure, $user)}>
-        <p>Random map</p>
-      </div>
-      <div class="userControl" on:click={() => saveAdventureToFirebase($currentAdventure)}>
-        <p>Save map</p>
-      </div>
-    </div>
-      {#if $currentAdventureChange}
-        <p class="changeAlert">Remember to save your changes</p>
+        </div>
+        <div class="controlRow">
+          <div class="userControl"
+            on:click={() => handleMapGenerate($currentAdventure, $user)}
+            on:keydown={() => handleMapGenerate($currentAdventure, $user)}
+            role="button"
+            tabindex="0"
+          >
+            <p>Random map</p>
+          </div>
+          <div class="userControl" 
+            on:click={() => saveAdventureToFirebase($currentAdventure)}
+            on:keydown={() => saveAdventureToFirebase($currentAdventure)}
+            role="button"
+            tabindex="0"
+          >
+            <p>Save map</p>
+          </div>
+        </div>
+        {#if $currentAdventureChange}
+          <p class="changeAlert">Remember to save your changes</p>
+        {/if}
       {/if}
-    {/if}
-  </div>
+    </div>
   {/if}

@@ -1,78 +1,14 @@
 <script>
 
-    import { error } from '@sveltejs/kit';
-    import {adventureListStore, currentAdventure, playAdventureCurrent} from "$lib/adventureData";
-    import { collection, getDocs, limit, query, where, onSnapshot, doc } from "firebase/firestore";
-    import { onMount } from "svelte";
     import { page } from '$app/stores';
-    import { db, user } from "$lib/firebase";
+    import { user } from "$lib/firebase";
     import PlayerMap from '$lib/components/PlayerMap.svelte';
-    import AdventureContent from "$lib/components/AdventureContent.svelte";
-    import Icons from '$lib/components/Icons.svelte';
-    import { screenChoice } from '$lib/dashboardState';
     import Map from '$lib/components/Map.svelte';
     
-    let pageId = $page.params.adventureId;
-    let playingAdventure = {};
-    let adventuresNotesCollapsed = false;
+</script>
     
-    let screenSize = 0;
-    
-    function toggleActive(e) {
-        adventuresNotesCollapsed = !adventuresNotesCollapsed;
-        }
-    
-    </script>
-    
-    <style>
-        .options {
-            grid-column: 1/4;
-            grid-row: auto / span 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 2em;
-            width: 100%;
-            height: 100%;
-            max-height: calc(100lvh - 4em);
-    
-            overflow: scroll;
-    
-        }
-    
-        .options::-webkit-scrollbar {
-            display: none;
-        }
-    
-        .optionsCollapsed {
-            grid-column: 1/2;
-            grid-row: 1/2;
-            padding: 0.4em;
-        }
-    
-        .optionsCollapsed + .map {
-            grid-column: 2/17;
-            grid-row: auto / span 2;
-        }
-    
-        .content {
-            width: 100%;
-            grid-column: 5/11;
-            height: 100%;
-            max-height: calc(100lvh - 4em);
-        }
-    
-        .dungeon {
-        border: 1em solid white;;
-        border-image-slice: 103 107 107 111;
-        border-image-width: 1em;
-        border-image-outset: 0px 0px 0px 0px;
-        border-image-repeat: repeat repeat;
-        border-style: solid;
-        border-image-source: url('/img/border_full.png');
-        background-color: var(--batlas-white);
-    }
+<style>
+
     .map {
         padding: 0em;
         grid-column: 1/17;
@@ -83,51 +19,14 @@
         align-items: center;
         height: calc(100%);
         width: 100%;
-    }
+    }   
     
-    .icon   {
-        width: 2em;
-        height: 2em;
-        fill: var(--batlas-black);
-        cursor: pointer;
-    }
-    
-    @media screen and (max-width: 1500px) {
-    
-    .options, .content, .map {
-        height: 100%;
-    }
-    .options {
-        height: 100%;
-        padding: 1em;
-    }
-    
-    .invisible {
-        display: none;
-    }
-    
-    .map {
-        overflow-x: hidden;
-    }
-    
-    .currentScreen {
-        grid-template-columns: 1;
-    }
-    
-    
-    
-    }
-    
-    
-    
-    </style>
-    
-    <svelte:window bind:innerWidth = {screenSize}/>
-    
-    <div class="map">
-        {#if $user?.uid !== $page.params.creatorId}
-            <PlayerMap />
-        {:else}
-            <Map />
-        {/if}
-    </div>
+</style>
+        
+<div class="map">
+    {#if $user?.uid !== $page.params.creatorId}
+        <PlayerMap />
+    {:else}
+        <Map />
+    {/if}
+</div>

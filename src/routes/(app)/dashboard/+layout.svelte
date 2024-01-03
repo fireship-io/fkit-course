@@ -1,21 +1,15 @@
 <script lang="ts">
     import type { LayoutData } from './$types';
-    import { screenChoice, premiumUser } from "$lib/dashboardState";
+    import { premiumUser } from "$lib/dashboardState";
+    import AuthCheck from "$lib/components/AuthCheck.svelte";
+    import NavigationBar from "$lib/components/NavigationBar.svelte";
+    import OffScreenMenu from "$lib/components/OffScreenMenu.svelte";
+    import { map } from "$lib/mapGen";
     
     export let data: LayoutData;
 
-    import AuthCheck from "$lib/components/AuthCheck.svelte";
-    import { user, userData, storage, db } from "$lib/firebase";
-    import Content from "$lib/components/AdventureContent.svelte";
-    import NavigationBar from "$lib/components/NavigationBar.svelte";
-    import OffScreenMenu from "$lib/components/OffScreenMenu.svelte";
-    import { currentAdventure } from "$lib/adventureData";
-    import { onMount } from 'svelte';
-    import { map } from "$lib/mapGen";
-
     let mapArray;
     let mapString;
-
 
     map.subscribe(value => {
         mapArray = value;
@@ -150,7 +144,12 @@
 <AuthCheck>
     <div class="betaBanner">
         <p>Batlas is still in beta testing. There will be bugs.</p>
-        <div class:halfOpacity={!$premiumUser} on:click={togglepremiumUser}>
+        <div
+            class:halfOpacity={!$premiumUser}
+            on:click={togglepremiumUser}
+            on:keydown={togglepremiumUser}
+            role="button"
+            tabindex="0">
             <p>premium user</p>
         </div>
     </div>
@@ -158,7 +157,9 @@
         <section class="navigation">
             <NavigationBar />
         </section>
-        <section class="contentSlot"><slot /></section>
+        <section class="contentSlot">
+            <slot />
+        </section>
     </main>
     <OffScreenMenu></OffScreenMenu>
 </AuthCheck>
