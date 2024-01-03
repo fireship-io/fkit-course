@@ -82,6 +82,7 @@
         justify-content: center;
         align-items: center;
         height: calc(100%);
+        width: 100%;
     }
     
     .icon   {

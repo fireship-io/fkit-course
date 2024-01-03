@@ -81,6 +81,12 @@
     height: calc(100%);
 }
 
+.fullScreen {
+    width: 100%;
+}
+
+
+
 @media screen and (max-width: 1500px) {
 
 .options, .content, .map {
@@ -111,22 +117,6 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 
-<div class="options dungeonBorder" class:invisible={$currentAdventure != null && $screenChoice != "playHome"}>
+<div class="fullScreen" class:invisible={$currentAdventure != null && $screenChoice != "playHome"}>
     <SavedAdventures {deleteAdventure}/>
 </div>
-{#if screenSize >= 1500 && $currentAdventure != null && $screenChoice == "playAdventureNotes"}
-<div class="content dungeonBorder">
-    <AdventureContent />
-</div>
-<div class="map">
-    <Map />
-</div>
-{:else if screenSize < 1500 && $currentAdventure.map != null && $screenChoice == "playAdventureNotes"}
-<div class="content dungeonBorder">
-    <AdventureContent />
-</div>
-{:else if screenSize < 1500 && $currentAdventure.map != null && $screenChoice == "playAdventureMap"}
-<div class="map">
-    <Map />
-</div>
-{/if}

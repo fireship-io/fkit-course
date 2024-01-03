@@ -8,6 +8,11 @@ export const activeRule = writable({
   title: "Select a category to know more.",
   content: "",
 });
+
+export const premiumUser = writable(false);
+export const userAdventureCount = writable(0);
+export const currentAdventureChange = writable(false);
+
 export const activeTile = writable({
   rowIndex: null,
   columnIndex: null,

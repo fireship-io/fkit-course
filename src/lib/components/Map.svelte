@@ -7,7 +7,7 @@
 
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
+    import { activeTile, playMode, setActiveTile, currentAdventureChange } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { db, user } from "$lib/firebase";
     import {
@@ -19,6 +19,7 @@
       FieldValue,
       collection,
       addDoc,
+      onSnapshot,
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
     import { createAlert } from "$lib/dashboardState";
@@ -32,6 +33,13 @@
     let mapDisabled = false;
 
     let disabledMapGenButton = false;
+    $: $currentAdventure, changeAlert();
+
+    function changeAlert() {
+      console.log("change alert");
+      currentAdventureChange.set(true);
+    }
+
 
     function notesOrder() {
       let tileNotesIndicators = document.getElementsByClassName("tileNotesIndicator");
@@ -148,7 +156,21 @@
       }
   }
 
+  let adventureData = {};
+  let adventureId = $page.params.adventureId;
+  let creatorId = $page.params.creatorId;
 
+onMount(async () => {
+  onSnapshot(doc(db, "users", creatorId, "adventures", adventureId), (doc) => {
+    if (doc.exists()) {
+      adventureData = doc.data();
+      adventureData.map = JSON.parse(adventureData.map);
+      currentAdventure.set(adventureData);
+    } else {
+      console.log("No such document!");
+    }
+  });
+});
 
 </script>
 
@@ -730,7 +752,7 @@
     </div>
     <div class="dialogueContainer">
       <UserControls/>
-      {#if $activeTile.rowIndex !== null}
+      {#if $activeTile.rowIndex !== null}s
         <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
       {/if}
     </div>

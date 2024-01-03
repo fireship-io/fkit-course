@@ -3,7 +3,7 @@
 
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
+    import { activeTile, playMode, setActiveTile, currentAdventureChange } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
@@ -22,6 +22,8 @@
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
     import { createAlert } from "$lib/dashboardState";
+
+
 
     let screenSize = 0;
     let mapDisabled = false;
@@ -50,12 +52,13 @@
       disabledMapGenButton = true;
       activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: "", tileTitle: ""});
       generateMap();
-      currentAdventure.adventureId = "";
-      currentAdventure.title = "";
+      currentAdventure.adventureId === "";
+      currentAdventure.title === "";
       currentAdventure.userId = user.uid;
       setTimeout(() => {
         disabledMapGenButton = false
       }, 500);
+      console.log(currentAdventure.adventureId)
     }
 
     async function saveAdventureToFirebase(currentAdventure) {
@@ -94,11 +97,8 @@
       setTimeout(() => {
           disabledSave = false;
         }, 3000); 
-    }
-    
-    if ($page.url.pathname !== `/dashboard/create/${currentAdventure.adventureId}`) {
-      window.location.href === `/dashboard/create/${currentAdventure.adventureId}`;
-    }
+    }    
+    currentAdventureChange.set(false);
   }
 
   function enterPlayMode(currentAdventure) {
@@ -133,25 +133,29 @@
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
-    function addTopRow() {
+    function createTopRow(){
       let mapColumns = $currentAdventure.map[0].length;
       let newRow = [];
-      let newRowIndex = $currentAdventure.map.length + 1;
       for (let i = 0; i < mapColumns; i++) {
         newRow.push({
           id: uuidv4(),
-          zIndex: newRowIndex,
+          zIndex: $currentAdventure.map.length + 1,
           chosenTile: tiles.type.blank[0],
           tileOptions: null,
           tileNotes: "",
           tileTitle: "",
           interestPoints: [],
+          fogOfWar: true,
         }
         );
       }
+      return newRow;
+    }
+
+    function addTopRow() {
       let newMap = deepCloneArray($currentAdventure.map);
-      newMap.unshift(newRow);
-      newMap.unshift(newRow);
+      newMap.unshift(createTopRow());
+      newMap.unshift(createTopRow());
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
@@ -386,6 +390,14 @@
     opacity: 1;
   }
 
+  .invisible {
+    display: none;
+  }
+
+  .changeAlert {
+    margin: 0em;
+  }
+
 </style>
 {#if !$page.route.id.includes("/player/")}
 <div class="mapControlsContainer">
@@ -458,22 +470,15 @@
       </div>
       <div class="controlRow">
       <div class="userControl" on:click={() => handleMapGenerate($currentAdventure, $user)}>
-        <p>New map</p>
+        <p>Random map</p>
       </div>
       <div class="userControl" on:click={() => saveAdventureToFirebase($currentAdventure)}>
         <p>Save map</p>
       </div>
     </div>
-    {/if}
-  <div class="controlRow">
-    {#if !$page.route.id.includes("/player/")}
-      <div class="userControl">
-        <p>Export</p>
-      </div>
-      <div class="userControl" on:click={() => enterPlayMode($currentAdventure)}>
-          <a>Play</a>
-      </div>
+      {#if $currentAdventureChange}
+        <p class="changeAlert">Remember to save your changes</p>
       {/if}
-    </div>
+    {/if}
   </div>
   {/if}

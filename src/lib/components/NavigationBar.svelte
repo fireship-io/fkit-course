@@ -3,7 +3,7 @@
 
     import {page} from '$app/stores';
     import { currentAdventure, playAdventureCurrent } from '$lib/adventureData';
-    import { screenChoice, offScreenMenu, activeRule, activeTile } from "$lib/dashboardState";
+    import { screenChoice, offScreenMenu, activeRule, activeTile, premiumUser } from "$lib/dashboardState";
     import { db, userData, auth, user } from "$lib/firebase";
     import { GoogleAuthProvider, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential } from "firebase/auth";
     import Icons from './Icons.svelte';
@@ -58,14 +58,10 @@
         setScreenChoice(null);
     }
 
-    function navigateFromPlay() {
-        if($page.route.id?.includes('play') && $playAdventureCurrent){
+    function navigateToCreate() {
         clearCurrentAdventureAndScreenChoice();
         clearActiveTile();
         setScreenChoice('');
-        } else {
-            return;
-        }
     }
 
     function returnHome() {
@@ -81,6 +77,10 @@
     async function signOutSSR() {
     const res = await fetch("/api/signin", { method: "DELETE" });
     await signOut(auth);
+  }
+
+  function upgradeToPremium() {
+    console.log("upgrade to premium");
   }
 
 </script>
@@ -100,13 +100,14 @@
         border-radius: 1em;
         border: 0.3em solid var(--batlas-black);
         text-decoration: none;
+        transition: all 0.3s ease-in-out;
     }
 
     .iconBox:hover {
         color: var(--batlas-white);
         cursor: pointer;
-        border: 0.3em solid var(--batlas-white)
-
+        border: 0.3em solid var(--batlas-white);
+        transform: translateX(0.5em);
     }
 
     .iconBox p {
@@ -205,24 +206,84 @@
         border: solid 0.3em var(--batlas-black);
     }
 
+    .premiumButton {
+        background-color: var(--batlas-white);
+        color: var(--batlas-black);
+        border: 0.3em solid var(--batlas-white);
+    }
+
+    .premiumButton:hover {
+        color: var(--batlas-black)
+    }
+
+    .topSection, .bottomSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1em;
+        width: 100%;
+        height: auto;
+    }
+
+    .navigationColumn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1em;
+        width: 100%;
+        height: 100%;
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
+    }
+
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .invisible {
+        display:none;
+    }
+
 
 </style>
 
 <svelte:window bind:innerWidth = {screenSize}/>
 
 {#if screenSize > 1500}
-    <a href="/dashboard/play" class="iconBox active" class:active="{$page.route.id.includes("play")}" on:click={setScreenChoice('adventures')}>
+<div class="navigationColumn">
+<div class="topSection">
+    {#if !$premiumUser}
+    <a href="#" class="iconBox premiumButton" on:click={upgradeToPremium}>
+        <Icons icon={"d20"} size={"full"} color={"black"} />
+            <p>Upgrade to premium</p>
+    </a>
+    {/if}
+    <a href="/dashboard/play" class="iconBox" class:active="{$page.route.id.includes("play")}" on:click={setScreenChoice('adventures')}>
         <Icons icon={"sword"} size={"full"} color={"white"} />
         <p>Adventures</p>
     </a>
-    <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateFromPlay}>
+    <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateToCreate}>
         <Icons icon={"add"} size={"full"} color={"white"} />
         <p>Create</p>
     </a>
-    <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}">
+    <p class:invisible={$premiumUser}>Premium features</p>
+    <a href="/dashboard/dungeons" class="iconBox" class:active="{$page.route.id.includes("dungeons")}" class:disabled={!$premiumUser}>
         <Icons icon={"rules"} size={"full"} color={"white"} />
-        <p>Rules</p>
+        <p>Pre-made dungeons</p>
     </a>
+    <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}" class:disabled={!$premiumUser}>
+        <Icons icon={"d20"} size={"full"} color={"white"} />
+        <p>Batlas RPG</p>
+    </a>
+    <a href="/dashboard/polls" class="iconBox" class:active="{$page.route.id.includes("polls")}" class:disabled={!$premiumUser}>
+        <Icons icon={"rules"} size={"full"} color={"white"} />
+        <p>Feature polls</p>
+    </a>
+</div>
+<div class="bottomSection">
     <a href="/dashboard/account" class="iconBox" class:active="{$page.route.id.includes("account")}">
         <Icons icon={"gear"} size={"full"} color={"white"} />
         <p>Account</p>
@@ -231,6 +292,8 @@
         <Icons icon={"logOut"} size={"full"} color={"white"} />
         <p>Log Out</p>
     </a>
+</div>
+</div>
 {:else}
     <div class="responsiveNav">
         <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_white.webp" alt="BATLAS" height = "40em" ></a>
@@ -239,23 +302,6 @@
             <svg class="icon menuIcon" width="100%" height="100%" viewBox="0 0 188 159" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,134.08l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,0c2.392,0 4.333,1.942 4.333,4.333Zm0,-64.873l0,20.22c0,2.392 -1.941,4.333 -4.333,4.333l-178.959,0c-2.391,0 -4.333,-1.941 -4.333,-4.333l0,-20.22c0,-2.392 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.941 4.333,4.333Zm0,-64.874l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.942 4.333,4.333Z"/></svg>
         </a>
     </div>
-    {#if $page.route.id.includes("play")}
-    <div class="secondaryNavBar">
-        {#if $currentAdventure != null}
-            <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'playAdventureNotes'}" on:click={() => setScreenChoice("playAdventureNotes")}>Notes</a>
-            <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'playMap'}" on:click={() => setScreenChoice("playAdventureMap")}>Map</a>
-        {/if}
-    </div>
-    {:else if $page.route.id.includes("create")}
-    <div class="secondaryNavBar">
-        <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'createPlanner'}" on:click={() => setScreenChoice("createPlanner")}>Planner</a>
-        <a class="secondaryNavLink" class:currentScreen="{$screenChoice === 'createMap'}" on:click={() => setScreenChoice("createMap")}>Map Maker</a>
-    </div>
-    {:else if $page.route.id.includes("rules") && $screenChoice !== "rulesHome"}
-    <div class="secondaryNavBar">
-        <a class="secondaryNavLink" on:click={() => setScreenChoice("rulesHome")}>Rules</a>
-    </div>
-    {/if}
 {/if}
 
 

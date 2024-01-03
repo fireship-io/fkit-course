@@ -5,32 +5,40 @@
     import {currentAdventure} from "$lib/adventureData";
     import { screenChoice, activeTile } from "$lib/dashboardState";
     import { onMount } from "svelte";
-    import CreateMap from "$lib/components/CreateMap.svelte";
+  import CreateMap from "$lib/components/CreateMap.svelte";
+
 
     let screenSize = 0;
 
     function clearAdventureData() {
-        console.log("clearAdventureData fired")
-        let emptyAdventureData = {
-            title: "",
-            notes: {
-                enemy: "",
-                quest: "",
-                npc: "",
-                goal: "",
-                scene: "",
-                push: "",
-                gimmick: ""
-            },
-            map: [],
-            userId: $user?.uid,
-            adventureId: "",
-        };
+    console.log("clearAdventureData fired")
+    let emptyAdventureData = {
+        title: "",
+        notes: {
+            enemy: "",
+            quest: "",
+            npc: "",
+            goal: "",
+            scene: "",
+            push: "",
+            gimmick: ""
+        },
+        map: [],
+        userId: $user?.uid,
+        adventureId: "",
+    };
+
     currentAdventure.set(emptyAdventureData);
     activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
     console.log($currentAdventure)
     console.log($currentAdventure.adventureId !== "")
-    }
+
+}
+
+onMount(() => {
+    console.log("onMount current adventure", $currentAdventure)
+    
+})
 
 
 </script>
@@ -101,6 +109,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    width: 100%;
     max-height: calc(100%);
 }
 
@@ -150,5 +159,5 @@
 </style>
 
 <div class="mapColumn">
-    <CreateMap />
+        <Map />
 </div>

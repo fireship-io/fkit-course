@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { LayoutData } from './$types';
-    import { screenChoice } from "$lib/dashboardState";
+    import { screenChoice, premiumUser } from "$lib/dashboardState";
     
     export let data: LayoutData;
 
@@ -21,6 +21,10 @@
         mapArray = value;
         mapString = JSON.stringify(mapArray);
     })
+
+    function togglepremiumUser() {
+        premiumUser.set(!$premiumUser);
+    }
 
 
 </script>
@@ -56,10 +60,19 @@
         gap: 2em;
         display: grid;
         grid-template-columns: repeat(17, 1fr);
-        grid-template-rows: 1fr 9fr;
+        grid-template-rows: repeat(auto, 1fr);
         margin-top: 2em;
         max-height: calc(100% - 2em);
         height: 100%;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .contentSlot::-webkit-scrollbar {
+        display: none;
     }
 
     .betaBanner {
@@ -73,6 +86,7 @@
         top: 0em;
         left: 0em;
         width: 100%;
+        gap: 2em;
     }
 
     .betaBanner p {
@@ -80,6 +94,12 @@
         margin: 0em;
         font-size: 0.9em;
         text-transform: uppercase;
+    }
+
+    .halfOpacity {
+        opacity: 0.5;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
     }
 
     @media screen and (max-width: 1500px) {
@@ -119,7 +139,7 @@
             grid-row: 2 / 3;
             gap: 2em;
             display: flex;
-            max-height: 100%;
+            max-height: calc(100lvh - 4em);
             height: 100%;
             overflow-y: hidden;
             }
@@ -128,7 +148,12 @@
 </style>
 
 <AuthCheck>
-    <div class="betaBanner"><p>Batlas is still in beta testing. There will be bugs.</p></div>
+    <div class="betaBanner">
+        <p>Batlas is still in beta testing. There will be bugs.</p>
+        <div class:halfOpacity={!$premiumUser} on:click={togglepremiumUser}>
+            <p>premium user</p>
+        </div>
+    </div>
     <main class="batlasDashboardGrid">
         <section class="navigation">
             <NavigationBar />
