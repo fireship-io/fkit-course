@@ -47,15 +47,17 @@
 
 <style>
     .adventureList {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-        grid-template-rows: repeat(auto-fill, minmax(18%, 1fr));
         gap: 2em;
         padding-right: 3em;
         width: 100%;
         height: 100%;
         max-height: calc(100lvh - 4em);
         overflow: scroll;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
     }
 
     .adventureList::-webkit-scrollbar {
@@ -75,6 +77,22 @@
         border-radius: 0.8em;
         background: var(--batlas-white);
         z-index: 5;
+    }
+
+    @media (max-width: 700px) {
+        .adventureList {
+            height: auto;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: 0;
+            padding-right: 0;
+            width: 100%;
+            flex-wrap: nowrap;
+            flex: 1;
+            overflow: auto;
+            padding-bottom: 10em;
+        }
     }
 
 </style>

@@ -14,6 +14,12 @@
         height: 100%;
         max-height: calc(100%);
     }
+
+    @media (max-width: 700px){
+        .mapColumn {
+        margin: 0em;
+        }
+    }
 </style>
 
 <div class="mapColumn">

@@ -53,6 +53,8 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        max-width: 20em;
+        min-width: 15em;
         height: auto;
         padding: 1em;
         gap: 1em;
@@ -196,6 +198,12 @@
 
         .deleteConfirmationButtons div:hover {
             transform: translateY(-0.2em);
+        }
+
+        @media (max-width: 700px) {
+            .savedAdventure {
+                max-width: calc(100% - 2em);
+            }
         }
 
 </style>

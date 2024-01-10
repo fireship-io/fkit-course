@@ -4,11 +4,16 @@
     import {page} from '$app/stores';
     import { currentAdventure, playAdventureCurrent } from '$lib/adventureData';
     import { screenChoice, offScreenMenu, activeRule, activeTile, premiumUser } from "$lib/dashboardState";
-    import { db, userData, auth, user } from "$lib/firebase";
+    import { db, userData, auth, user, app } from "$lib/firebase";
     import { GoogleAuthProvider, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential } from "firebase/auth";
     import Icons from './Icons.svelte';
-
-
+    import {
+      doc,
+      setDoc,
+      addDoc,
+      collection,
+      onSnapshot,
+    } from "firebase/firestore";
     let screenSize = 0;
 
     function clearActiveTile() {
@@ -79,9 +84,40 @@
     await signOut(auth);
   }
 
-  function upgradeToPremium() {
-    console.log("upgrade to premium");
-  }
+
+
+  async function upgradeToPremium(priceId) {
+      // Reference to the Firestore document
+    const checkoutSessionsRef = collection(db, "users", $user.uid, "checkout_sessions");
+
+    try {
+    // Create a new checkout session in Firestore
+    const checkoutSessionRef = await addDoc(checkoutSessionsRef, {
+        price: priceId,
+        success_url: window.location.origin,
+        cancel_url: window.location.origin,
+    });
+
+    // Wait for the CheckoutSession to get attached by the extension
+    onSnapshot(checkoutSessionRef, (snap) => {
+        const data = snap.data();
+        if (data) {
+        const { error, url } = data;
+        if (error) {
+            // Show an error to your customer and
+            // inspect your Cloud Function logs in the Firebase console.
+            alert(`An error occured: ${error.message}`);
+        }
+        if (url) {
+            // We have a Stripe Checkout URL, let's redirect.
+            window.location.assign(url);
+        }
+        }
+    });
+    } catch (e) {
+    console.error("Error creating checkout session", e);
+    }
+    };
 
 </script>
 
@@ -114,7 +150,7 @@
         margin: 0em;
         margin-left: 1em;
         text-align: left;
-        font-size: calc(0.5em + 0.5vw);
+        font-size: clamp(0.8rem, 2vw + 0.4rem, 1rem);
         text-transform: uppercase;
     }
 
@@ -247,16 +283,14 @@
         display:none;
     }
 
-
 </style>
 
 <svelte:window bind:innerWidth = {screenSize}/>
-
-{#if screenSize > 1500}
+{#if screenSize > 700}
 <div class="navigationColumn">
 <div class="topSection">
     {#if !$premiumUser}
-    <a href="#" class="iconBox premiumButton" on:click={upgradeToPremium}>
+    <a href="#" class="iconBox premiumButton" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>
         <Icons icon={"d20"} size={"full"} color={"black"} />
             <p>Upgrade to premium</p>
     </a>
@@ -295,13 +329,13 @@
 </div>
 </div>
 {:else}
-    <div class="responsiveNav">
-        <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_white.webp" alt="BATLAS" height = "40em" ></a>
-        <p style="text-transform: uppercase;">Beta testing</p>
-        <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
-            <svg class="icon menuIcon" width="100%" height="100%" viewBox="0 0 188 159" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><path d="M187.625,134.08l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,0c2.392,0 4.333,1.942 4.333,4.333Zm0,-64.873l0,20.22c0,2.392 -1.941,4.333 -4.333,4.333l-178.959,0c-2.391,0 -4.333,-1.941 -4.333,-4.333l0,-20.22c0,-2.392 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.941 4.333,4.333Zm0,-64.874l0,20.221c0,2.391 -1.941,4.333 -4.333,4.333l-178.959,-0c-2.391,-0 -4.333,-1.942 -4.333,-4.333l0,-20.221c0,-2.391 1.942,-4.333 4.333,-4.333l178.959,-0c2.392,-0 4.333,1.942 4.333,4.333Z"/></svg>
-        </a>
-    </div>
+<div class="responsiveNav">
+    <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_white.webp" alt="BATLAS" height = "40em" ></a>
+    <p style="text-transform: uppercase;">Beta testing</p>
+    <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
+        <Icons icon={"rules"} size={"large"} color={"white"} />
+    </a>
+</div>
 {/if}
 
 

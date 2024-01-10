@@ -25,6 +25,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@invertase/firestore-stripe-payments": "^0.0.7",
+		"@stripe/firestore-stripe-payments": "^0.0.6",
 		"firebase": "^9.23.0",
 		"firebase-admin": "^11.10.1",
 		"uuid": "^9.0.0"

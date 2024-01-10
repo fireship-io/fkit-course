@@ -20,7 +20,7 @@
     let disabledMapGenButton = false;
 
     let tileMode = "rooms";
-    let windowMode = "tile";
+    let windowMode = "notes";
 
 
     let chosenTileOptions = {
@@ -1132,7 +1132,7 @@
         windowMode = "notes";
       }
       else {
-        windowMode = "tile";
+        windowMode = "notes";
       }
     });
 
@@ -1181,6 +1181,11 @@
     padding: 0.8em;
     display: none;
     overflow-y: scroll;
+    position: fixed;
+    max-height: calc (100lvh - 4em);
+    height: 100%;
+    top: 1em;
+    right: 1em;
   }
 
   .tileInfoBar::-webkit-scrollbar {
@@ -1236,9 +1241,10 @@
   }
 
   .tileInfoBarActive{
+        right: 3em;
         display: block;
-        width: 22em;
-        max-height: calc(100% - 2em);
+        width: 20em;
+        max-height: calc(100% - 4em);
   }
 
 
@@ -1491,6 +1497,7 @@
       width: 100%;
       background-color: var(--batlas-white);
       text-align: center;
+      font-size: 0.8em;
     }
 
     .roomOptionsToggle a {
@@ -1517,11 +1524,12 @@
     .tileOptionsToggleContainer {
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
       width: 100%;
-      gap: 2em;
+      gap: 1em;
       background-color: var(--batlas-white);
       text-align: center;
+      font-size: 0.8em;
     }
 
     .tileOptionsToggleContainer .active {
@@ -1542,6 +1550,16 @@
       border: 0.25em solid var(--batlas-black);
       border-radius: 3em;
       text-align: center;
+    }
+
+    .roomOptionsTitle p {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8em;
+        line-height: 100%;
+        height: 100%;
     }
 
     .roomTitle {
@@ -1665,6 +1683,11 @@
     .fogOfWar {
         opacity: 0.5;
         cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5em;
     }
 
     .activeConnection {
@@ -1694,49 +1717,28 @@
 
 
 
-  @media screen and (max-width: 1500px) {
-    .mapSettings {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1em;
+  @media screen and (max-width: 700px) {
+    .tileInfoBar {
+      width: calc(100% - 2em);
+      height: calc(100% - 2em);
+      bottom: 1em;
+      right: 1em;
     }
 
-    .tileOptions {
-      height: 100%;
-    }
-
-    .tileOptionsBar {
-      width: 100%;
-      height: 100%;
-      max-height: 25%;
-    }
-
-    .tileInfoBarActive {
-      width: 100%;
-      height: 100%;
-      max-height: 75%;
-    }
-
-    .tileInfoBarActivePlay {
-      max-height: 100%;
-    }
-
-    .disabledHoverSelector {
-      pointer-events: none;
-      display: none;
-      visibility: hidden;
+    .tileOptionsToggleContainer {
+        z-index: 999;
     }
   }
 
 </style>
-<div class="tileInfoBar" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
+<div class="tileInfoBar" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
     <div class="tileInfoTopbar">
         <div class="closeButton" on:click={() => clearActiveTile()}>
             <Icons icon={"remove"} size={"medium"} color={"black"}/>
         </div>
         <div class="roomOptionsToggles">
             <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+                <p>Fog of war</p>
                 <Icons icon={"d20"} size={"medium"} color={"black"}/>
             </div>
         </div>

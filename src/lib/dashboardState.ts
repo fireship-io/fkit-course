@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import { db, user } from "./firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 
 export const screenChoice = writable("adventures");
 export const offScreenMenu = writable(true);

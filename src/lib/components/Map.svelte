@@ -9,6 +9,7 @@
   import {
     doc,
     setDoc,
+    getDoc,
     collection,
     onSnapshot,
   } from "firebase/firestore";
@@ -39,57 +40,65 @@
       }
   }
   
-  async function handleFogToggle(e, currentAdventure, cell, i, j) {
-    console.log("Fog toggle", currentAdventure.map[i][j].fogOfWar);
-    currentAdventure.map[i][j].fogOfWar = !currentAdventure.map[i][j].fogOfWar;
+  async function handleFogToggle(e, newAdventure, cell, i, j) {
+    newAdventure.map[i][j].fogOfWar = !newAdventure.map[i][j].fogOfWar;
+    currentAdventure.set(newAdventure);
 
     const adventuresRef = collection(db, "users", $user.uid, "adventures");
 
-    if (currentAdventure.title === "") {
+    if (newAdventure.title === "") {
       createAlert("Please enter a title for your adventure.");
       return;
     }
 
-    if (currentAdventure.adventureId === "") {
+    if (newAdventure.adventureId === "") {
       let uniqueId = uuidv4();
-      currentAdventure.adventureId = uniqueId;
-      console.log("saving new adventure to firebase", currentAdventure);
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
+      newAdventure.adventureId = uniqueId;
+      console.log("saving new adventure to firebase", newAdventure);
+      const adventureRef = doc(adventuresRef, newAdventure.adventureId);
       await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map)
+        ...newAdventure,
+        map : JSON.stringify(newAdventure.map)
       });
-      createAlert(`${currentAdventure.title} saved!`)
+      createAlert(`${newAdventure.title} saved!`)
       setTimeout(() => {
-        }, 3000);      
+        }, 3000);    
     } else {
-      console.log("updating new adventure to firebase", currentAdventure);
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
+      console.log("updating new adventure to firebase", newAdventure);
+      const adventureRef = doc(adventuresRef, newAdventure.adventureId);
       await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map)
+        ...newAdventure,
+        map : JSON.stringify(newAdventure.map)
       });
-      createAlert(`${currentAdventure.title} updated!`)
+      createAlert(`${newAdventure.title} updated!`)
       setTimeout(() => {
         }, 3000); 
     }
   }
 
+async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
+  const adventureRef = doc(db, "users", creatorId, "adventures", adventureId);
+  const adventureSnapshot = await getDoc(adventureRef);
+  if (adventureSnapshot.exists()) {
+    const adventureData = adventureSnapshot.data();
+    currentAdventure.set({
+      ...adventureData,
+      map: JSON.parse(adventureData.map)
+    });
+  } else {
+    console.log("Adventure document does not exist");
+  }
+}
+
   let adventureData = {};
   let adventureId = $page.params.adventureId;
   let creatorId = $page.params.creatorId;
 
-onMount(async () => {
-  onSnapshot(doc(db, "users", creatorId, "adventures", adventureId), (doc) => {
-    if (doc.exists()) {
-      adventureData = doc.data();
-      adventureData.map = JSON.parse(adventureData.map);
-      currentAdventure.set(adventureData);
-    } else {
-      console.log("No such document!");
-    }
+  onMount(async () =>{
+    console.log($currentAdventure)
+    await setCurrentAdventureFromFirebase(creatorId, adventureId);
   });
-});
+
 
 </script>
 
@@ -124,10 +133,12 @@ onMount(async () => {
   }
 
   .map {
-        overflow:scroll;
+        overflow:auto;
         background-color: var(--batlas-black);
         height: 100%;
+        min-height: 800px;
         max-height: calc(100lvh - 2em);
+        margin-left: 3em;
   }
 
 
@@ -161,7 +172,6 @@ onMount(async () => {
     flex-direction: row;
     padding: 0px;
     margin: 0px;
-    overflow: visible;
     margin-top: -5em;
   }
   
@@ -219,7 +229,7 @@ onMount(async () => {
   .dialogueContainer {
     transition: all 0.2s ease-in-out;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
     height: 100%;
@@ -244,10 +254,40 @@ onMount(async () => {
     filter: brightness(0.5);
   }
 
+  :global(.mapDisabled){
+    pointer-events: none;
+  }
+
+  @media(max-width:700px){
+
+    .mapContainer {
+      height: 100%;
+      width: 100%;
+      margin: 0em;
+    }
+
+    .map {
+      width: 100%;
+      margin: 0em;
+      padding: 0em;
+      padding-right: 0em;;
+    }
+    .dialogueContainer {
+        width: calc(100% - 2em);
+        height: 100%;
+        bottom: 1em;
+        left: 1em;
+        position: fixed;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+  }
+
 </style>
 
 <div class="mapContainer">
-    <div class="map">
+    <div class="map" >
       {#each $currentAdventure.map as row, i}
           <div class="gridRow">
               {#each row as cell, j}

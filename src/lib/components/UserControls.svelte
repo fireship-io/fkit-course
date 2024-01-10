@@ -12,12 +12,17 @@
       collection,
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
-    import { createAlert } from "$lib/dashboardState";
+    import { createAlert, premiumUser } from "$lib/dashboardState";
+  import { onMount } from 'svelte';
 
     let disabledMapGenButton = false;
 
     
     let disabledSave = false;
+    let maxRows = 12;
+    let maxColumns = 6;
+    let maxFreeHeight = false;
+    let maxFreeWidth = false;
 
 
 
@@ -31,7 +36,6 @@
       activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: "", tileTitle: ""});
       generateMap();
       currentAdventure.adventureId === "";
-      currentAdventure.title === "";
       currentAdventure.userId = user.uid;
       setTimeout(() => {
         disabledMapGenButton = false
@@ -80,6 +84,10 @@
   }
 
     function addBottomRow() {
+      if ($currentAdventure.map.length >= maxRows) {
+        maxFreeHeight = true;
+        return;
+      }
       let mapColumns = $currentAdventure.map[0].length;
       let newRow = [];
       let newRowIndex = $currentAdventure.map.length + 1;
@@ -101,6 +109,7 @@
     }
 
     function removeBottomRow() {
+      maxFreeHeight = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.pop();
       currentAdventure.set({ ...$currentAdventure, map: newMap});
@@ -126,6 +135,10 @@
     }
 
     function addTopRow() {
+      if ($currentAdventure.map.length >= maxRows) {
+        maxFreeHeight = true;
+        return;
+      }
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.unshift(createTopRow());
       newMap.unshift(createTopRow());
@@ -133,6 +146,7 @@
     }
 
     function removeTopRow() {
+      maxFreeHeight = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.shift();
       newMap.shift();
@@ -140,6 +154,10 @@
     }
 
     function addColumnRight() {
+      if ($currentAdventure.map[0].length >= maxColumns) {
+        maxFreeWidth = true;
+        return;
+      }
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
         row.push({
@@ -156,6 +174,7 @@
     }
 
     function removeColumnRight() {
+      maxFreeWidth = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
         row.pop();
@@ -164,6 +183,10 @@
     }
 
     function addColumnLeft() {
+      if ($currentAdventure.map[0].length >= maxColumns) {
+        maxFreeWidth = true;
+        return;
+      }
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
         row.unshift({
@@ -180,6 +203,7 @@
     }
 
     function removeColumnLeft() {
+      maxFreeWidth = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
         row.shift();
@@ -201,6 +225,11 @@
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
+    onMount(() => {
+      console.log("onMount fired");
+      console.log("Current Title", $currentAdventure);
+    })
+
 </script>
 
 <style>
@@ -212,6 +241,7 @@
     align-items: center;
     width: auto;
     min-width: 20em;
+    max-width: 20em;
     height: auto;
     gap: 1em;
     padding: 1em;
@@ -221,7 +251,7 @@
   }
 
   .mapControlsContainer {
-    min-width: 1em;
+    min-width: 20em;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -285,8 +315,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 1em;
-    padding-right: 1em;
+    gap: 0.2em;
+    padding-right: 0.5em;
   }
 
   .mapControlLabel {
@@ -300,8 +330,8 @@
     font-family: var(--batlas-font);
     border-radius: 2em 0 0 2em;
     transform: translateX(-2px);
-    padding: 0.5em;
-    padding-left: 1em;
+    padding: 0.8em;
+    font-size: 0.8em;
   }
 
   .iconContainer {
@@ -350,6 +380,13 @@
     margin: 0em;
   }
 
+  .mapControlDisabled,   .mapControlDisabled .iconContainer {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+
+
 </style>
 {#if !$page.route.id.includes("/player/")}
 <div class="mapControlsContainer">
@@ -362,6 +399,7 @@
       on:keydown={addBottomRow}
       role="button"
       tabindex="0"
+      class:mapControlDisabled = {maxFreeHeight}
     >
       <Icons icon={"add"} size={"medium"} color={"black"}/>
     </div>
@@ -437,6 +475,16 @@
       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
     </div>
   </div>
+  {#if maxFreeHeight && maxFreeWidth}
+    <p class="changeAlert">Free account max map size limit reached</p>
+    <a>Upgrade to premium</a>
+  {:else if maxFreeHeight}
+    <p class="changeAlert">Free account max height reached</p>
+    <a>Upgrade to premium</a>
+  {:else if maxFreeWidth}
+    <p class="changeAlert">Free account max width reached</p>
+    <a>Upgrade to premium</a>
+  {/if}
 </div>
 {/if}
 {#if !$page.route.id.includes("/player/")}

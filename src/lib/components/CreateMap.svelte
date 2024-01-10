@@ -25,31 +25,35 @@
   
   
   
-      function deepCloneArray(arr) {
+function deepCloneArray(arr) {
           return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
       }
   
-      async function saveNewAdventureToFirebase(currentAdventure) {
+async function saveNewAdventureToFirebase(newAdventure) {
       disabledSave = true;
   
       const adventuresRef = collection(db, "users", $user.uid, "adventures");
   
-      if (currentAdventure.title === "") {
+      if (newAdventure.title === "") {
         createAlert("Please enter a title for your adventure.");
         return;
       }
   
       let uniqueId = uuidv4();
-      currentAdventure.adventureId = uniqueId;
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
+      newAdventure.adventureId = uniqueId;
+      const adventureRef = doc(adventuresRef, newAdventure.adventureId);
       await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map)
+        ...newAdventure,
+        map : JSON.stringify(newAdventure.map)
       });
 
-      console.log("currentAdventure", currentAdventure)
+      
+      console.log("newAdventure", newAdventure)
+      currentAdventure.set({...newAdventure});
+      console.log("changed", $currentAdventure)
 
-      window.location.href = `/dashboard/create/${$user?.uid}/${currentAdventure.adventureId}`;
+      window.location.href = `/dashboard/create/${$user?.uid}/${newAdventure.adventureId}`;
+
   }
 
   onMount(async() => {

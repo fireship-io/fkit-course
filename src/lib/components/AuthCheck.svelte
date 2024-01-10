@@ -1,6 +1,34 @@
 <script lang="ts">
-    import { user } from "$lib/firebase";
-    import { page } from '$app/stores';
+import { page } from '$app/stores';
+import { db, user } from "$lib/firebase";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { writable } from "svelte/store";
+import { premiumUser } from "$lib/dashboardState";
+  import { onMount } from 'svelte';
+
+
+
+export async function checkPremiumStatus(user) {
+  console.log("checking premium status", user.uid);
+  const subscriptions = await getDocs(collection(db, "users", user.uid, "subscriptions"));
+  subscriptions.forEach((doc) => {
+    let document = doc.data();
+    console.log(document);
+    if (document.status === "active") {
+      premiumUser.set(true);
+    } else {
+      premiumUser.set(false);
+    }
+  });
+  console.log("premium status checked", $premiumUser);
+};
+
+$: {
+  if ($user) {
+    checkPremiumStatus($user);
+  }
+}
+
   </script>
 
 <style>
