@@ -306,15 +306,11 @@
     <p class:invisible={$premiumUser}>Premium features</p>
     <a href="/dashboard/dungeons" class="iconBox" class:active="{$page.route.id.includes("dungeons")}" class:disabled={!$premiumUser}>
         <Icons icon={"rules"} size={"full"} color={"white"} />
-        <p>Pre-made dungeons</p>
+        <p>Pre-made</p>
     </a>
     <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}" class:disabled={!$premiumUser}>
         <Icons icon={"d20"} size={"full"} color={"white"} />
         <p>Batlas RPG</p>
-    </a>
-    <a href="/dashboard/polls" class="iconBox" class:active="{$page.route.id.includes("polls")}" class:disabled={!$premiumUser}>
-        <Icons icon={"rules"} size={"full"} color={"white"} />
-        <p>Feature polls</p>
     </a>
 </div>
 <div class="bottomSection">

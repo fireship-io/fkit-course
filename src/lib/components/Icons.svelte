@@ -12,6 +12,7 @@
         align-items: center;
         padding: 0.1em;
         transition: 0.2s;
+        min-width: 30px;
     }
 
     .icon:hover {

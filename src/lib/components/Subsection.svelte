@@ -52,6 +52,11 @@
         padding-left: 1em;
     }
 
+    .savedAdventure h4{
+            font-size: 1em;
+            margin: 0.2em;
+        }
+
     @media screen and (max-width: 1500px) {
 
         .savedAdventure {
@@ -60,7 +65,7 @@
             grid-template-rows: auto;
         }
         .savedAdventure h4{
-            font-size: 1.4em;
+            font-size: 1em;
             margin: 0.2em;
         }
 

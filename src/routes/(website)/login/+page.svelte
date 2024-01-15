@@ -76,7 +76,7 @@
 
     setInterval(() => {
       if ($user) {
-        window.location.href = "/dashboard/create";
+        window.location.href = "/dashboard";
       }
     }, 1000)
 
@@ -240,7 +240,7 @@
       {#if $user}
       <h2>Welcome, {$user.displayName}</h2>
       <p>You will be redirected to your dashboard.</p>
-      <a href="/dashboard/play" >If you aren't redirected, click here</a>
+      <a href="/dashboard" >If you aren't redirected, click here</a>
       <!-- <a on:click={signOutSSR}>Sign out</a>
       <a on:click={() => handleDeleteUser($user)}>Delete Account</a> -->
       {:else}

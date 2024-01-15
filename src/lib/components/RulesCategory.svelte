@@ -41,6 +41,10 @@
         display:none;
     }
 
+    .savedAdventure h4 {
+        font-size: 1.4em;
+    }
+
     .savedAdventure:hover h4 {
         text-decoration: underline;
     }
@@ -57,6 +61,7 @@
     }
 
 
+
     @media screen and (max-width: 1500px) {
 
         .savedAdventure {
@@ -65,7 +70,6 @@
             grid-template-rows: auto;
         }
         .savedAdventure h4{
-            font-size: 1.4em;
             margin: 0.2em;
         }
 

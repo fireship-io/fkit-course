@@ -48,6 +48,11 @@
         grid-template-rows: auto;
         gap: 2em;
         width: 100%;
+        overflow-y: unset;
+    }
+
+    .batlasDashboardGrid::-webkit-scrollbar {
+        display: none;
     }
 
     .navigation {
@@ -56,11 +61,14 @@
         gap: 2em;
         padding: 0.8em;
         display: flex;
+        position: sticky;
+        top: 0em;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
         height: calc(100% - 4em);
-        margin-top:2em;
+        max-height: 100lvh;
+        background-color: var(--batlas-black);
 
     }
     
@@ -68,12 +76,13 @@
         grid-column: 3 / 19;
         grid-row: 1 / 2;
         gap: 2em;
-        margin-top: 2em;
-        max-height: calc(100lvh - 2em);
+        margin-top: 0em;
+        max-height: none;
         min-height: 800px;
-        height: 100%;
+        height: auto;
         width:100%;
-        overflow-y: scroll;
+        padding: 2em 0em;
+        overflow-y: unset;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -111,7 +120,20 @@
         transition: all 0.3s ease-in-out;
     }
 
+    @media (max-width: 1400px) {
+        .container {
+            max-height: none;
+        }
+    }
+
+
     @media (max-width: 700px) {
+
+        .container {
+            max-height: none;
+            overflow-y: unset;
+        }
+
         .batlasDashboardGrid {
             flex-direction: column;
             gap:0em;
@@ -126,11 +148,11 @@
         .contentSlot {
             grid-column: 1 / 2;
             grid-row: 3 / 4;
-            margin-top: 2em;
+            margin-top: 0em;
             max-height: none;
             min-height: auto;
             height: auto;
-            overflow-y: visible;
+            overflow-y: scroll;
         }
 
         .navigation {

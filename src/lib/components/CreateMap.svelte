@@ -245,7 +245,7 @@ async function saveNewAdventureToFirebase(newAdventure) {
           <div class="controlLabel">
             <p>Title</p>
           </div>
-          <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
+          <textarea rows="1" class="titleBar" placeholder="Enter a title" maxlength="300" bind:value={$currentAdventure.title}/>
         </div>
         <div class="userControl" on:click={() => saveNewAdventureToFirebase($currentAdventure)}>
           <p>Create map</p>

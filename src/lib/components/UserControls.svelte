@@ -241,7 +241,7 @@
     align-items: center;
     width: auto;
     min-width: 20em;
-    max-width: 20em;
+    max-width: none;
     height: auto;
     gap: 1em;
     padding: 1em;
@@ -389,6 +389,62 @@
 
 </style>
 {#if !$page.route.id.includes("/player/")}
+  <div class="userControlContainer">
+    {#if !$page.route.id.includes("/player/")}
+      <div class="userControlNoHover labelledControl">
+        <div class="controlLabel">
+          <p>Title</p>
+        </div>
+        <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
+        </div>
+        <div class="controlRow">
+          <div class="userControl"
+            on:click={fogAllTiles}
+            on:keydown={fogAllTiles}
+            role="button"
+            tabindex="0"
+            >
+            <p>Fog all</p>
+          </div>
+          <div class="publicToggle"
+            on:click={togglePublic} 
+            on:keydown={togglePublic}
+            role="button"
+            tabindex="0" 
+            class:activeConnection="{$currentAdventure.public}"
+          >
+              {#if $currentAdventure.public}
+              <p>Public</p>
+              {:else}
+              <p>Private</p>
+              {/if}
+          </div>
+        </div>
+        <div class="controlRow">
+          <div class="userControl"
+            on:click={() => handleMapGenerate($currentAdventure, $user)}
+            on:keydown={() => handleMapGenerate($currentAdventure, $user)}
+            role="button"
+            tabindex="0"
+          >
+            <p>Random map</p>
+          </div>
+          <div class="userControl" 
+            on:click={() => saveAdventureToFirebase($currentAdventure)}
+            on:keydown={() => saveAdventureToFirebase($currentAdventure)}
+            role="button"
+            tabindex="0"
+          >
+            <p>Save map</p>
+          </div>
+        </div>
+        {#if $currentAdventureChange}
+          <p class="changeAlert">Remember to save your changes</p>
+        {/if}
+      {/if}
+    </div>
+  {/if}
+{#if !$page.route.id.includes("/player/")}
 <div class="mapControlsContainer">
   <div class="userControlNoHover labelledControl mapControls">
     <div class="mapControlLabel">
@@ -475,71 +531,16 @@
       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
     </div>
   </div>
-  {#if maxFreeHeight && maxFreeWidth}
+  {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
     <p class="changeAlert">Free account max map size limit reached</p>
     <a>Upgrade to premium</a>
-  {:else if maxFreeHeight}
+  {:else if maxFreeHeight && !$premiumUser}
     <p class="changeAlert">Free account max height reached</p>
     <a>Upgrade to premium</a>
-  {:else if maxFreeWidth}
+  {:else if maxFreeWidth && !$premiumUser}
     <p class="changeAlert">Free account max width reached</p>
     <a>Upgrade to premium</a>
   {/if}
 </div>
 {/if}
-{#if !$page.route.id.includes("/player/")}
-  <div class="userControlContainer">
-    {#if !$page.route.id.includes("/player/")}
-      <div class="userControlNoHover labelledControl">
-        <div class="controlLabel">
-          <p>Title</p>
-        </div>
-        <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
-        </div>
-        <div class="controlRow">
-          <div class="userControl"
-            on:click={fogAllTiles}
-            on:keydown={fogAllTiles}
-            role="button"
-            tabindex="0"
-            >
-            <p>Fog all</p>
-          </div>
-          <div class="publicToggle"
-            on:click={togglePublic} 
-            on:keydown={togglePublic}
-            role="button"
-            tabindex="0" 
-            class:activeConnection="{$currentAdventure.public}"
-          >
-              {#if $currentAdventure.public}
-              <p>Public</p>
-              {:else}
-              <p>Private</p>
-              {/if}
-          </div>
-        </div>
-        <div class="controlRow">
-          <div class="userControl"
-            on:click={() => handleMapGenerate($currentAdventure, $user)}
-            on:keydown={() => handleMapGenerate($currentAdventure, $user)}
-            role="button"
-            tabindex="0"
-          >
-            <p>Random map</p>
-          </div>
-          <div class="userControl" 
-            on:click={() => saveAdventureToFirebase($currentAdventure)}
-            on:keydown={() => saveAdventureToFirebase($currentAdventure)}
-            role="button"
-            tabindex="0"
-          >
-            <p>Save map</p>
-          </div>
-        </div>
-        {#if $currentAdventureChange}
-          <p class="changeAlert">Remember to save your changes</p>
-        {/if}
-      {/if}
-    </div>
-  {/if}
+

@@ -23,18 +23,21 @@
   <style>
       .exampleContainer {
         margin-bottom: 3em;;
-          padding: 1em;
           width: 100%;
       }
   
       .exampleSubsection {
-          padding: 1em;
           margin-top: 0em;
       }
 
       .ruleSubtitle {
           margin-top: 0.5em;
           font-size: 1em;
+      }
+
+      .ruleTitle h2 {
+            margin-top: 0.5em;
+            font-size: 1.5em;
       }
 
   </style>

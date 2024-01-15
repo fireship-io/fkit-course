@@ -6,7 +6,7 @@ export const screenChoice = writable("adventures");
 export const offScreenMenu = writable(true);
 export const playMode = writable(false);
 export const activeRule = writable({
-  title: "Select a category to know more.",
+  title: "Select a rule to know more.",
   content: "",
 });
 

@@ -136,8 +136,8 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
         overflow:auto;
         background-color: var(--batlas-black);
         height: 100%;
-        min-height: 800px;
-        max-height: calc(100lvh - 2em);
+        min-height: 100lvh;
+        max-height: none;
         margin-left: 3em;
   }
 
@@ -258,6 +258,23 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     pointer-events: none;
   }
 
+  .emptyMap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--batlas-white);
+    font-size: 1.5em;
+    padding: 2em;
+    margin: 2em;
+    border-radius: 1em;
+    background-color: var(--batlas-black);
+    height: 100%;
+    max-height: 20em;
+    width: 100%;
+    max-width: 20em;
+  }
+
   @media(max-width:700px){
 
     .mapContainer {
@@ -282,12 +299,28 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
         justify-content: flex-end;
         align-items: center;
     }
+
+    .emptyMap {
+      margin: 0em;
+      padding: 2em;
+      border-radius: 0em;
+      max-height: 100%;
+      max-width: 100%;
+      font-size: 1em;
+      justify-content: flex-start;
+    }
   }
 
 </style>
 
 <div class="mapContainer">
-    <div class="map" >
+
+  <div class="map" >
+    {#if $currentAdventure.map.length === 0 && $page.route.id.includes("/create/")}
+      <div class="emptyMap" >
+        <p>Hit 'random map' until you get a starting point that looks good to you. Then click the tiles to alter them and add notes. Happy dungeon delving!</p>
+      </div>
+    {/if}  
       {#each $currentAdventure.map as row, i}
           <div class="gridRow">
               {#each row as cell, j}
@@ -320,7 +353,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     <div class="dialogueContainer">
       <UserControls/>
       {#if $activeTile.rowIndex !== null}s
-        <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
+      <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
       {/if}
     </div>
 </div>

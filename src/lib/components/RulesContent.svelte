@@ -13,13 +13,13 @@
 </script>
 
 <style>
-    .rulesContainer {
-        padding: 1em;
-    }
 
     .rulesSubsection {
-        padding: 1em;
         margin-top: 2em;
+    }
+
+    .ruleTitle{
+        font-size: 0.5em;
     }
 </style>
 
