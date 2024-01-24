@@ -48,7 +48,7 @@
         grid-template-rows: auto;
         gap: 2em;
         width: 100%;
-        overflow-y: unset;
+        overflow-y: scroll;
     }
 
     .batlasDashboardGrid::-webkit-scrollbar {

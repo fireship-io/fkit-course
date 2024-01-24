@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         height: 100%;
-        max-height: calc(100%);
+        min-height: 600px;
     }
 
     @media (max-width: 700px){

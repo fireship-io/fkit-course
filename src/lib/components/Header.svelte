@@ -46,17 +46,9 @@
 
 <style>
 
-    h1{
-      text-transform: uppercase;
-    }
-
     a:hover {
       cursor: pointer;
       text-decoration: underline;
-    }
-
-    p {
-      font-size: 1em;
     }
   
     .header {
@@ -117,163 +109,6 @@
     }
 
 
-    .batlasSection {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background-color: var(--batlas-black);
-      color: var(--batlas-white);
-      padding: 9em 2em;
-      width: 100%;
-      max-width: 1240px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    
-    .batlasHero {
-      padding-top: 18em;
-    }
-
-
-    .batlasColumn {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .batlasColumn img {
-      width: 90%;
-      max-width: 40em;
-      object-fit: cover;
-      object-position: right center;
-      overflow: visible;
-    }
-
-    .batlasColumn video {
-      width: 70%;
-      max-width: 40em;
-      object-fit: cover;
-      object-position: right center;
-      overflow: visible;
-    }
-
-    .batlasColumn h1 {
-      font-size: 2em;
-      font-weight: 900;
-      margin-bottom: 0.5em;
-    }
-
-    .batlasColumn h2 {
-      font-family: 'Poppins', sans-serif;
-      text-transform: uppercase;
-      line-height: 1.2em;
-      letter-spacing: 0.05em;
-      font-size: 4.8em;
-      font-weight: 800;
-      margin-bottom: 0.5em;
-    }
-
-    .singleColumn {
-      grid-template-columns: 1fr;
-    }
-
-    .imageColumn {
-      align-items: flex-end;
-    }
-
-    .CTA {
-      font-size: 2em;
-      border: 0.2em solid var(--batlas-white);
-      padding: 1em;
-      text-transform: uppercase;
-    }
-
-    .footer {
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      color: var(--batlas-white);
-      background-color: var(--batlas-black);
-      border: 0.2em solid var(--batlas-white);
-      padding: 0em 1em;
-      text-transform: uppercase;
-    }
-
-    .footer p {
-      margin: 0em;
-    }
-
-    .footerCenter {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .footerCenter img {
-      width: 10rem;
-      max-height: 1em;
-      object-fit: cover;
-      object-position: bottom center;
-      overflow: visible;
-    }
-
-    .footerLeft {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .footerRight {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .underline {
-      border-bottom: 0.1em solid var(--batlas-white)
-    }
-
-    .monsterGen {
-      justify-content: flex-start;
-      align-items: flex-start;
-      padding-left: 3em;
-      font-size: 3em;
-      font-weight: 600;
-      text-transform: uppercase;
-      line-height: 1em;
-    }
-
-    .monsterGen p {
-      margin: 0.3em;
-    }
-
-    .monsterGen .promptText {
-      color: var(--batlas-black);
-      -webkit-text-stroke: 0.01em var(--batlas-white);
-    }
-
-    .promptInvisible {
-      display:none;
-    }
-
-    .promptVisible {
-      display: inline;
-    }
-
-    .line {
-    width: 100%;
-    height: 0.3em;
-    background-color: white;
-    overflow: hidden;
-    animation: expandLine 4s linear infinite;
-    }
-
   @keyframes expandLine {
     0% {
       width: 100%;
@@ -283,85 +118,13 @@
     }
   }
 
-  .mapMaker {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .mapMaker .row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 3.025em;
-  }
-
-    @media screen and (max-width: 1500px) {
-    h2 {
-      color: var(--batlas-white);
-    }
-
-  }
-
     @media screen and (max-width: 900px) {
 
-      .batlasHero h2{
-        font-size: 8em;
-      }
 
-      .batlasHero video {
-        width: 100%;
-        max-width: 100%;
-      }
-
-      p, a {
+      a {
         font-size: 1.7em;
       }
-      .batlasSection {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        padding: 12em 2em;
-        max-width: 900px;
-        gap: 6em;
-      }
 
-      .batlasColumn {
-        align-items: flex-start;
-      }
-
-      .imageColumn {
-        justify-content: center;
-        align-items: center;
-      }
-
-      .mapMaker {
-        padding-top: 8em;
-      }
-
-      .mapMaker .row {
-        height: 6.05em;
-
-      }
-
-      .monsterGen {
-        width: 100%;
-        padding-left: 0em;
-        letter-spacing: 0.1em;
-        text-align: center;
-      }
-
-      .monsterGen p, .promptText {
-        font-size: 1em;
-        line-height: normal;
-      }
-
-      .monsterGen .promptText {
-      color: var(--batlas-black);
-      -webkit-text-stroke: 0.03em var(--batlas-white);
-      }
     }
 
   </style>

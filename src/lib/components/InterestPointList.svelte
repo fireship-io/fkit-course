@@ -174,6 +174,7 @@
     .interestPointPlay .interestPointInfo p {
       margin: 0em;
       font-size: 0.8em;
+      line-height: 1.2rem;
     }
 
     .interestPointTitle {

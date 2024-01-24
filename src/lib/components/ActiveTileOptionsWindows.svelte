@@ -1183,9 +1183,9 @@
     overflow-y: scroll;
     position: fixed;
     max-height: calc (100lvh - 4em);
-    height: 100%;
     top: 1em;
     right: 1em;
+    z-index: 100;
   }
 
   .tileInfoBar::-webkit-scrollbar {
@@ -1242,9 +1242,11 @@
 
   .tileInfoBarActive{
         right: 3em;
+        top: auto;
+        bottom: 3em;
         display: block;
         width: 20em;
-        max-height: calc(100% - 4em);
+        max-height: calc(100% - 10rem);
   }
 
 
@@ -1300,189 +1302,7 @@
   }
 
 
-  .tileSelectorHoverDetector {
-    height: 4em;
-    width: 4em;
-    border-radius: 2em;
-    position: absolute;
-    bottom: 25%;
-    pointer-events: auto;
-    z-index: 998;
-  }
 
-  .tileSelectorHoverDetector:hover .tileSelector {
-    visibility: visible;
-    cursor: pointer;
-  }
-
-  .tileSelectorHoverDetector + img {
-    transition: all 0.3s ease;
-  }
-
-  .tileSelectorHoverDetector:hover + img {
-    transform: translate(0em, -0.5em);
-  }
-
-  .tileSelector {
-    visibility: hidden;
-    position: absolute;
-    bottom: calc(50% - 2.5em);
-    left: calc(50% - 2.5em);
-    height: 5em;
-    width: 5em;
-    border: 0em solid var(--batlas-white);
-    background: rgba(0, 0, 0, 0);
-    border-radius: 3em;
-    pointer-events: auto;
-    cursor: pointer;
-    z-index: 999;
-  }
-
-  .mapSettings {
-    color: var(--batlas-white);
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 2em;
-    padding: 1em;
-    position: relative;
-    top: 0em;
-    left: 0em;
-    background-color: transparent;
-  }
-
-  .mapSettings p {
-    margin: 0px;
-    padding-top: 0.3em;
-  }
-
-  .mapGenButton {
-    cursor: pointer;
-    background-color: var(--batlas-black);
-    border-color: var(--batlas-white);
-    border: 0.1em solid var(--batlas-white);
-    border-radius: 0.6em;
-    padding: 0.3em 1em;
-    color: var(--batlas-white);
-    font-family: var(--batlas-font);
-    text-transform: uppercase;
-    text-decoration: none;
-    text-align: center;
-    font-size: 1em;
-  }
-
-  .mapGenButton:hover {
-    background-color: var(--batlas-white);
-    color: var(--batlas-black);
-  }
-
-  .editingTitle {
-    white-space: nowrap;
-    width: 200px;
-    overflow: hidden;
-    -o-text-overflow: ellipsis;
-    -ms-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-  }
-
-  .tileNotesIndicator {
-    min-width: 2em;
-    min-height: 2em;
-    padding: 0.2em;
-    border: 0.2em solid var(--batlas-white);
-    border-radius: 10em;
-    aspect-ratio: 1/1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--batlas-black);
-    top: 1em;
-  }
-
-  .icon {
-        cursor: pointer;
-        display: inline;
-        width: 60%;        
-        height: auto;
-        fill: var(--batlas-white);
-        position: relative;
-        z-index: 100;
-    }
-
-    .interestPointContextMenu {
-      display: none;
-      position: absolute;
-      top: 0em;
-      left: 0em;
-      width: 100%;
-      height: 100%;
-      background-color: var(--batlas-black);
-      z-index: 999;
-    }
-
-    .interestPoint {
-      width: 100%;
-      padding: 0.4em 0em;;
-      border-bottom: 0.1em solid var(--batlas-black);
-      display: grid;
-      position: relative;
-      grid-template-columns: 4fr 1fr 1fr;
-      grid-template-rows: auto;
-      cursor: pointer;
-    }
-
-
-
-    .interestPointActive > .interestPointInfo {
-      display: block;
-    }
-
-    .interestPoint>p {
-      margin: 0px;
-      padding: 0px;
-      font-weight: 600;
-    }
-
-    .interestPoint .icon {
-      width: 1.5em;
-      height: 1.5em;
-      fill: var(--batlas-white);
-      background-color: var(--batlas-black);
-    }
-
-    .interestPointInfo {
-      display: none;
-      grid-column: 1/4;
-      padding: 0.4em;
-    }
-
-    .interestPointPlay {
-      grid-template-columns: 5fr 1fr;
-    }
-
-    .interestPointTitle {
-      width: 100%;
-      font-size: 0.8em;
-      border: none;
-      font-family: var(--batlas-font);
-      font-weight: bold;
-      padding: 0.4em;
-
-    }
-
-    .interestPointTitle::-webkit-scrollbar {
-      display:none;
-    }
-
-    .centerAlignIcon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 0.4em;
-    }
 
     .infoBox {
       background-color: var(--batlas-white);
@@ -1738,7 +1558,11 @@
         </div>
         <div class="roomOptionsToggles">
             <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
-                <p>Fog of war</p>
+                {#if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}
+                <p>Unfog</p>
+                {:else}
+                <p>Fog</p>
+                {/if}
                 <Icons icon={"d20"} size={"medium"} color={"black"}/>
             </div>
         </div>
@@ -1746,8 +1570,8 @@
     <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
     {#if !$page.route.id.includes("/player/")}
         <div class="roomOptionsToggle">
-          <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
-          <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
+            <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
+            <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
         </div>
     {/if}
         {#if windowMode === "notes" || $page.route.id.includes("/player/")}

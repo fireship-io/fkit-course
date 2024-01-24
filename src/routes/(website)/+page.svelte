@@ -60,63 +60,6 @@
     p {
       font-size: 1em;
     }
-  
-    .header {
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      color: var(--batlas-white);
-      background-color: var(--batlas-black);
-      border: 0.2em solid var(--batlas-white);
-      padding: 0em 1em;
-      text-transform: uppercase;
-      position: fixed;
-      top: 0em;
-      width: 100%;
-    }
-
-    .header a {
-      color: var(--batlas-white);
-      text-decoration: none;
-      font-weight: 600;
-      letter-spacing: 0.1em;;
-    }
-
-    .header a:hover{
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .header a:visited {
-      color: var(--batlas-white);
-      text-decoration: none;
-    }
-
-    .headerCenter {
-      display: flex;
-      justify-content: center;
-    }
-
-    .headerCenter img {
-      width: 10rem;
-      max-height: 1em;
-      object-fit: cover;
-      object-position: top center;
-      overflow: visible;
-    }
-
-    .headerLeft {
-      display: flex;
-      justify-content: flex-start;
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .headerRight {
-      display: flex;
-      justify-content: flex-end;
-      padding: 0.5em;
-      gap: 3em;
-    }
 
 
     .batlasSection {
@@ -191,52 +134,6 @@
       text-transform: uppercase;
     }
 
-    .footer {
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      color: var(--batlas-white);
-      background-color: var(--batlas-black);
-      border: 0.2em solid var(--batlas-white);
-      padding: 0em 1em;
-      text-transform: uppercase;
-    }
-
-    .footer p {
-      margin: 0em;
-    }
-
-    .footerCenter {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .footerCenter img {
-      width: 10rem;
-      max-height: 1em;
-      object-fit: cover;
-      object-position: bottom center;
-      overflow: visible;
-    }
-
-    .footerLeft {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .footerRight {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      padding: 0.5em;
-      gap: 3em;
-    }
-
     .underline {
       border-bottom: 0.1em solid var(--batlas-white)
     }
@@ -258,14 +155,6 @@
     .monsterGen .promptText {
       color: var(--batlas-black);
       -webkit-text-stroke: 0.01em var(--batlas-white);
-    }
-
-    .promptInvisible {
-      display:none;
-    }
-
-    .promptVisible {
-      display: inline;
     }
 
     .line {
