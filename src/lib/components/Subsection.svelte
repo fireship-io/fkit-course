@@ -45,11 +45,9 @@
         text-decoration: underline;
     }
 
-    .subsection {
-        margin-left: 2em;
-        width: calc(100% - 2em);
-        padding: 0.5em;
-        padding-left: 1em;
+    .subsection {        
+        padding: 0.5rem;
+        width: calc(100% - 2rem);
     }
 
     .savedAdventure h4{

@@ -24,8 +24,6 @@
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto auto;
         width: 100%;
-        height: 100%;
-        max-height: calc(100lvh - 6em);
         gap: 2em;
         padding: 2em;
     }
@@ -36,13 +34,12 @@
         justify-content: flex-start;
         align-items: flex-start;
         gap: 2em;
-        padding: 2em;
+        padding: 1rem;
         border-radius: 1em;
         background-color: var(--batlas-white);
         width: 100%;
         max-width: 33%;
         overflow-y: scroll;
-        max-height: calc(100lvh - 6em);
     }
 
     .column::-webkit-scrollbar {
@@ -187,9 +184,9 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
-            gap: 2em;
-            padding: 2em;
-            border-radius: 1em;
+            gap: 2rem;
+            padding: 1rem;
+            border-radius: 1rem;
             background-color: var(--batlas-white);
             width: 100%;
             max-width: 100%;

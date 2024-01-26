@@ -34,7 +34,7 @@
         justify-content: flex-start;
         align-items: center;
         height: 100vh;
-        width: 100vw;
+        width: 100%;
         overflow: hidden;
    }
 
@@ -44,9 +44,8 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
-        grid-template-columns: (10em, auto);
+        grid-template-columns: (auto, auto);
         grid-template-rows: auto;
-        gap: 2em;
         width: 100%;
         overflow-y: scroll;
     }
@@ -58,15 +57,14 @@
     .navigation {
         grid-column: 1 / 3;
         grid-row: 1 / 2;
-        gap: 2em;
-        padding: 0.8em;
+        gap: 2rem;
         display: flex;
         position: sticky;
-        top: 0em;
+        top: 0rem;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        height: calc(100% - 4em);
+        height: 100%;
         max-height: 100lvh;
         background-color: var(--batlas-black);
 
@@ -75,13 +73,11 @@
     .contentSlot {
         grid-column: 3 / 19;
         grid-row: 1 / 2;
-        gap: 2em;
-        margin-top: 0em;
+        gap: 2rem;
+        margin-top: 0rem;
         max-height: none;
-        min-height: 800px;
-        height: auto;
+        height: 100%;
         width:100%;
-        padding: 2em 0em;
         overflow-y: unset;
         display: flex;
         flex-direction: column;
@@ -96,21 +92,21 @@
     .betaBanner {
         background-color: var(--batlas-black);
         color: var(--batlas-white);
-        border: 0.1em solid var(--batlas-white);
+        border: 0.1rem solid var(--batlas-white);
         display: flex;
         justify-content: center;
         align-items: center;
         position: fixed;
-        top: 0em;
-        left: 0em;
+        top: 0rem;
+        left: 0rem;
         width: 100%;
-        gap: 2em;
+        gap: 2rem;
     }
 
     .betaBanner p {
-        padding: 0em;
-        margin: 0em;
-        font-size: 0.9em;
+        padding: 0rem;
+        margin: 0rem;
+        font-size: 0.9rem;
         text-transform: uppercase;
     }
 
@@ -118,6 +114,13 @@
         opacity: 0.5;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
+    }
+
+    .footer {
+        min-height: 30px;
+        width: 100%;
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
     }
 
     @media (max-width: 1400px) {
@@ -136,7 +139,7 @@
 
         .batlasDashboardGrid {
             flex-direction: column;
-            gap:0em;
+            gap:0rem;
         }
 
         .navigation {
@@ -148,7 +151,7 @@
         .contentSlot {
             grid-column: 1 / 2;
             grid-row: 3 / 4;
-            margin-top: 0em;
+            margin-top: 0rem;
             max-height: none;
             min-height: auto;
             height: auto;
@@ -166,8 +169,8 @@
         }
 
         .contentSlot {
-            padding: 0em;
-            margin: 0em;
+            padding: 0rem;
+            margin: 0rem;
             height: 100%;
         }
     }
@@ -175,7 +178,7 @@
 
 <AuthCheck>
     <div class="container">
-        <div class="betaBanner">
+        <!-- <div class="betaBanner">
             <p>Batlas is still in beta testing. There will be bugs.</p>
             <div
                 class:halfOpacity={!$premiumUser}
@@ -185,7 +188,7 @@
                 tabindex="0">
                 <p>|| premium user toggle ||</p>
             </div>
-        </div>
+        </div> -->
         <main class="batlasDashboardGrid">
             <section class="navigation">
                 <NavigationBar />
@@ -195,5 +198,8 @@
             </section>
         </main>
         <OffScreenMenu />
+        <div class="footer">
+            <p>Batlas is still in beta testing. There will be bugs.</p>
+        </div>
     </div>
 </AuthCheck>

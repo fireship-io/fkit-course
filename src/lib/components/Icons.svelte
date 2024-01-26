@@ -10,13 +10,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0.1em;
         transition: 0.2s;
-        min-width: 30px;
+        aspect-ratio: 1 / 1;
     }
 
     .icon:hover {
-        transform: translate(0em, -0.1em);
+        transform: translate(0rem, -0.1rem);
     }
 
 
@@ -29,21 +28,25 @@
         fill: var(--batlas-black);
     }
     .smallIcon svg {
-        width: 1em;
-        height: 1em;
+        width: 1rem;
+        height: 1rem;
+        min-width: 1rem;
     }
     .mediumIcon svg {
-        width: 1.2em;
-        height: 1.2em;
+        width: 1.5rem;
+        height: 1.5rem;
+        min-width: 1.5rem;
     }
     .largeIcon svg {
-        width: 1.8em;
-        height: 1.8em;
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
     }
     .fullIcon svg {
         width: 100%;
-        height: auto;
-        max-height: 5em;
+        height: 2rem;
+        max-height: 2rem;
+        min-width: 2rem;
     }
 </style>
 

@@ -150,7 +150,7 @@
         margin: 0em;
         margin-left: 1em;
         text-align: left;
-        font-size: clamp(0.8rem, 2vw + 0.4rem, 1rem);
+        font-size: clamp(0.8rem, 2vw + 0.4rem, 0.8rem);
         text-transform: uppercase;
     }
 
@@ -272,6 +272,7 @@
         height: 100%;
         background-color: var(--batlas-black);
         color: var(--batlas-white);
+        padding: 1rem 0.5rem;
     }
 
     .disabled {

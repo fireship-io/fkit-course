@@ -53,11 +53,10 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        max-width: 20em;
-        min-width: 15em;
-        height: auto;
-        padding: 1em;
-        gap: 1em;
+        max-width: calc(25% - 1.5rem);
+        height: 100%;
+        padding: 1rem;
+        gap: 1rem;
         background: var(--batlas-white);
         z-index: 5;
     }

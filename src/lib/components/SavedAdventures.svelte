@@ -48,10 +48,8 @@
 <style>
     .adventureList {
         gap: 2em;
-        padding-right: 3em;
         width: 100%;
         height: auto;
-        max-height: calc(100lvh - 4em);
         overflow: scroll;
         display: flex;
         flex-direction: row;

@@ -1178,11 +1178,10 @@
   }
 
   .tileInfoBar {
-    padding: 0.8em;
+    padding: 1rem;
     display: none;
     overflow-y: scroll;
-    position: fixed;
-    max-height: calc (100lvh - 4em);
+    position: absolute;
     top: 1em;
     right: 1em;
     z-index: 100;
@@ -1241,11 +1240,12 @@
   }
 
   .tileInfoBarActive{
-        right: 3em;
+        right: 0rem;
         top: auto;
-        bottom: 3em;
+        left: auto;
+        bottom: auto;
         display: block;
-        width: 20em;
+        width: 20rem;
         max-height: calc(100% - 10rem);
   }
 

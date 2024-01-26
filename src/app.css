@@ -4,6 +4,7 @@
   --batlas-font: "Poppins", sans-serif;
   background-color: var(--batlas-black);
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
 }
 
 html {
@@ -19,7 +20,7 @@ html {
 *::-webkit-scrollbar-thumb {
   color: var(--batlas-black);
   background: var(--batlas-black);
-  border: 0.2em solid var(--batlas-white);
+  border: 0.2rem solid var(--batlas-white);
 }
 
 *::-webkit-scrollbar-corner {
@@ -44,7 +45,7 @@ h5,
 h6 {
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   margin: 0em;
 }
 
@@ -55,23 +56,29 @@ input {
 h2 {
   font-family: "Poppins", sans-serif;
   margin: 0em;
-  font-size: 2.8em;
+  font-size: 2.2rem;
   font-weight: 800;
   color: var(--batlas-black);
 }
 
 h3 {
-  margin: 0em;
+  font-size: 1.8rem;
+  margin: 0rem;
 }
 
 h4 {
-  margin: 0em;
+  font-size: 1.4rem;
+  margin: 0rem;
 }
 
+/* div {
+  border: solid red 2px;
+} */
+
 .dungeonBorder {
-  border: 1em solid white;
+  border: 1rem solid white;
   border-image-slice: 103 107 107 111;
-  border-image-width: 1em;
+  border-image-width: 1rem;
   border-image-outset: 0px 0px 0px 0px;
   border-image-repeat: repeat repeat;
   border-style: solid;
@@ -80,21 +87,21 @@ h4 {
 }
 
 .brutalismBorder {
-  border: 0.3em solid var(--batlas-black);
-  border-radius: 0.8em;
-  box-shadow: var(--batlas-black) -0.4em 0.4em;
+  border: 0.3rem solid var(--batlas-black);
+  border-radius: 0.8rem;
+  box-shadow: var(--batlas-black) -0.4rem 0.4rem;
 }
 
 .brutalismBorderWhite {
-  border: 0.3em solid var(--batlas-white);
-  border-radius: 0.8em;
-  box-shadow: var(--batlas-white) -0.4em 0.4em;
+  border: 0.3rem solid var(--batlas-white);
+  border-radius: 0.8rem;
+  box-shadow: var(--batlas-white) -0.4rem 0.4rem;
 }
 
 .brutalismBorderInverted {
-  border: 0.3em solid var(--batlas-black);
-  border-radius: 0.8em;
-  box-shadow: var(--batlas-black) -0.4em 0.4em;
+  border: 0.3rem solid var(--batlas-black);
+  border-radius: 0.8rem;
+  box-shadow: var(--batlas-black) -0.4rem 0.4rem;
   background-color: var(--batlas-black) !important;
   color: var(--batlas-white);
 }
@@ -106,10 +113,10 @@ h4 {
 }
 
 .brutalismBorderInverted .savedAdventureOptions a {
-  border: 0.1em solid var(--batlas-white);
+  border: 0.1rem solid var(--batlas-white);
   width: 100%;
-  padding: 0.2em 0.4em;
-  border-radius: 0.6em;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.6rem;
   background-color: var(--batlas-black);
   color: var(--batlas-white);
   text-align: center;
@@ -117,13 +124,13 @@ h4 {
 
 .firstLetter::first-letter {
   font-size: 210%;
-  line-height: 1em;
+  line-height: 1rem;
   float: left;
-  margin-right: 0.12em;
+  margin-right: 0.12rem;
   font-family: "Pirata One", cursive;
   background-color: var(--batlas-black);
   color: var(--batlas-white);
-  padding: 0.2em 0.3em;
+  padding: 0.2rem 0.3rem;
 }
 
 .brutalismBorderInverted + .subsectionsContainer {
@@ -139,13 +146,13 @@ h4 {
   display: none;
   background-color: var(--batlas-black);
   color: var(--batlas-white);
-  border: 0.1em solid var(--batlas-white);
-  border-radius: 0.6em;
-  padding: 0.2em 0.8em;
+  border: 0.1rem solid var(--batlas-white);
+  border-radius: 0.6rem;
+  padding: 0.2rem 0.8rem;
   text-align: center;
   position: fixed;
-  top: 0.6em;
-  right: 0.6em;
+  top: 0.6rem;
+  right: 0.6rem;
   z-index: 100;
 }
 
@@ -188,9 +195,9 @@ h4 {
 @media screen and (max-width: 1500px) {
   h2 {
     color: var(--batlas-black);
-    text-shadow: var(--batlas-black) -0.02em 0.02em;
-    -webkit-text-stroke: var(--batlas-black) 0em;
-    letter-spacing: 0.025em;
+    text-shadow: var(--batlas-black) -0.02rem 0.02rem;
+    -webkit-text-stroke: var(--batlas-black) 0rem;
+    letter-spacing: 0.025rem;
   }
 
   @media screen and (max-width: 700px) {

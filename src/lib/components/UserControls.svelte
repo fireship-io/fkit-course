@@ -415,6 +415,7 @@
           >
               {#if $currentAdventure.public}
               <p>Public</p>
+              <Icons icon={"rules"} size={"small"} color={"white"}/>
               {:else}
               <p>Private</p>
               {/if}

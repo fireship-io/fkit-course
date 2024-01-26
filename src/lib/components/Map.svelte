@@ -136,9 +136,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
         overflow:auto;
         background-color: var(--batlas-black);
         height: 100%;
-        min-height: 100lvh;
         max-height: none;
-        margin-left: 3em;
   }
 
 
@@ -233,13 +231,12 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     justify-content: flex-end;
     align-items: flex-end;
     height: 100%;
-    max-height: calc(100lvh - 4em);
     width: 100%;
     position: absolute;
-    bottom: 2em;
-    right: 2em;
     pointer-events: none;
     gap: 2em;
+    padding: 1.5rem;
+    padding-right: 1rem;
   }
 
   :global(.dialogueContainer *) {
@@ -261,18 +258,15 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   .emptyMap {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     color: var(--batlas-white);
-    font-size: 1.5em;
-    padding: 2em;
-    margin: 2em;
-    border-radius: 1em;
+    font-size: 1.5rem;
+    padding: 2rem;
+    border-radius: 1rem;
     background-color: var(--batlas-black);
     height: 100%;
-    max-height: 20em;
-    width: 100%;
-    max-width: 20em;
+    width: 80%;
   }
 
   @media(max-width:700px){

@@ -30,8 +30,8 @@
         align-items: flex-start;
         width: 100%;
         height: auto;
-        padding: 1em;
-        gap: 0.5em;
+        padding: 0.5rem;
+        gap: 0.5rem;
         background: var(--batlas-white);
         cursor: pointer;
     }
@@ -42,7 +42,7 @@
     }
 
     .savedAdventure h4 {
-        font-size: 1.4em;
+        font-size: 1.4rem;
     }
 
     .savedAdventure:hover h4 {
@@ -55,8 +55,8 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        gap: 1em;
-        max-height: 0em;
+        gap: 1rem;
+        max-height: 0rem;
         transition: max-height 0.15s ease-out;
     }
 
@@ -70,7 +70,7 @@
             grid-template-rows: auto;
         }
         .savedAdventure h4{
-            margin: 0.2em;
+            margin: 0.2rem;
         }
 
         .savedAdventureTitle {
@@ -89,7 +89,7 @@
         grid-row: 1 / 3;
         border: 0.2em solid var(--batlas-black);
         height: 100%;
-        width: 0.5em;
+        width: 0.5rem;
         background-color: var(--batlas-black);
         }
     }
