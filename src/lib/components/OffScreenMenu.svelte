@@ -1,7 +1,7 @@
 <script>
     import {page} from '$app/stores';
     import { currentAdventure } from '$lib/adventureData';
-    import { screenChoice, offScreenMenu, premiumUser } from "$lib/dashboardState";
+    import { screenChoice, offScreenMenu, premiumUser, activeTile } from "$lib/dashboardState";
     import { user } from '$lib/firebase';
     import Icons from './Icons.svelte';
     $screenChoice
@@ -19,7 +19,22 @@
     }
 
     function emptyCurrentAdventure() {
-        currentAdventure.set(null);
+        currentAdventure.set({
+            title: "",
+            notes:
+            {
+                enemy: "",
+                quest: "",
+                npc: "",
+                goal: "",
+                scene: "",
+                push: "",
+                gimmick: ""
+            },
+            map: "",
+            userId: "",
+            adventureId: "",
+        });
         document.querySelectorAll('.savedAdventure').forEach((element) => {
             element.classList.remove("brutalismBorderInverted");
         });
@@ -79,6 +94,15 @@
     }
     };
 
+    function navigateToCreate() {
+        clearCurrentAdventureAndScreenChoice();
+        clearActiveTile();
+        setScreenChoice('');
+    }
+
+    function clearActiveTile() {
+        activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: ""});
+    }
 
 
 </script>
@@ -224,7 +248,7 @@
                 <Icons icon={"sword"} size={"full"} color={"black"} />
                 <p>Adventures</p>
             </a>
-            <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}">
+            <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateToCreate}>
                 <Icons icon={"add"} size={"full"} color={"black"} />
                 <p>Create</p>
             </a>

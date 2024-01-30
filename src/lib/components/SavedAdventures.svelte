@@ -15,6 +15,15 @@
         userAdventures = value;
     });
 
+    function compare(a, b) {
+        if (a.updatedDate > b.updatedDate) {
+            return -1;
+        }
+        if (a.updatedDate < b.updatedDate) {
+            return 1;
+        }
+        return 0;
+    }
 
     const userAdventuresRef = collection(db, "users", $user.uid, "adventures");
 
@@ -29,11 +38,16 @@
                 currentAdventure.map = JSON.parse(currentAdventure.map);
                 copiedAdventures.push(currentAdventure);
             });
+
             if (!$premiumUser) {
                 copiedAdventures = copiedAdventures.slice(0, 5);
             }
+
+            let sortedCopiedAdventures = copiedAdventures.sort(compare);
+            console.log("sortedCopiedAdventures", sortedCopiedAdventures);
+
         adventureListStore.update(currentAdventures => {
-            return [...copiedAdventures];
+            return [...sortedCopiedAdventures];
         });
         console.log("adventureListStore", $adventureListStore);
         });

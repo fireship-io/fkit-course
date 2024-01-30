@@ -103,7 +103,7 @@
 
         .container {
             max-height: none;
-            overflow: unset;
+            overflow: visible;
             height: 100%;
             min-height: 50vh;
         }
@@ -120,8 +120,9 @@
             width: 100%;
             max-width: 100%;
             max-height: none;
-            position: sticky;
+            position: fixed;
             top: 0rem;
+            z-index: 999;
         }
 
         .contentSlot {
@@ -134,6 +135,7 @@
             overflow-y: scroll;
             width: 100%;
             max-width: 100%;
+            margin-top: 75px;
         }
 
         .navigation {
@@ -145,7 +147,6 @@
 
         .contentSlot {
             padding: 0rem;
-            margin: 0rem;
             height: 100%;
             max-height: none;
         }
@@ -155,9 +156,11 @@
 <AuthCheck>
     <div class="container">
         <main class="batlasDashboardGrid">
+            {#if $user}
             <section class="navigation">
                 <NavigationBar />
             </section>
+            {/if}
             <section class="contentSlot">
                 <slot />
             </section>

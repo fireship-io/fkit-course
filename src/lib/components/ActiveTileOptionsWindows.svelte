@@ -1536,12 +1536,13 @@
 
 
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 735px) {
     .tileInfoBar {
-      width: calc(100% - 2em);
-      height: calc(100% - 2em);
-      bottom: 1em;
-      right: 1em;
+      width: calc(100% - 4rem);
+      height: auto;
+      bottom: 2rem;
+      right: auto;
+      left: auto;
     }
 
     .tileOptionsToggleContainer {

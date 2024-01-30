@@ -23,6 +23,9 @@
     let maxColumns = 6;
     let maxFreeHeight = false;
     let maxFreeWidth = false;
+    let controlWindowMode = "options";
+
+    let screenWidth;
 
 
 
@@ -71,9 +74,11 @@
     } else {
       console.log("updating new adventure to firebase", currentAdventure);
       const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
+      let newUpdateDate = Date.now();
       await setDoc(adventureRef, {
         ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map)
+        map : JSON.stringify(currentAdventure.map),
+        updatedDate: newUpdateDate
       });
       createAlert(`${currentAdventure.title} updated!`)
       setTimeout(() => {
@@ -229,6 +234,10 @@
       console.log("onMount fired");
       console.log("Current Title", $currentAdventure);
     })
+
+    function changeWindowMode(newMode){
+        controlWindowMode = newMode;
+    }
 
 </script>
 
@@ -415,10 +424,49 @@
     flex-direction: column;
   }
 
+  .roomOptionsToggleActive {
+      background-color: var(--batlas-black);
+      color: var(--batlas-white);
+    }
+
+    .roomOptionsToggle {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      background-color: var(--batlas-white);
+      text-align: center;
+      font-size: 1rem;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.25rem solid var(--batlas-black);
+    }
+
+    .roomOptionsToggle a {
+      width: 50%;
+      margin: 0px;
+      padding: 0.5rem 2rem;
+      font-weight: 600;
+      line-height: 1;
+      border: 0.25rem solid var(--batlas-black);
+      border-radius: 2rem;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
 </style>
+
+<svelte:window bind:innerWidth={screenWidth} />
+
 {#if !$page.route.id.includes("/player/")}
   <div class="userControlContainer">
     {#if !$page.route.id.includes("/player/")}
+    {#if screenWidth <= 735} 
+      <div class="roomOptionsToggle">
+        <a class:roomOptionsToggleActive="{controlWindowMode === "options"}" on:click={() => changeWindowMode('options')} >Options</a>
+        <a class:roomOptionsToggleActive="{controlWindowMode === "size"}"  on:click={() => changeWindowMode('size')} >Size</a>
+    </div>
+    {/if}
+    {#if controlWindowMode === "options" || screenWidth > 735}
       <div class="userControlNoHover labelledControl">
         <div class="controlLabel">
           <p>Title</p>
@@ -471,11 +519,111 @@
           <p class="changeAlert">Remember to save your changes</p>
         {/if}
       {/if}
-    </div>
+      {/if}
+      {#if controlWindowMode === "size" && screenWidth <= 735}
+      <div class="mapControlsContainer sizingControls">
+        <div class="sizingControlRow">
+          <div class="mapSizeControls">
+            <div class="iconContainer"
+              on:click={addTopRow}
+              on:keydown={addTopRow}
+              role="button"
+              tabindex="0"
+              class:mapControlDisabled = {maxFreeHeight}
+            >
+              <Icons icon={"add"} size={"medium"} color={"black"}/>
+            </div>
+            <div class="iconContainer"
+              on:click={removeTopRow}
+              on:keydown={removeTopRow}
+              role="button"
+              tabindex="0"
+            >
+              <Icons icon={"minus"} size={"medium"} color={"black"} />
+            </div>
+          </div>
+        </div>
+        <div class="sizingControlRow">
+          <div class="mapSizeControls vertical">
+            <div class="iconContainer"
+              on:click={addColumnLeft}
+              on:keydown={addColumnLeft}
+              role="button"
+              tabindex="0"
+              class:mapControlDisabled = {maxFreeHeight}
+            >
+              <Icons icon={"add"} size={"medium"} color={"black"}/>
+            </div>
+            <div class="iconContainer"
+              on:click={removeColumnLeft}
+              on:keydown={removeColumnLeft}
+              role="button"
+              tabindex="0"
+            >
+              <Icons icon={"minus"} size={"medium"} color={"black"} />
+            </div>
+          </div>
+          <div class="mapSizeControlImage">
+            <img src="/img/tiles/dungeon/c1-v2.webp" width="auto" height="50px">
+          </div>
+          <div class="mapSizeControls vertical">
+            <div class="iconContainer"
+              on:click={addColumnRight}
+              on:keydown={addColumnRight}
+              role="button"
+              tabindex="0"
+              class:mapControlDisabled = {maxFreeHeight}
+            >
+              <Icons icon={"add"} size={"medium"} color={"black"}/>
+            </div>
+            <div class="iconContainer"
+              on:click={removeColumnRight}
+              on:keydown={removeColumnRight}
+              role="button"
+              tabindex="0"
+            >
+              <Icons icon={"minus"} size={"medium"} color={"black"} />
+            </div>
+          </div>
+        </div>
+        <div class="sizingControlRow">
+          <div class="mapSizeControls">
+            <div class="iconContainer"
+              on:click={addBottomRow}
+              on:keydown={addBottomRow}
+              role="button"
+              tabindex="0"
+              class:mapControlDisabled = {maxFreeHeight}
+            >
+              <Icons icon={"add"} size={"medium"} color={"black"}/>
+            </div>
+            <div class="iconContainer"
+              on:click={removeBottomRow}
+              on:keydown={removeBottomRow}
+              role="button"
+              tabindex="0"
+            >
+              <Icons icon={"minus"} size={"medium"} color={"black"} />
+            </div>
+          </div>
+        </div>
+        {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
+        <p class="changeAlert">Free account max map size limit reached</p>
+        <a>Upgrade to premium</a>
+      {:else if maxFreeHeight && !$premiumUser}
+        <p class="changeAlert">Free account max height reached</p>
+        <a>Upgrade to premium</a>
+      {:else if maxFreeWidth && !$premiumUser}
+        <p class="changeAlert">Free account max width reached</p>
+        <a>Upgrade to premium</a>
+      {/if}
+      </div>
+      {/if}
+      </div>
   {/if}
 {#if !$page.route.id.includes("/player/")}
 
-
+{#if screenWidth > 735}
 <div class="mapControlsContainer sizingControls">
   <div class="sizingControlRow">
     <div class="mapSizeControls">
@@ -573,5 +721,6 @@
   <a>Upgrade to premium</a>
 {/if}
 </div>
+{/if}
 {/if}
 

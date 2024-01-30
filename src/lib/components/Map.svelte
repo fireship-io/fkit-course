@@ -128,7 +128,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   .map::-webkit-scrollbar-thumb {
       color: var(--batlas-black);
       background: var(--batlas-black);
-      border: 0.1em solid var(--batlas-white);
+      border: 0.1rem solid var(--batlas-white);
   }
 
   .map::-webkit-scrollbar-corner {
@@ -145,8 +145,10 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 
   .gridTile{
-    width: 10em;
-    height: 7.5em;
+    width: 200px;
+    min-width: 200px;
+    height: 150px;
+    min-height: 150px;
     margin: 0px;
     padding: 0px;
     overflow: visible;
@@ -162,7 +164,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
   
   .gridTile img {
-    width: 10em;
+    width: 100%;
     object-fit: cover;
     object-position: bottom center;
     overflow: visible;
@@ -174,25 +176,25 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     flex-direction: row;
     padding: 0px;
     margin: 0px;
-    margin-top: -5em;
+    margin-top: -100px;
   }
   
   .gridRow:nth-child(1){
-    margin-top: 3em;
+    margin-top: 3rem;
   }
   
   .gridRow:nth-last-child(1){
-    margin-bottom: 3em;
+    margin-bottom: 3rem;
   }
   
   .gridRow:nth-child(even){
-    transform: translateX(5em);
+    transform: translateX(100px);
   }
 
   .tileSelectorHoverDetector {
-    height: 4em;
-    width: 4em;
-    border-radius: 2em;
+    height: 75px;
+    width: 75px;
+    border-radius: 50px;
     position: absolute;
     bottom: 25%;
     pointer-events: auto;
@@ -210,19 +212,19 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   }
 
   .tileSelectorHoverDetector:hover + img, .tileFloat img {
-    transform: translate(0em, -0.5em);
+    transform: translate(0em, -0.5rem);
   }
 
   .tileSelector {
     visibility: hidden;
     position: absolute;
-    bottom: calc(50% - 2.5em);
-    left: calc(50% - 2.5em);
-    height: 5em;
-    width: 5em;
-    border: 0em solid var(--batlas-white);
+    bottom: calc(50% - 38px);
+    left: calc(50% - 38px);
+    height: 75px;
+    width: 75px;
+    border: 0rem solid var(--batlas-white);
     background: rgba(0, 0, 0, 0);
-    border-radius: 3em;
+    border-radius: 100px;
     pointer-events: auto;
     cursor: pointer;
     z-index: 999;
@@ -276,7 +278,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     width: 80%;
   }
 
-  @media(max-width:700px){
+  @media(max-width:735px){
 
     .mapContainer {
       height: 100%;
@@ -287,28 +289,31 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
     .map {
       width: 100%;
-      margin: 0em;
-      padding: 0em;
-      padding-right: 0em;;
+      margin: 0rem;
+      padding: 0rem;
+      padding-right: 0rem;
+      min-height: calc(100vh - 100px);
     }
     .dialogueContainer {
-        width: calc(100% - 2em);
+        width: calc(100% - 2rem);
         height: 100%;
-        bottom: 1em;
-        left: 1em;
+        top: auto;
+        bottom: 1rem;
+        left: 1rem;
         position: fixed;
         flex-direction: column;
         justify-content: flex-end;
-        align-items: center;
+        align-items: flex-start;
+        padding: 1rem;
     }
 
     .emptyMap {
       margin: 0em;
-      padding: 2em;
+      padding: 2rem;
       border-radius: 0em;
       max-height: 100%;
       max-width: 100%;
-      font-size: 1em;
+      font-size: 1rem;
       justify-content: flex-start;
     }
   }

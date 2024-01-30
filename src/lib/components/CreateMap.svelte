@@ -40,6 +40,10 @@ async function saveNewAdventureToFirebase(newAdventure) {
       }
   
       let uniqueId = uuidv4();
+      let newUpdateDate = Date.now();
+      
+      newAdventure.updatedDate = newUpdateDate;
+
       newAdventure.adventureId = uniqueId;
       const adventureRef = doc(adventuresRef, newAdventure.adventureId);
       await setDoc(adventureRef, {

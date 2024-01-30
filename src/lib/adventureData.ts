@@ -28,6 +28,7 @@ export const currentAdventure = writable({
   userId: "",
   adventureId: "",
   public: false,
+  updateDate: "",
 });
 
 export const playAdventureCurrent = writable(false);
