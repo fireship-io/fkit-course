@@ -54,7 +54,7 @@
         display: none;
         flex-direction: column;
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: flex-end;
         gap: 1rem;
         max-height: 0rem;
         transition: max-height 0.15s ease-out;

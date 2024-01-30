@@ -284,10 +284,22 @@
         display:none;
     }
 
+    @media (max-width: 735px) {
+        .siteLogo {
+            width: auto;
+            height: 4rem;
+        }
+
+        .menuIcon {
+            max-width: none;
+            width: 4rem;
+        }
+    }
+
 </style>
 
 <svelte:window bind:innerWidth = {screenSize}/>
-{#if screenSize > 700}
+{#if screenSize > 735}
 <div class="navigationColumn">
 <div class="topSection">
     {#if !$premiumUser}
@@ -327,10 +339,12 @@
 </div>
 {:else}
 <div class="responsiveNav">
-    <a href="/dashboard/play" on:click={returnHome}><img src="/img/batlasLogo_white.webp" alt="BATLAS" height = "40em" ></a>
+    <a href="/dashboard/play" on:click={returnHome}>
+        <img src="/img/batlasLogo_white.webp" alt="BATLAS" width="auto" height="auto" class="siteLogo">
+    </a>
     <p style="text-transform: uppercase;">Beta testing</p>
     <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
-        <Icons icon={"rules"} size={"large"} color={"white"} />
+        <Icons icon={"rules"} size={"full"} color={"white"} />
     </a>
 </div>
 {/if}

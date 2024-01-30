@@ -54,6 +54,7 @@
         flex-direction: column;
         width: 100%;
         max-width: calc(25% - 1.5rem);
+        min-width: 15em;
         height: 100%;
         padding: 1rem;
         gap: 1rem;
@@ -107,7 +108,6 @@
 
         .savedAdventure h4{
             font-size: 1.3em;
-            margin: 0.2em;
         }
 
         .savedAdventureOptions {
@@ -199,9 +199,10 @@
             transform: translateY(-0.2em);
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 735px) {
             .savedAdventure {
-                max-width: calc(100% - 2em);
+                width: 100%;
+                max-width: 100%;
             }
         }
 

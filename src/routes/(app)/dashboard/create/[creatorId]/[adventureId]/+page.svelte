@@ -17,6 +17,7 @@ import Map from "$lib/components/Map.svelte";
         align-items: center;
         height: 100%;
         width: 100%;
+        max-width: 100%;
     }
 
     @media (max-width: 700px){

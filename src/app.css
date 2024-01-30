@@ -31,6 +31,7 @@ body {
   margin: 0;
   min-height: 100lvh;
   min-width: fit-content;
+  overflow-x: hidden;
 }
 
 * {
@@ -71,9 +72,9 @@ h4 {
   margin: 0rem;
 }
 
-/* div {
-  border: solid red 2px;
-} */
+div {
+  border: 1px solid red;
+}
 
 .dungeonBorder {
   border: 1rem solid white;

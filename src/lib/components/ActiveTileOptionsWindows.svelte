@@ -1181,10 +1181,8 @@
     padding: 1rem;
     display: none;
     overflow-y: scroll;
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    z-index: 100;
+    z-index: 999;
+    position: fixed;
   }
 
   .tileInfoBar::-webkit-scrollbar {
@@ -1240,13 +1238,14 @@
   }
 
   .tileInfoBarActive{
-        right: 0rem;
+        right: 2rem;
         top: auto;
         left: auto;
         bottom: auto;
         display: block;
         width: 20rem;
         max-height: calc(100% - 10rem);
+        z-index: 999;
   }
 
 

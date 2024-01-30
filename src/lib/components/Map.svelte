@@ -107,14 +107,17 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   .mapContainer {
       background-color: var(--batlas-black);
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 2rem;
       align-items: stretch;
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       height: 100%;
       width: 100%;
-      position: relative;
+      max-width: 100%;
+      position: static;
+      overflow-x: scroll;
   }
 
   .map::-webkit-scrollbar {
@@ -133,9 +136,10 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   }
 
   .map {
-        overflow:auto;
+        overflow: visible;
         background-color: var(--batlas-black);
         height: 100%;
+        width: 100%;
         max-height: none;
   }
 
@@ -192,7 +196,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     position: absolute;
     bottom: 25%;
     pointer-events: auto;
-    z-index: 998;
+    z-index: 50;
     opacity: 1;
   }
 
@@ -228,15 +232,18 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     transition: all 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: flex-start;
+    align-items: flex-start;
     height: 100%;
-    width: 100%;
-    position: absolute;
+    width: auto;
+    position: sticky;
+    left: 1rem;
+    top: 0rem;
     pointer-events: none;
     gap: 2em;
     padding: 1.5rem;
     padding-right: 1rem;
+    z-index: 100;
   }
 
   :global(.dialogueContainer *) {
@@ -275,6 +282,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       height: 100%;
       width: 100%;
       margin: 0em;
+      flex-direction: column;
     }
 
     .map {
@@ -309,6 +317,12 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 <div class="mapContainer">
 
+  <div class="dialogueContainer">
+    <UserControls/>
+    {#if $activeTile.rowIndex !== null}s
+    <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
+    {/if}
+  </div>
   <div class="map" >
     {#if $currentAdventure.map.length === 0 && $page.route.id.includes("/create/")}
       <div class="emptyMap" >
@@ -343,12 +357,6 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
               {/each}
           </div>
       {/each}
-    </div>
-    <div class="dialogueContainer">
-      <UserControls/>
-      {#if $activeTile.rowIndex !== null}s
-      <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
-      {/if}
     </div>
 </div>
 

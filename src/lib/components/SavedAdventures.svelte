@@ -79,7 +79,7 @@
         text-align: center;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 735px) {
         .adventureList {
             height: auto;
             flex-direction: column;

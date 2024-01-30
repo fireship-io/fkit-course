@@ -84,7 +84,7 @@
   }
 
     function addBottomRow() {
-      if ($currentAdventure.map.length >= maxRows) {
+      if ($currentAdventure.map.length >= maxRows && !$premiumUser) {
         maxFreeHeight = true;
         return;
       }
@@ -135,7 +135,7 @@
     }
 
     function addTopRow() {
-      if ($currentAdventure.map.length >= maxRows) {
+      if ($currentAdventure.map.length >= maxRows && !$premiumUser) {
         maxFreeHeight = true;
         return;
       }
@@ -154,7 +154,7 @@
     }
 
     function addColumnRight() {
-      if ($currentAdventure.map[0].length >= maxColumns) {
+      if ($currentAdventure.map[0].length >= maxColumns && !$premiumUser) {
         maxFreeWidth = true;
         return;
       }
@@ -183,7 +183,7 @@
     }
 
     function addColumnLeft() {
-      if ($currentAdventure.map[0].length >= maxColumns) {
+      if ($currentAdventure.map[0].length >= maxColumns && !$premiumUser) {
         maxFreeWidth = true;
         return;
       }
@@ -240,18 +240,19 @@
     justify-content: space-between;
     align-items: center;
     width: auto;
-    min-width: 20em;
+    min-width: 15rem;
     max-width: none;
     height: auto;
-    gap: 1em;
-    padding: 1em;
+    gap: 1rem;
+    padding: 1rem;
     background-color: var(--batlas-white);
-    border-radius: 2em;
-    border: 0.25em solid var(--batlas-black);
+    border-radius: 2rem;
+    border: 0.25rem solid var(--batlas-black);
+    font-size: clamp(0.8rem, 2vw + 0.4rem, 0.8rem);
   }
 
   .mapControlsContainer {
-    min-width: 20em;
+    min-width: 15rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -263,17 +264,17 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 3em;
+    height: 3rem;
     background-color: var(--batlas-black);
     color: var(--batlas-white);
-    border-radius: 3em;
+    border-radius: 3rem;
     cursor: pointer;
   }
 
   .userControlNoHover {
     cursor: default;
     background-color: var(--batlas-white);
-    border: 0.25em solid var(--batlas-black);
+    border: 0.25rem solid var(--batlas-black);
   }
 
   .userControl:hover {
@@ -290,8 +291,8 @@
     border: none;
     outline: none;
     text-align: left;
-    padding: 0.5em;
-    font-size: 1em;
+    padding: 0.5rem;
+    font-size: 1rem;
     font-family: var(--batlas-font);
   }
 
@@ -303,20 +304,21 @@
     color: var(--batlas-white);
     justify-content: center;
     align-items: center;
+    font-size: 0.8rem;
     font-family: var(--batlas-font);
-    border-radius: 2em 0 0 2em;
+    border-radius: 2rem 0 0 2rem;
     transform: translateX(-2px);
-    padding: 0.5em;
+    padding: 0.5rem;
   }
 
   .mapControls {
     width: 100%;
-    height: 3em;
+    height: 3rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 0.2em;
-    padding-right: 0.5em;
+    gap: 0.2rem;
+    padding-right: 0.5rem;
   }
 
   .mapControlLabel {
@@ -328,16 +330,16 @@
     justify-content: flex-start;
     align-items: center;
     font-family: var(--batlas-font);
-    border-radius: 2em 0 0 2em;
+    border-radius: 2rem 0 0 2rem;
     transform: translateX(-2px);
-    padding: 0.8em;
-    font-size: 0.8em;
+    padding: 0.8rem;
+    font-size: 0.8rem;
   }
 
   .iconContainer {
     cursor: pointer;
     display: flex;
-    gap: 1em;
+    gap: 1rem;
     flex-direction: row;
     justify-content: space-evenly;
   }
@@ -349,7 +351,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 1em;
+    gap: 1rem;
     width: 100%;
   }
 
@@ -362,12 +364,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.5rem;
     width: 100%;
-    height: 3em;
+    height: 3rem;
     background-color: var(--batlas-black);
     color: var(--batlas-white);
-    border-radius: 3em;
+    border-radius: 3rem;
     cursor: pointer;
     opacity: 0.5;
   }
@@ -377,7 +379,7 @@
   }
 
   .changeAlert {
-    margin: 0em;
+    margin: 0rem;
   }
 
   .mapControlDisabled,   .mapControlDisabled .iconContainer {
@@ -385,7 +387,33 @@
     pointer-events: none;
   }
 
+  .sizingControls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
 
+  .sizingControlRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .mapSizeControls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .vertical {
+    flex-direction: column;
+  }
 
 </style>
 {#if !$page.route.id.includes("/player/")}
@@ -428,7 +456,7 @@
             role="button"
             tabindex="0"
           >
-            <p>Random map</p>
+            <p>Random</p>
           </div>
           <div class="userControl" 
             on:click={() => saveAdventureToFirebase($currentAdventure)}
@@ -436,7 +464,7 @@
             role="button"
             tabindex="0"
           >
-            <p>Save map</p>
+            <p>Save</p>
           </div>
         </div>
         {#if $currentAdventureChange}
@@ -446,102 +474,104 @@
     </div>
   {/if}
 {#if !$page.route.id.includes("/player/")}
-<div class="mapControlsContainer">
-  <div class="userControlNoHover labelledControl mapControls">
-    <div class="mapControlLabel">
-      <p>Bottom</p>
-    </div>
-    <div class="iconContainer"
-      on:click={addBottomRow}
-      on:keydown={addBottomRow}
-      role="button"
-      tabindex="0"
-      class:mapControlDisabled = {maxFreeHeight}
-    >
-      <Icons icon={"add"} size={"medium"} color={"black"}/>
-    </div>
-    <div class="iconContainer"
-      on:click={removeBottomRow}
-      on:keydown={removeBottomRow}
-      role="button"
-      tabindex="0"
-    >
-      <Icons icon={"downChevron"} size={"medium"} color={"black"} />
+
+
+<div class="mapControlsContainer sizingControls">
+  <div class="sizingControlRow">
+    <div class="mapSizeControls">
+      <div class="iconContainer"
+        on:click={addTopRow}
+        on:keydown={addTopRow}
+        role="button"
+        tabindex="0"
+        class:mapControlDisabled = {maxFreeHeight}
+      >
+        <Icons icon={"add"} size={"medium"} color={"black"}/>
+      </div>
+      <div class="iconContainer"
+        on:click={removeTopRow}
+        on:keydown={removeTopRow}
+        role="button"
+        tabindex="0"
+      >
+        <Icons icon={"minus"} size={"medium"} color={"black"} />
+      </div>
     </div>
   </div>
-  <div class="userControlNoHover labelledControl mapControls">
-    <div class="mapControlLabel">
-      <p>Top</p>
-    </div>
-    <div class="iconContainer"
-      on:click={addTopRow}
-      on:keydown={addTopRow}
-      role="button"
-      tabindex="0"
-    >
-      <Icons icon={"add"} size={"medium"} color={"black"} />
-    </div>
-    <div class="iconContainer"
-      on:click={removeTopRow}
-      on:keydown={removeTopRow}
-      role="button"
-      tabindex="0"
+  <div class="sizingControlRow">
+    <div class="mapSizeControls vertical">
+      <div class="iconContainer"
+        on:click={addColumnLeft}
+        on:keydown={addColumnLeft}
+        role="button"
+        tabindex="0"
+        class:mapControlDisabled = {maxFreeHeight}
       >
-      <Icons icon={"downChevron"} size={"medium"} color={"black"} />
+        <Icons icon={"add"} size={"medium"} color={"black"}/>
+      </div>
+      <div class="iconContainer"
+        on:click={removeColumnLeft}
+        on:keydown={removeColumnLeft}
+        role="button"
+        tabindex="0"
+      >
+        <Icons icon={"minus"} size={"medium"} color={"black"} />
+      </div>
+    </div>
+    <div class="mapSizeControlImage">
+      <img src="/img/tiles/dungeon/c1-v2.webp" width="auto" height="50px">
+    </div>
+    <div class="mapSizeControls vertical">
+      <div class="iconContainer"
+        on:click={addColumnRight}
+        on:keydown={addColumnRight}
+        role="button"
+        tabindex="0"
+        class:mapControlDisabled = {maxFreeHeight}
+      >
+        <Icons icon={"add"} size={"medium"} color={"black"}/>
+      </div>
+      <div class="iconContainer"
+        on:click={removeColumnRight}
+        on:keydown={removeColumnRight}
+        role="button"
+        tabindex="0"
+      >
+        <Icons icon={"minus"} size={"medium"} color={"black"} />
+      </div>
     </div>
   </div>
-  <div class="userControlNoHover labelledControl mapControls">
-    <div class="mapControlLabel">
-      <p>Left</p>
-    </div>
-    <div class="iconContainer"
-      on:click={addColumnLeft}
-      on:keydown={addColumnLeft}
-      role="button"
-      tabindex="0"
+  <div class="sizingControlRow">
+    <div class="mapSizeControls">
+      <div class="iconContainer"
+        on:click={addBottomRow}
+        on:keydown={addBottomRow}
+        role="button"
+        tabindex="0"
+        class:mapControlDisabled = {maxFreeHeight}
       >
-      <Icons icon={"add"} size={"medium"} color={"black"} />
-    </div>
-    <div class="iconContainer"
-      on:click={removeColumnLeft}
-      on:keydown={removeColumnLeft}
-      role="button"
-      tabindex="0"
-    >
-      <Icons icon={"downChevron"} size={"medium"} color={"black"} />
-    </div>
-  </div>
-  <div class="userControlNoHover labelledControl mapControls">
-    <div class="mapControlLabel">
-      <p>Right</p>
-    </div>
-    <div class="iconContainer"
-      on:click={addColumnRight}
-      on:keydown={addColumnRight}
-      role="button"
-      tabindex="0"
-    >
-      <Icons icon={"add"} size={"medium"} color={"black"} />
-    </div>
-    <div class="iconContainer"
-      on:click={removeColumnRight}
-      on:keydown={removeColumnRight}
-      role="button"
-            tabindex="0"
+        <Icons icon={"add"} size={"medium"} color={"black"}/>
+      </div>
+      <div class="iconContainer"
+        on:click={removeBottomRow}
+        on:keydown={removeBottomRow}
+        role="button"
+        tabindex="0"
       >
-      <Icons icon={"downChevron"} size={"medium"} color={"black"} />
+        <Icons icon={"minus"} size={"medium"} color={"black"} />
+      </div>
     </div>
   </div>
   {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
-    <p class="changeAlert">Free account max map size limit reached</p>
-    <a>Upgrade to premium</a>
-  {:else if maxFreeHeight && !$premiumUser}
-    <p class="changeAlert">Free account max height reached</p>
-    <a>Upgrade to premium</a>
-  {:else if maxFreeWidth && !$premiumUser}
-    <p class="changeAlert">Free account max width reached</p>
-    <a>Upgrade to premium</a>
-  {/if}
+  <p class="changeAlert">Free account max map size limit reached</p>
+  <a>Upgrade to premium</a>
+{:else if maxFreeHeight && !$premiumUser}
+  <p class="changeAlert">Free account max height reached</p>
+  <a>Upgrade to premium</a>
+{:else if maxFreeWidth && !$premiumUser}
+  <p class="changeAlert">Free account max width reached</p>
+  <a>Upgrade to premium</a>
+{/if}
 </div>
 {/if}
 
