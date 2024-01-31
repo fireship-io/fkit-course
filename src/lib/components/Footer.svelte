@@ -48,14 +48,20 @@
 
 <style>
 
+    footer.footer a {
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--batlas-white);
+    }
 
-    a:hover {
+    footer.footer a:hover {
       cursor: pointer;
       text-decoration: underline;
+      color: var(--batlas-white);
     }
 
     p {
-      font-size: 1em;
+      font-size: 1rem;
     }
 
 
@@ -64,16 +70,14 @@
       grid-template-columns: 1fr 1fr 1fr;
       color: var(--batlas-white);
       background-color: var(--batlas-black);
-      border: 0.2em solid var(--batlas-white);
       padding: 0em 1em;
       text-transform: uppercase;
-      position: fixed;
-      bottom: 0em;
     }
 
     .footer p {
       margin: 0em;
     }
+
 
     .footerCenter {
       display: flex;
@@ -117,20 +121,48 @@
     }
   }
 
-    @media screen and (max-width: 900px) {
-
-      p {
-        font-size: 2.5em;
-      }
+  @media (max-width: 900px) {
+    .footer {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas:
+        "footerCenter"
+        "footerRight"
+        "footerLeft";
+      gap: 1rem;
+      padding-bottom: 1rem;
     }
+
+    .footerLeft {
+      grid-area: footerLeft;
+      justify-content: center;
+    }
+
+    .footerCenter {
+      grid-area: footerCenter;
+      justify-content: center;
+    }
+
+    .footerCenter img {
+      height: auto;
+      max-height: none;
+      object-fit: cover;
+      object-position: bottom center;
+      overflow: visible;
+    }
+
+    .footerRight {
+      grid-area: footerRight;
+      justify-content: center;
+      text-align: center;
+    }
+  }
 
   </style>
 
     <footer class="footer">
       <div class="footerLeft">
-        <p>Copyright Tanner J Pty Ltd</p>
-        <a>Privacy Policy</a>
-        <a>Terms & Conditions</a>
+        <p>Copyright Tanner J 2024</p>
       </div>
       <div class="footerCenter">
         <a>
@@ -138,8 +170,7 @@
         </a>
       </div>
       <div class="footerRight">
-        <a>Want to collaborate?</a>
-        <a>My other projects</a>
+        <a href="/legalities">Privacy Policy | Terms & Conditions | Security Policy</a>
       </div>
     </footer>  
 

@@ -1,377 +1,320 @@
 <script>
-    import { userData } from "$lib/firebase";
-    import { redirect } from "@sveltejs/kit";
-    import UserDashboard from "$lib/components/UserDashboard.svelte";
-    import { goto } from "$app/navigation";
-    import { onMount } from "svelte";
-    import CycleTile from "$lib/components/CycleTile.svelte";
+  import Footer from "$lib/components/Footer.svelte";
+import Header from "$lib/components/Header.svelte";
+import CycleTile from "$lib/components/CycleTile.svelte";
 
+    let topTiles = ['r1-v3', 'r4-v2', 'r11-v2']
+    let leftTiles = ['r10-v2', 'r3-v3', 'c9-v3']
+    let rightTiles = ['c5-v2', 'r8-v2', 'r1-v2']
+    let bottomTiles = ['c1-v2', 'c2-v3', 'd12-v1']
+</script>
 
-    function redirectToDashboard() {
-        goto("/dashboard");
+<style>
+
+    * {
+        scroll-behavior: smooth;
     }
 
-    let monsterChoices = ['goblin', 'dragon', 'wolf', 'bugbear', 'salamander', 'flying carpet', 'giant', 'troll', 'giant spider', 'rat'];
-    let offensiveChoices = ['lightning eyes', 'super speed', 'a hypnotic gaze', 'a poisonous bite', 'fiery breath', 'rusty iron claws', 'fairy minions', 'an extra pair of arms', 'telekinesis', 'a swarm of killer bees'];
-    let defensiveChoices = ['a crystal shield', 'a set of mirror armour', 'a poisonous shroud', 'a psychic barrier', 'an illusory maze', 'spatial distortion', 'camoflauge', 'invisibility', 'stone skin', 'a protective whirlwind'];
-
-
-  function startRandomlyAssigning() {
-    setInterval(() => {
-      let newMonster = monsterChoices[Math.floor(Math.random() * 10)];
-      let newOffensive = offensiveChoices[Math.floor(Math.random() * 10)];
-      let newDefensive = defensiveChoices[Math.floor(Math.random() * 10)];
-      monster = newMonster;
-      offensive = newOffensive;
-      defensive = newDefensive;
-    }, 4000);
-  }
-
-  let monster = 'goblin'
-  let offensive = 'lightning eyes'
-  let defensive = 'a crystal shield'
-
-
-  let topTiles = ['r1-v3', 'r4-v2', 'r11-v2']
-  let leftTiles = ['r10-v2', 'r3-v3', 'c9-v3']
-  let rightTiles = ['c5-v2', 'r8-v2', 'r1-v2']
-  let bottomTiles = ['c1-v1', 'c2-v3', 'd12-v1']
-
-  onMount(() => {
-    startRandomlyAssigning();
-  });
-
-
-  </script>
-
-
-
-  <style>
-
-    h1{
-      text-transform: uppercase;
+    h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
     }
 
-    a:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    p {
-      font-size: 1em;
-    }
-
-
-    .batlasSection {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background-color: var(--batlas-black);
-      color: var(--batlas-white);
-      padding: 9em 2em;
-      width: 100%;
-      max-width: 1240px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    
-    .batlasHero {
-      padding-top: 18em;
-    }
-
-
-    .batlasColumn {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .batlasColumn img {
-      width: 90%;
-      max-width: 40em;
-      object-fit: cover;
-      object-position: right center;
-      overflow: visible;
-    }
-
-    .batlasColumn video {
-      width: 70%;
-      max-width: 40em;
-      object-fit: cover;
-      object-position: right center;
-      overflow: visible;
-    }
-
-    .batlasColumn h1 {
-      font-size: 2em;
-      font-weight: 900;
-      margin-bottom: 0.5em;
-    }
-
-    .batlasColumn h2 {
-      font-family: 'Poppins', sans-serif;
-      text-transform: uppercase;
-      line-height: 1.2em;
-      letter-spacing: 0.05em;
-      font-size: 4.8em;
-      font-weight: 800;
-      margin-bottom: 0.5em;
-    }
-
-    .singleColumn {
-      grid-template-columns: 1fr;
-    }
-
-    .imageColumn {
-      align-items: flex-end;
-    }
-
-    .CTA {
-      font-size: 2em;
-      border: 0.2em solid var(--batlas-white);
-      padding: 1em;
-      text-transform: uppercase;
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0rem;
+        color: var(--batlas-white);
     }
 
     .underline {
-      border-bottom: 0.1em solid var(--batlas-white)
+        border-bottom: 2px solid var(--batlas-white);
     }
 
-    .monsterGen {
-      justify-content: flex-start;
-      align-items: flex-start;
-      padding-left: 3em;
-      font-size: 3em;
-      font-weight: 600;
-      text-transform: uppercase;
-      line-height: 1em;
-    }
-
-    .monsterGen p {
-      margin: 0.3em;
-    }
-
-    .monsterGen .promptText {
-      color: var(--batlas-black);
-      -webkit-text-stroke: 0.01em var(--batlas-white);
-    }
-
-    .line {
-    width: 100%;
-    height: 0.3em;
-    background-color: white;
-    overflow: hidden;
-    animation: expandLine 4s linear infinite;
-    }
-
-  @keyframes expandLine {
-    0% {
-      width: 100%;
-    }
-    100% {
-      width: 0%;
-    }
-  }
-
-  .mapMaker {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .mapMaker .row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 3.025em;
-  }
-
-    @media screen and (max-width: 1500px) {
-    h2 {
-      color: var(--batlas-white);
-    }
-
-  }
-
-    @media screen and (max-width: 900px) {
-
-      .batlasHero h2{
-        font-size: 8em;
-      }
-
-      .batlasHero video {
-        width: 100%;
-        max-width: 100%;
-      }
-
-      p {
-        font-size: 2.5em;
-      }
-      .batlasSection {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        padding: 12em 2em;
-        max-width: 900px;
-        gap: 6em;
-      }
-
-      .batlasColumn {
-        align-items: flex-start;
-      }
-
-      .imageColumn {
+    .container {
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-      }
-
-      .mapMaker {
-        padding-top: 8em;
-      }
-
-      .mapMaker .row {
-        height: 6.05em;
-
-      }
-
-      .monsterGen {
-        width: 100%;
-        padding-left: 0em;
-        letter-spacing: 0.1em;
-        text-align: center;
-      }
-
-      .monsterGen p, .promptText {
-        font-size: 1em;
-        line-height: normal;
-      }
-
-      .monsterGen .promptText {
-      color: var(--batlas-black);
-      -webkit-text-stroke: 0.03em var(--batlas-white);
-      }
+        height: auto;
+        background-color: var(--batlas-black);
+        padding: 10rem 0;
     }
 
-  </style>
-  
-  <svelte:head>
-    <title>Batlas - Isometric Adventures</title>
-    <meta name="description" content="Isometric Adventure Generator and TTRPG" />
-  </svelte:head>
+    section {
+        max-width: 1000px;
+        padding: 5rem 2rem;
+        color: var(--batlas-white);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+    }
 
+    .narrow {
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
 
-  {#if $userData?.username}
-    {redirectToDashboard()}
-  {:else}
-  
+    video {
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    }
 
+    .threeColumn {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2rem;
+        margin-top: 2rem;
+    }
 
-  <main class="batlasSection batlasHero">
-    <div class="batlasColumn">
-          <h1 >Batlas</h1>
-          <h2>Prep Less<br>Play More</h2>
-    </div>
-    <div class="batlasColumn imageColumn">
-      <video autoplay loop muted>
-        <source src="/video/batlasHero.mp4" type="video/mp4">
-        <track default kind="captions" srclang="en">
-      </video>
-    </div>
-  </main>
+    .testimonial {
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: var(--batlas-white);
+        color: var(--batlas-black);
+        font-size: 1.2rem;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        gap: 1rem;
+    }
 
-  <section class="batlasSection singleColumn">
-    <div class="batlasColumn">
-          <h2>Simple rules & digital tools to <span class="underline">kill goblins, not time.</span></h2>
-    </div>
-  </section>
+    .testimonial p {
+        margin: 0;
+    }
 
-  <section class="batlasSection">
-    <div class="batlasColumn">
-          <h2>Isometric map-maker</h2>
-          <p>Hand hand drawn isometric maps in minutes. Designed for Batlas but able to be used in any gaming system.</p>
-    </div>
-    <div class="batlasColumn imageColumn mapMaker">
-      <div class="row">
-        <CycleTile options={topTiles}/>
-      </div>
-      <div class="row">
-        <CycleTile options={leftTiles}/>
-        <CycleTile options={rightTiles}/>
-      </div>
-      <div class="row">
-        <CycleTile options={bottomTiles}/>
-      </div>
-    </div>
-  </section>
+    .testimonialAttribute {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: right;
+    }
 
-  <section class="batlasSection">
-    <div class="batlasColumn">
-          <h2>Beat writer's block</h2>
-          <p>Creative monster, fantastic locations, and memorable NPC's are just a click away with Batlas' digital toolset.</p>
-    </div>
-    <div class="batlasColumn imageColumn monsterGen">
-      <div class="line"></div>
-      <p id="monsterPrompt">A <span class="promptText">{monster}</span></p>
-      <p id="offensivePrompt">with <span class="promptText">{offensive}</span></p>
-      <p id="defensivePrompt">and <span class="promptText">{defensive}</span></p>
-    </div>
-  </section>
+    .whyUseAttribute {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: left;
+    }
 
-  <section class="batlasSection">
-    <div class="batlasColumn">
-          <h2>Play in less than 10 minutes</h2>
-          <p>Batlas removes the barriers to play, allowing fantasy adventures at the drop of a hat.</p>
-          <p>With the map-maker, idea generators, and built-in adventure planner game master's can be ready to run in less time than it takes the rest of group to decide on dinner.</p>
-          <p>Just get pizza.</p>
-    </div>
-    <div class="batlasColumn imageColumn">
-      <img src="/img/pizza.webp" alt="Batlas Logo"/>
-    </div>
-  </section>
+    .whiteButton {
+        background-color: var(--batlas-white);
+        color: var(--batlas-black);
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.2s ease-in-out;
+    }
 
-  <section class="batlasSection singleColumn">
-    <div class="batlasColumn">
-          <h2>Make a free account and poke around.</h2>
-          <a href="/login" class="CTA">Create a free account</a>
-    </div>
-  </section>
+    .blackButton {
+        background-color: var(--batlas-black);
+        border: 0.2rem solid var(--batlas-white);
+        color: var(--batlas-white);
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: all 0.2s ease-in-out;
 
-  <section class="batlasSection">
-    <div class="batlasColumn">
-          <h2>Simple, fast, and fun</h2>
-          <p>Batlas is designed to be planned and planned in around 2-3 hours. It cuts out rules that bog the story down in mathematics and numbers by using archetypes to determine strengths and weaknesses.</p>
-          <p>Simple enough to pick up and play, complex enough to allow for creativity and ridiculous memories.</p>
-    </div>
-    <div class="batlasColumn imageColumn monsterGen">
-      <p id="monsterPrompt">10 <span class="promptText">minutes prep</span></p>
-      <p id="offensivePrompt">3 <span class="promptText">dice</span></p>
-      <p id="defensivePrompt">90+ <span class="promptText">minutes of play</span></p>
-      <p id="defensivePrompt">No <span class="promptText">maths (almost)</span></p>
-    </div>
-  </section>
+    }
 
-  <section class="batlasSection">
-    <div class="batlasColumn">
-          <h2>Support the community</h2>
-          <p class="batlasColumnSubtitle">(and me, please.)</p>
-          <p>There will always be a free version of Batlas available to everyone but as time goes on I'll be adding more and more to a paid version of the platform.</p>
-          <p>I'm just one guy, not a studio or big company. Batlas is a solo project that exists to get new people into the TTRPG community. And as a dream that I might one day get to enable fun and adventure as my main job.</p>
-          <p>If you can spare a few bucks it'd go a long to keep the magic alive.</p>
-    </div>
-    <div class="batlasColumn imageColumn">
-      <img src="/img/warrior.webp" alt="Batlas Logo" />
-    </div>
-  </section>
+    .whiteButton:hover {
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
+    }
 
-  <section class="batlasSection singleColumn">
-    <div class="batlasColumn">
-          <h2>Now, gather your party & make some memories.</h2>
-          <a href="/login" class="CTA">Create a free account</a>
-    </div>
-  </section>
-  {/if}
-  
-  
+    .blackButton:hover {
+        background-color: var(--batlas-white);
+        color: var(--batlas-black);
+    }
+
+    .tinyText {
+        font-size: 0.8rem;
+    }
+
+    .whyUse {
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
+        border: 0.2rem solid var(--batlas-white);
+        font-size: 1rem;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        gap: 1rem;
+    }
+
+    .mapMaker {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 200px;
+    }
+
+    .mapMaker .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: -112px;
+    }
+
+    @media only screen and (max-width: 900px) {
+        .threeColumn {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+
+<Header />
+
+<div class="container">
+    <section>
+        <h1>An easy to use, any-system <span class="underline">isometric adventure creator</span></h1>
+        <div class="narrow">
+        <p>Batlas is intuitive, point-and-click, independently owned, hand-drawn isometric adventures. No AI, no money-hungry corporations, an adventure tool that respects a Game Master's time and offers a streamlined way to dungeon delve.</p>
+        <a href="/login" class="whiteButton">Get started</a>
+            <div>
+                <video autoplay loop muted>
+                <source src="/video/batlasHero.mp4" type="video/mp4">
+                <track default kind="captions" srclang="en">
+                </video>
+            </div>
+        </div>
+    </section>
+    <section class="narrow" id="about">
+        <h2>Don't kill 💀 your campaign</h2>
+        <p>Game Master burnout is one of the most common causes of campaign death and the quickest way to burn out is to over prepare for game night again and again.</p>
+        <p>Batlas is a great tool to map out intricate dungeon crawls in minutes that can last hours in game.</p>
+    </section>
+    <section class="narrow">
+        <h2>A new way to play</h2>
+        <p>Few players have had the fun of delving through an isometric dungeon because Game Masters don't have the time to draw them.</p>
+        <p>With real-time fog-of-war in the play mode, you can make your players wonder what's around every corner.</p>
+    </section>
+    <section class="narrow">
+        <h2>Simple tools for satisfying games</h2>
+        <p>Batlas is a map based adventure planner that stores your notes right in the map so that everything you need is in one place.</p>
+        <p>Create your dungeon, write out a few description, define the points of interest, and hit play!</p>
+        <div class="mapMaker">
+            <div class="row">
+              <CycleTile options={topTiles}/>
+            </div>
+            <div class="row">
+              <CycleTile options={leftTiles}/>
+              <CycleTile options={rightTiles}/>
+            </div>
+            <div class="row">
+              <CycleTile options={bottomTiles}/>
+            </div>
+          </div>
+    </section>
+    <section class="narrow">
+        <h2>Share your adventure with your players</h2>
+        <p>Once you create your adventure you can share it with your players through the URL.</p>
+        <p>The Game Master will see their notes and the players will only see what parts of the map have been uncovered.</p>
+    </section>
+    <section>
+        <h2>Game Masters ❤️ Batlas</h2>
+        <p>Here's what a few happy Game Masters have to say about Batlas.</p>
+        <div class="threeColumn">
+            <div class="testimonial">
+                <p>"My players have a habit of checking out every ruin they can and Batlas stops me from pulling my hair out."</p>
+                <p class="testimonialAttribute">Pat F</p>
+            </div>
+            <div class="testimonial">
+                <p>"I was new to running the game and having a map to point and keep notes on was amazing!"</p>
+                <p class="testimonialAttribute">Kitt N</p>
+            </div>
+            <div class="testimonial">
+                <p>"Sometimes you want to take a break from the huge scope of grand-adventure and just send your party into a dungeon."</p>
+                <p class="testimonialAttribute">Tanner J</p>
+            </div>
+        </div>
+    </section>
+    <section id="pricing">
+        <h2>Free Forever</h2>
+        <p>Sign up for a free account and start creating your own adventures today!</p>
+        <p>There's no limit to how long you can use the free tier.</p>
+        <a href="/login" class="whiteButton">Sign up for a free account</a>
+        <a href="/login" class="blackButton">or $6<span class="tinyText">AUD</span>/month for the premium tier</a> 
+    </section>
+    <section>
+        <h2>Why use Batlas?</h2>
+        <p>Most games need much less prep than Game Masters force themselves to do. Batlas cuts down prep time and brings back the spirit of classic TTRPGs</p>
+        <div class="threeColumn">
+            <div class="whyUse">
+                <p class="whyUseAttribute">A new way to play!</p>
+                <p>Isometric maps offer a new way of approaching fantasy adventures, one that normally takes hours of prep.</p>
+            </div>
+            <div class="whyUse">
+                <p class="whyUseAttribute">Create & Play on the same platform</p>
+                <p>Offer up your adventures to your players with a simple link and run through the dungeons on any device.</p>
+            </div>
+            <div class="whyUse">
+                <p class="whyUseAttribute">Community driven & ever-growing</p>
+                <p>Batlas is developed by one person (hello!), and I want to build the tools my users want.</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2>What's in the premium tier?</h2>
+        <p>If you're looking to support independant hobbyists and tinkerers while getting some extra tools, this is right for you.</p>
+        <div class="threeColumn">
+            <div class="whyUse">
+                <p class="whyUseAttribute">Unlimited adventures</p>
+                <p>Store as many adventures as you have ideas. Create sprawling multi-map dungeons that go as deep as you like.</p>
+            </div>
+            <div class="whyUse">
+                <p class="whyUseAttribute">No limit on dungeon size</p>
+                <p>Create a labyrinth of hallways and rooms with no idea to drive your players to the brink of their skills.</p>
+            </div>
+            <div class="whyUse">
+                <p class="whyUseAttribute">Vote on upcoming features</p>
+                <p>Premium members get their say on what gets added to Batlas next.</p>
+            </div>
+        </div>
+        <div class="threeColumn">
+            <div class="whyUse">
+                <p class="whyUseAttribute">Premade dungeons (coming soon)</p>
+                <p>Pre-made dungeons to slot into any campaign when you're in a pinch. From 5-room one-shots, to sprawling crawls, a library of adventure is at your fingertips.</p>
+            </div>
+            <div class="whyUse">
+                <p class="whyUseAttribute">A free rules-light system</p>
+                <p>New to TTRPGs? Just looking for a new system centered on archetypes and improv? With the premium tier you get access to the Batlas rules.</p>
+            </div>
+            <div class="whyUse">
+                <p class="whyUseAttribute">Support the community</p>
+                <p>I've been playing TTRPGs for over a decade and with your help I can give back to the community. But software dev takes a lot of time and energy; every bit helps.</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1>Ready to dive into the dungeon?</h1>
+        <p>Free forever.</p>
+        <a href="/login" class="whiteButton">Get started</a>
+    </section>
+</div>
+<Footer />
+

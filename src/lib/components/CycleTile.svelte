@@ -18,14 +18,14 @@ function nextTile() {
 
 <style>
     .hoverCircle {
-        width: 3em;
-        height: 3em;
+        width: 3rem;
+        height: 3rem;
         border-radius: 50%;
         background-color:  var(--batlas-white);
-        padding: 0.5em;
+        padding: 0.5rem;
         position: absolute;
-        bottom: calc(100% - 1.5em);
-        left: calc(50% - 1.5em);
+        bottom: calc(100% - 1.5rem);
+        left: calc(50% - 1.5rem);
         pointer-events: auto;
         z-index: 5;
         opacity: 0.3;
@@ -54,14 +54,14 @@ function nextTile() {
 
 
     .mapMakerTile {
-        width: 12em;
-        max-width: 40em;
+        width: 12rem;
+        max-width: 40rem;
         object-fit: contain;
         object-position: bottom center;
         pointer-events: none;
         position: relative;
-        bottom: 0em;
-        left: 0em;
+        bottom: 0rem;
+        left: 0rem;
     }
 
     .centeredTile {
@@ -70,26 +70,13 @@ function nextTile() {
         flex-direction: column;
         justify-content: flex-end;
         align-items: center;
-        bottom: 0em;
-        height: 10em;
+        bottom: 0rem;
+        height: 10rem;
     }
 
     @media screen and (max-width: 900px) {
 
-    .hoverCircle {
-        width: 6em;
-        height: 6em;
-    }
-    
-    .mapMakerTile {
-        width: 24em;
-        max-width: 40em;
-    }
-    .hoverCircle {
-        opacity: 0.7;
-        bottom: calc(100% - 3em);
-        left: calc(50% - 3em);
-    }
+
 }
 </style>
 <div class="centeredTile">

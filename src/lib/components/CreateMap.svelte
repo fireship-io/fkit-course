@@ -78,7 +78,8 @@ async function saveNewAdventureToFirebase(newAdventure) {
       justify-content: space-between;
       align-items: center;
       width: auto;
-      min-width: 20em;
+      min-width: 10rem;
+      max-width: calc(100% - 2rem);
       height: auto;
       gap: 1em;
       padding: 1em;

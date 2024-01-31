@@ -80,6 +80,15 @@
       }
     }, 1000)
 
+    let legalToggle = false;
+
+    function alignLegalToggle() {
+      let currentLegalToggle = document.getElementById('legalToggleCheckbox');
+      legalToggle = currentLegalToggle.checked;
+    }
+
+    
+
 </script>
 
 <style>
@@ -206,6 +215,48 @@
 
   }
 
+  label {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 3rem;
+    color: var(--batlas-white);
+  }
+
+  a.simpleLink {
+    border: none;
+    text-decoration: underline;
+    background-color: transparent;
+    color: var(--batlas-white);
+    padding: 0rem;
+    text-align: center;
+  }
+
+  a.simpleLink:hover {
+    cursor: pointer;
+    color: var(--batlas-white);
+    background-color: transparent;
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .legal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 1em;
+  }
+
+  .legalLabel {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 0rem;
+    color: var(--batlas-white);
+  }
+
   @media screen and (max-width: 1500px) {
       h2 {
       color: var(--batlas-white);
@@ -244,9 +295,13 @@
       <!-- <a on:click={signOutSSR}>Sign out</a>
       <a on:click={() => handleDeleteUser($user)}>Delete Account</a> -->
       {:else}
-        <h2>Login</h2>
-        <a on:click={signInWithGoogle}>Sign in with Google</a>
-      {/if}
+        <h2>Login / Register</h2>
+        <a class:disabled={!legalToggle} on:click={signInWithGoogle}>Sign in with Google</a>
+        <div class="legal">
+          <input name="legal" type="checkbox" id="legalToggleCheckbox" on:change={alignLegalToggle}>
+          <label class="legalLabel" for="legal">I agree to the Batlas <a class="simpleLink" href="/legalities" target="_blank">Terms & Conditions, Privacy Policy, and Cyber Security Policy.</a></label>
+        </div>
+        {/if}
         <p>By signing up or logging in you agree to the Batlas Terms & Conditions, Privacy Policy, and Cyber Security Policy.</p>
     </div>
   </div>

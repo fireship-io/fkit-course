@@ -10,6 +10,8 @@
       doc,
       setDoc,
       collection,
+      addDoc,
+      onSnapshot
     } from "firebase/firestore";
     import { v4 as uuidv4 } from "uuid";
     import { createAlert, premiumUser } from "$lib/dashboardState";
@@ -230,6 +232,39 @@
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
+    async function upgradeToPremium(priceId) {
+      // Reference to the Firestore document
+    const checkoutSessionsRef = collection(db, "users", $user.uid, "checkout_sessions");
+
+    try {
+    // Create a new checkout session in Firestore
+    const checkoutSessionRef = await addDoc(checkoutSessionsRef, {
+        price: priceId,
+        success_url: window.location.origin,
+        cancel_url: window.location.origin,
+    });
+
+    // Wait for the CheckoutSession to get attached by the extension
+    onSnapshot(checkoutSessionRef, (snap) => {
+        const data = snap.data();
+        if (data) {
+        const { error, url } = data;
+        if (error) {
+            // Show an error to your customer and
+            // inspect your Cloud Function logs in the Firebase console.
+            alert(`An error occured: ${error.message}`);
+        }
+        if (url) {
+            // We have a Stripe Checkout URL, let's redirect.
+            window.location.assign(url);
+        }
+        }
+    });
+    } catch (e) {
+    console.error("Error creating checkout session", e);
+    }
+    };
+
     onMount(() => {
       console.log("onMount fired");
       console.log("Current Title", $currentAdventure);
@@ -389,6 +424,7 @@
 
   .changeAlert {
     margin: 0rem;
+    text-align: center;
   }
 
   .mapControlDisabled,   .mapControlDisabled .iconContainer {
@@ -609,13 +645,13 @@
         </div>
         {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
         <p class="changeAlert">Free account max map size limit reached</p>
-        <a>Upgrade to premium</a>
+        <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
       {:else if maxFreeHeight && !$premiumUser}
         <p class="changeAlert">Free account max height reached</p>
-        <a>Upgrade to premium</a>
+        <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
       {:else if maxFreeWidth && !$premiumUser}
         <p class="changeAlert">Free account max width reached</p>
-        <a>Upgrade to premium</a>
+        <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
       {/if}
       </div>
       {/if}
@@ -712,13 +748,13 @@
   </div>
   {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
   <p class="changeAlert">Free account max map size limit reached</p>
-  <a>Upgrade to premium</a>
+  <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
 {:else if maxFreeHeight && !$premiumUser}
   <p class="changeAlert">Free account max height reached</p>
-  <a>Upgrade to premium</a>
+  <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
 {:else if maxFreeWidth && !$premiumUser}
   <p class="changeAlert">Free account max width reached</p>
-  <a>Upgrade to premium</a>
+  <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
 {/if}
 </div>
 {/if}

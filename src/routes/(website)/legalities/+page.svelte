@@ -1,10 +1,17 @@
+<script>
+  import Footer from "$lib/components/Footer.svelte";
+import Header from "$lib/components/Header.svelte";
+
+</script>
 <style>
 
+
+
     h1 {
-    font-size: 6em !important;
+    font-size: 3rem !important;
       text-transform: uppercase;
       text-decoration: underline;
-      margin-top: 3em;
+      margin-top: 3rem;
     }
 
     a:hover {
@@ -13,83 +20,23 @@
     }
 
     p {
-      font-size: 1em;
-    }
-  
-    .header {
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      color: var(--batlas-white);
-      background-color: var(--batlas-black);
-      border: 0.2em solid var(--batlas-white);
-      padding: 0em 1em;
-      text-transform: uppercase;
-      position: fixed;
-      top: 0em;
-      width: 100%;
-    }
-
-    .header a {
-      color: var(--batlas-white);
-      text-decoration: none;
-      font-weight: 600;
-      letter-spacing: 0.1em;;
-    }
-
-    .header a:hover{
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .header a:visited {
-      color: var(--batlas-white);
-      text-decoration: none;
-    }
-
-    .headerCenter {
-      display: flex;
-      justify-content: center;
-    }
-
-    .headerCenter img {
-      width: 10rem;
-      max-height: 1em;
-      object-fit: cover;
-      object-position: top center;
-      overflow: visible;
-    }
-
-    .headerLeft {
-      display: flex;
-      justify-content: flex-start;
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .headerRight {
-      display: flex;
-      justify-content: flex-end;
-      padding: 0.5em;
-      gap: 3em;
+      font-size: 1rem;
+      margin: 1rem 0rem;
     }
 
 
     .batlasSection {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: block;
       background-color: var(--batlas-black);
       color: var(--batlas-white);
-      padding: 9em 2em;
+      padding: 9rem 2rem;
       width: 100%;
       max-width: 1240px;
       margin-left: auto;
       margin-right: auto;
     }
 
-    
-    .batlasHero {
-      padding-top: 18em;
-    }
+  
 
 
     .batlasColumn {
@@ -99,24 +46,10 @@
       align-items: flex-start;
     }
 
-    .batlasColumn img {
-      width: 90%;
-      max-width: 40em;
-      object-fit: cover;
-      object-position: right center;
-      overflow: visible;
-    }
-
-    .batlasColumn video {
-      width: 70%;
-      max-width: 40em;
-      object-fit: cover;
-      object-position: right center;
-      overflow: visible;
-    }
+    
 
     .batlasColumn h1 {
-      font-size: 2em;
+      font-size: 2rem;
       font-weight: 900;
       margin-bottom: 0.5em;
     }
@@ -124,113 +57,18 @@
     .batlasColumn h2 {
       font-family: 'Poppins', sans-serif;
       text-transform: uppercase;
-      line-height: 1.2em;
-      letter-spacing: 0.05em;
-      font-size: 2.8em;
+      line-height: 1.2rem;
+      letter-spacing: 0.05rem;
+      font-size: 2.8rem;
       font-weight: 800;
-      margin-bottom: 0.5em;
-      margin-top: 3em;
+      margin-bottom: 0.5rem;
+      margin-top: 3rem;
     }
 
     .singleColumn {
       grid-template-columns: 1fr;
     }
 
-    .imageColumn {
-      align-items: flex-end;
-    }
-
-    .CTA {
-      font-size: 2em;
-      border: 0.2em solid var(--batlas-white);
-      padding: 1em;
-      text-transform: uppercase;
-    }
-
-    .footer {
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      color: var(--batlas-white);
-      background-color: var(--batlas-black);
-      border: 0.2em solid var(--batlas-white);
-      padding: 0em 1em;
-      text-transform: uppercase;
-    }
-
-    .footer p {
-      margin: 0em;
-    }
-
-    .footerCenter {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .footerCenter img {
-      width: 10rem;
-      max-height: 1em;
-      object-fit: cover;
-      object-position: bottom center;
-      overflow: visible;
-    }
-
-    .footerLeft {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .footerRight {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      padding: 0.5em;
-      gap: 3em;
-    }
-
-    .underline {
-      border-bottom: 0.1em solid var(--batlas-white)
-    }
-
-    .monsterGen {
-      justify-content: flex-start;
-      align-items: flex-start;
-      padding-left: 3em;
-      font-size: 3em;
-      font-weight: 600;
-      text-transform: uppercase;
-      line-height: 1em;
-    }
-
-    .monsterGen p {
-      margin: 0.3em;
-    }
-
-    .monsterGen .promptText {
-      color: var(--batlas-black);
-      -webkit-text-stroke: 0.01em var(--batlas-white);
-    }
-
-    .promptInvisible {
-      display:none;
-    }
-
-    .promptVisible {
-      display: inline;
-    }
-
-    .line {
-    width: 100%;
-    height: 0.3em;
-    background-color: white;
-    overflow: hidden;
-    animation: expandLine 4s linear infinite;
-    }
 
   @keyframes expandLine {
     0% {
@@ -240,94 +78,15 @@
       width: 0%;
     }
   }
-
-  .mapMaker {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .mapMaker .row {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 3.025em;
-  }
-
-    @media screen and (max-width: 1500px) {
-    h2 {
-      color: var(--batlas-white);
-    }
-
-  }
-
-    @media screen and (max-width: 900px) {
-
-      .batlasHero h2{
-        font-size: 8em;
-      }
-
-      .batlasHero video {
-        width: 100%;
-        max-width: 100%;
-      }
-
-      p {
-        font-size: 2.5em;
-      }
-      .batlasSection {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        padding: 12em 2em;
-        max-width: 900px;
-        gap: 6em;
-      }
-
-      .batlasColumn {
-        align-items: flex-start;
-      }
-
-      .imageColumn {
-        justify-content: center;
-        align-items: center;
-      }
-
-      .mapMaker {
-        padding-top: 8em;
-      }
-
-      .mapMaker .row {
-        height: 6.05em;
-
-      }
-
-      .monsterGen {
-        width: 100%;
-        padding-left: 0em;
-        letter-spacing: 0.1em;
-        text-align: center;
-      }
-
-      .monsterGen p, .promptText {
-        font-size: 1em;
-        line-height: normal;
-      }
-
-      .monsterGen .promptText {
-      color: var(--batlas-black);
-      -webkit-text-stroke: 0.03em var(--batlas-white);
-      }
-    }
-
+  
   </style>
   
   <svelte:head>
     <title>Batlas - Privacy Policy</title>
     <meta name="description" content="Isometric Adventure Generator and TTRPG" />
   </svelte:head>
+
+  <Header />
   
 
   <main class="batlasSection singleColumn">
@@ -396,8 +155,8 @@
         <p>If any provision of these Terms is held to be unenforceable, the remaining Terms shall remain in full force and effect, and the unenforceable provision shall be replaced by an enforceable provision that comes closest to the intention underlying the unenforceable provision.</p>
         <p>No waiver by us of any term or condition set forth in these Terms shall be deemed a further or continuing waiver of such term or condition or a waiver of any other term or condition. Our failure to insist upon or enforce strict performance of any provision of these Terms shall not be construed as a waiver of any right.</p>
         <h2>How to Contact Us</h2>
-        <p>If you have any questions, comments or notices regarding these Terms, you may email us at support@batlas.art.</p>
+        <p>If you have any questions, comments or notices regarding these Terms, you may email us at batlasmaps@gmail.com</p>
     </div>
   </main>
 
-  
+  <Footer />
