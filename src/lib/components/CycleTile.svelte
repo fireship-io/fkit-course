@@ -54,8 +54,8 @@ function nextTile() {
 
 
     .mapMakerTile {
-        width: 12rem;
-        max-width: 40rem;
+        width: 10rem;
+        max-width: 30rem;
         object-fit: contain;
         object-position: bottom center;
         pointer-events: none;

@@ -67,6 +67,7 @@ function toggleDropdown() {
       justify-content: center;
       align-items: center;
       z-index: 900;
+      border-bottom: 0.2rem solid var(--batlas-white);
     }
 
     .container {
@@ -147,23 +148,34 @@ function toggleDropdown() {
   }
 
   .dropdown-content {
-    display: none;
+    display: flex;
     position: fixed;
+    max-height: 0rem;
+    flex-direction: column;
+    height: auto;
+    overflow: hidden;
     top: 5rem;
     left: 1rem;
     width: 100%;
     max-width: calc(100% - 2rem);
     background-color: var(--batlas-white);
-    padding: 1rem;
+    padding: 0rem;
     border-radius: 1rem;
+    transition: max-height 0.5s ease-in-out, opacity 0.25s ease-in-out;
+    gap: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    opacity: 0;
   }
 
   .dropdown-content.dropdownActive {
     display: flex;
+    max-height: 50vh;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: 1rem;
+    opacity: 1;
   }
 
   .dropdown-item {
@@ -204,14 +216,18 @@ function toggleDropdown() {
     @media screen and (max-width: 900px) {
 
 
-      a {
+      a.menuLink {
         font-size: 1rem;
       }
 
       img {
-        max-height: 3rem;
+        max-height: 2rem;
       }
 
+      .headerLeft {
+        padding: 0.2rem;
+        padding-top: 0.5rem;
+      }
     }
 
   </style>
@@ -225,6 +241,7 @@ function toggleDropdown() {
     <div class="headerLeft">
       <a href="/#about">About</a>
       <a href="/#pricing">Pricing</a>
+      <a href="/blog">Blog</a>
     </div>
     <div class="headerCenter">
       <a href="/">
@@ -242,16 +259,17 @@ function toggleDropdown() {
   <div class="container">
     <div class="headerLeft">
       <a href="/">
-        <img src="/img/batlasLogo_white_outline.webp" alt="Batlas Logo" />
+        <img src="/img/batlasMobileLogo.webp" alt="Batlas Logo" />
       </a>
     </div>
     <div class="headerRight">
       <div class="dropdown">
-        <a href="#" on:click={toggleDropdown}>Menu</a>
+        <a class="menuLink" href="#" on:click={toggleDropdown}>Menu</a>
         <div class="dropdown-content" class:dropdownActive={isDropdownOpen}>
           <a on:click={toggleDropdown} class="dropdown-item" href="/login">Login</a>
           <a on:click={toggleDropdown} class="dropdown-item" href="/#about">About</a>
           <a on:click={toggleDropdown} class="dropdown-item" href="/#pricing">Pricing</a>
+          <a on:click={toggleDropdown} class="dropdown-item" href="/blog">Blog</a>
           <a on:click={toggleDropdown} class="dropdown-item" href="/legalities">Legalities</a>
         </div>
       </div>

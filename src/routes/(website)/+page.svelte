@@ -11,8 +11,15 @@ import CycleTile from "$lib/components/CycleTile.svelte";
 
 <style>
 
-    * {
+    body {
         scroll-behavior: smooth;
+        width: 100vw;
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
+        width: 0rem;
+        overflow-x: hidden;
     }
 
     h1 {
@@ -40,6 +47,7 @@ import CycleTile from "$lib/components/CycleTile.svelte";
         height: auto;
         background-color: var(--batlas-black);
         padding: 10rem 0;
+        width: 100%;
     }
 
     section {
@@ -169,6 +177,7 @@ import CycleTile from "$lib/components/CycleTile.svelte";
         justify-content: center;
         align-items: center;
         margin-top: 200px;
+        max-width: 600px;
     }
 
     .mapMaker .row {
@@ -176,12 +185,29 @@ import CycleTile from "$lib/components/CycleTile.svelte";
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        margin-top: -112px;
+        margin-top: -120px;
     }
 
     @media only screen and (max-width: 900px) {
+
+        h1 {
+            font-size: 2.4rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+        }
+
         .threeColumn {
             grid-template-columns: 1fr;
+        }
+
+        .container {
+            padding: 2rem;
+        }
+
+        section {
+            padding: 2rem 0rem;
         }
     }
 
