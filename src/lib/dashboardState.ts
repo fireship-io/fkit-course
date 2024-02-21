@@ -42,8 +42,8 @@ export function createAlert(message) {
   alert.classList.add("slide-in-alert");
   alert.innerHTML = `<p>${message}</p>`;
   alert.id = "titleAlert";
-  document.querySelector(".batlasDashboardGrid").appendChild(alert);
+  document.querySelector("body").appendChild(alert);
   setTimeout(() => {
-    document.querySelector(".batlasDashboardGrid").removeChild(alert);
-  }, 3000);
+    document.querySelector("body").removeChild(alert);
+  }, 7000);
 }
