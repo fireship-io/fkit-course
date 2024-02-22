@@ -17,6 +17,9 @@
     import { createAlert, premiumUser } from "$lib/dashboardState";
   import { onMount } from 'svelte';
 
+  export let guideText;
+  export let updateGuideText;
+
     let disabledMapGenButton = false;
 
     
@@ -29,7 +32,6 @@
 
     let screenWidth;
 
-    let userMessage = "As you click around helpful text will appear here.";
 
     function deepCloneArray(arr) {
         return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
@@ -37,6 +39,7 @@
 
 
     function handleMapGenerate(currentAdventure, user) {
+      updateGuideText("Randomly generates a map for your adventure. This overwrites your current map.")
       disabledMapGenButton = true;
       activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null, tileNotes: "", tileTitle: ""});
       generateMap();
@@ -45,52 +48,10 @@
       setTimeout(() => {
         disabledMapGenButton = false
       }, 500);
-      console.log(currentAdventure.adventureId)
     }
-
-    async function saveAdventureToFirebase(currentAdventure) {
-    console.log("saveAdventureToFirebase fired", currentAdventure);
-
-    disabledSave = true;
-
-    const adventuresRef = collection(db, "users", $user.uid, "adventures");
-
-    if (currentAdventure.title === "") {
-      createAlert("Please enter a title for your adventure.");
-      return;
-    }
-
-    if (currentAdventure.adventureId === "") {
-      let uniqueId = uuidv4();
-      currentAdventure.adventureId = uniqueId;
-      console.log("saving new adventure to firebase", currentAdventure);
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
-      await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map)
-      });
-      createAlert(`${currentAdventure.title} saved!`)
-      setTimeout(() => {
-          disabledSave = false;
-        }, 3000);      
-    } else {
-      console.log("updating new adventure to firebase", currentAdventure);
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
-      let newUpdateDate = Date.now();
-      await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map),
-        updatedDate: newUpdateDate
-      });
-      createAlert(`${currentAdventure.title} updated!`)
-      setTimeout(() => {
-          disabledSave = false;
-        }, 3000); 
-    }    
-    currentAdventureChange.set(false);
-  }
 
     function addBottomRow() {
+      updateGuideText("Adds a row to the bottom of the map. You can have up to 12 rows with a free account.");
       if ($currentAdventure.map.length >= maxRows && !$premiumUser) {
         maxFreeHeight = true;
         return;
@@ -116,6 +77,7 @@
     }
 
     function removeBottomRow() {
+      updateGuideText("Removes a row from the bottom of the map.");
       maxFreeHeight = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.pop();
@@ -123,6 +85,7 @@
     }
 
     function createTopRow(){
+      updateGuideText("Adds a row to the top of the map. You can have up to 12 rows with a free account.");
       let mapColumns = $currentAdventure.map[0].length;
       let newRow = [];
       for (let i = 0; i < mapColumns; i++) {
@@ -153,6 +116,7 @@
     }
 
     function removeTopRow() {
+      updateGuideText("Removes a row from the top of the map.");
       maxFreeHeight = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.shift();
@@ -161,6 +125,7 @@
     }
 
     function addColumnRight() {
+      updateGuideText("Adds a column to the right of the map. You can have up to 12 columns with a free account.");
       if ($currentAdventure.map[0].length >= maxColumns && !$premiumUser) {
         maxFreeWidth = true;
         return;
@@ -181,6 +146,7 @@
     }
 
     function removeColumnRight() {
+      updateGuideText("Removes a column from the right of the map.");
       maxFreeWidth = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
@@ -190,6 +156,7 @@
     }
 
     function addColumnLeft() {
+      updateGuideText("Adds a column to the left of the map. You can have up to 12 columns with a free account.");
       if ($currentAdventure.map[0].length >= maxColumns && !$premiumUser) {
         maxFreeWidth = true;
         return;
@@ -210,6 +177,7 @@
     }
 
     function removeColumnLeft() {
+      updateGuideText("Removes a column from the left of the map.");
       maxFreeWidth = false;
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
@@ -219,10 +187,12 @@
     }
 
     function togglePublic() {
+      updateGuideText("With an account, you can set an adventure to be public or private. Private adventures are visible only by the creator. Public adventures are visible to anyone with the link.");
       currentAdventure.set({ ...$currentAdventure, public: !$currentAdventure.public});
     }
 
     function fogAllTiles() {
+      updateGuideText("Fogs all tiles on the map. This hides the map from players until they explore it.");
       let newMap = deepCloneArray($currentAdventure.map);
       newMap.forEach((row) => {
         row.forEach((tile) => {
@@ -232,48 +202,11 @@
       currentAdventure.set({ ...$currentAdventure, map: newMap});
     }
 
-    async function upgradeToPremium(priceId) {
-      // Reference to the Firestore document
-    const checkoutSessionsRef = collection(db, "users", $user.uid, "checkout_sessions");
-
-    try {
-    // Create a new checkout session in Firestore
-    const checkoutSessionRef = await addDoc(checkoutSessionsRef, {
-        price: priceId,
-        success_url: window.location.origin,
-        cancel_url: window.location.origin,
-    });
-
-    // Wait for the CheckoutSession to get attached by the extension
-    onSnapshot(checkoutSessionRef, (snap) => {
-        const data = snap.data();
-        if (data) {
-        const { error, url } = data;
-        if (error) {
-            // Show an error to your customer and
-            // inspect your Cloud Function logs in the Firebase console.
-            alert(`An error occured: ${error.message}`);
-        }
-        if (url) {
-            // We have a Stripe Checkout URL, let's redirect.
-            window.location.assign(url);
-        }
-        }
-    });
-    } catch (e) {
-    console.error("Error creating checkout session", e);
-    }
-    };
 
     function handleVisibilityToggle() {
-      userMessage = "With an account, you can set an adventure to be public or private. Private adventures are visible only by the creator. Public adventures are visible to anyone with the link.";
+      updateGuideText("With an account, you can set an adventure to be public or private. Private adventures are visible only by the creator. Public adventures are visible to anyone with the link.");
       togglePublic();
     }
-
-    onMount(() => {
-      console.log("onMount fired");
-      console.log("Current Title", $currentAdventure);
-    })
 
     function changeWindowMode(newMode){
         controlWindowMode = newMode;
@@ -523,7 +456,7 @@
         <div class="controlLabel">  
           <p>Title</p>
         </div>
-        <textarea rows="1" class="titleBar" placeholder="Demo Adventure" maxlength="300" bind:value={$currentAdventure.title}/>
+        <textarea rows="1" class="titleBar" placeholder="Demo" maxlength="300" bind:value={$currentAdventure.title}/>
         </div>
         <div class="controlRow">
           <div class="userControl"
@@ -559,8 +492,7 @@
             <p>Random</p>
           </div>
           <div class="userControl" 
-            on:click={() => saveAdventureToFirebase($currentAdventure)}
-            on:keydown={() => saveAdventureToFirebase($currentAdventure)}
+            on:click={() => updateGuideText("Saves your adventure. You need an account to save your adventures.")}
             role="button"
             tabindex="0"
           >
@@ -658,13 +590,10 @@
         </div>
         {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
         <p class="changeAlert">Free account max map size limit reached</p>
-        <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
       {:else if maxFreeHeight && !$premiumUser}
         <p class="changeAlert">Free account max height reached</p>
-        <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
       {:else if maxFreeWidth && !$premiumUser}
         <p class="changeAlert">Free account max width reached</p>
-        <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
       {/if}
       </div>
       {/if}
@@ -761,13 +690,10 @@
   </div>
   {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
   <p class="changeAlert">Free account max map size limit reached</p>
-  <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
 {:else if maxFreeHeight && !$premiumUser}
   <p class="changeAlert">Free account max height reached</p>
-  <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
 {:else if maxFreeWidth && !$premiumUser}
   <p class="changeAlert">Free account max width reached</p>
-  <a class="userControl" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>Upgrade to premium</a>
 {/if}
 </div>
 {/if}
@@ -775,5 +701,12 @@
 
   <div class="mapControlsContainer guideContainer">
     <h4>Guide</h4>
-    {userMessage}
+    {guideText}
   </div>
+
+  <div class="mapControlsContainer guideContainer">
+    <h4>Sign up</h4>
+    <a class="userControl" href="/login">Free account</a>
+    <a class="userControl" href="/premium-signup">Go premium</a>
+  </div>
+

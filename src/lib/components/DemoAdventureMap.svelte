@@ -1,7 +1,7 @@
 <script>
   import TileNotesIndicator from './TileNotesIndicator.svelte';
   import DemoUserControls from './DemoUserControls.svelte';
-  import DemoTileOptions from './DemoTileOptions.svelte';
+  import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
   import { page } from '$app/stores';
   import { activeTile, setActiveTile, currentAdventureChange } from "$lib/dashboardState";
   import { currentAdventure } from "$lib/adventureData";
@@ -14,10 +14,13 @@
 
   $: $currentAdventure, changeAlert();
 
-  onMount(() => {
-    console.log("onMount");
-    generateMap();
+  onMount(async () =>{
+    loadDemoAdventure();
   });
+
+  function loadDemoAdventure(){
+    generateMap();
+  }
 
   function changeAlert() {
     currentAdventureChange.set(true);
@@ -41,7 +44,10 @@
   async function handleFogToggle(e, newAdventure, cell, i, j) {
     newAdventure.map[i][j].fogOfWar = !newAdventure.map[i][j].fogOfWar;
     currentAdventure.set(newAdventure);
+  }
 
+  function logCurrentAdventure(){
+    console.log($currentAdventure);
   }
 
 </script>
@@ -224,6 +230,55 @@
     width: 80%;
   }
 
+  .userControlContainer, .mapControlsContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    min-width: 15rem;
+    max-width: 15rem;
+    height: auto;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--batlas-white);
+    border-radius: 2rem;
+    border: 0.25rem solid var(--batlas-black);
+    font-size: clamp(0.8rem, 2vw + 0.4rem, 0.8rem);
+  }
+
+
+
+  .mapControlsContainer {
+    min-width: 15rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .userControl, .userControlNoHover {
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border-radius: 3rem;
+    cursor: pointer;
+  }
+
+  .guideContainer {
+      display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    text-align: center;
+  }
+
   @media(max-width:735px){
 
     .mapContainer {
@@ -270,12 +325,27 @@
 <div class="mapContainer">
 
   <div class="dialogueContainer">
-    <DemoUserControls guideText={guideText} updateGuideText={updateGuideText}/>
+    <div class="mapControlsContainer guideContainer">
+      <h4>Guide</h4>
+      {guideText}
+    </div>
+  
+    <div class="mapControlsContainer guideContainer">
+      <h4>Sign up</h4>
+      <a class="userControl" href="/login">Free account</a>
+      <a class="userControl" href="/premium-signup">Go premium</a>
+      <a class="userControl" on:click={logCurrentAdventure}>Log Adventure</a>
+    </div>
     {#if $activeTile.rowIndex !== null}s
-    <DemoTileOptions handleFogToggle={handleFogToggle} />
+    <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} />
     {/if}
   </div>
-  <div class="map" > 
+  <div class="map" >
+    {#if $currentAdventure.map.length === 0 && $page.route.id.includes("/create/")}
+      <div class="emptyMap" >
+        <p>Hit 'random map' until you get a starting point that looks good to you. Then click the tiles to alter them and add notes. Happy dungeon delving!</p>
+      </div>
+    {/if}  
       {#each $currentAdventure.map as row, i}
           <div class="gridRow">
               {#each row as cell, j}
