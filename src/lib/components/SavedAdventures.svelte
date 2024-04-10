@@ -61,10 +61,9 @@
 
 <style>
     .adventureList {
-        gap: 2em;
+        padding: 1rem;
+        gap: 1em;
         width: 100%;
-        height: auto;
-        overflow: scroll;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -93,31 +92,15 @@
         text-align: center;
     }
 
-    @media (max-width: 735px) {
-        .adventureList {
-            height: auto;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            margin-right: 0;
-            padding-right: 0;
-            width: 100%;
-            flex-wrap: nowrap;
-            flex: 1;
-            overflow: auto;
-            padding-bottom: 10em;
-        }
-    }
-
 </style>
 <div class="adventureList">
     {#if $adventureListStore.length === 0}
-    <div class="freeAccountNotice brutalismBorder">
+    <div class="freeAccountNotice">
         <p>You don't have any adventures saved. Head to 'Create' and start designing you dungeon!</p>
     </div>
     {/if}
     {#if !$premiumUser}
-    <div class="freeAccountNotice brutalismBorder">
+    <div class="freeAccountNotice">
         <p>On a free account you're limited to 5 saved adventures</p>
     </div>
     {/if}

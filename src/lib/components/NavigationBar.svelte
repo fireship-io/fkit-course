@@ -319,7 +319,7 @@
     <p class:invisible={$premiumUser}>Premium features</p>
     <a href="/dashboard/dungeons" class="iconBox" class:active="{$page.route.id.includes("dungeons")}" class:disabled={!$premiumUser}>
         <Icons icon={"rules"} size={"full"} color={"white"} />
-        <p>Pre-made</p>
+        <p>Dungeons</p>
     </a>
     <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}" class:disabled={!$premiumUser}>
         <Icons icon={"d20"} size={"full"} color={"white"} />

@@ -1,6 +1,4 @@
 <script>
-  import AdventureNotes from './AdventureNotes.svelte';
-
   import TileNotesIndicator from './TileNotesIndicator.svelte';
   import UserControls from './UserControls.svelte';
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
@@ -24,7 +22,7 @@
   $: $currentAdventure, changeAlert();
 
   function changeAlert() {
-    console.log("Change alert");
+    console.log("change alert");
     currentAdventureChange.set(true);
   }
 
@@ -98,6 +96,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   let creatorId = $page.params.creatorId;
 
   onMount(async () =>{
+    console.log($currentAdventure)
     await setCurrentAdventureFromFirebase(creatorId, adventureId);
   });
 
@@ -306,6 +305,20 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       display: none;
     }
 
+    .adventureNotesContainer h3 {
+      color: var(--batlas-black);
+      font-size: 1.5rem;
+    }
+
+    .adventureNotesContainer textarea {
+      width: 100%;
+      height: 50%;
+      padding: 1rem;
+      border: 0.25em solid var(--batlas-black);
+      border-radius: 1em;
+      font-size: 1rem;
+    }
+
   @media(max-width:735px){
 
     .mapContainer {
@@ -349,51 +362,10 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 </style>
 
-<div class="mapContainer">
-
-  <div class="dialogueContainer">
-    <UserControls/>
-    {#if $adventureNotesDisplayed}
-      <AdventureNotes />
-    {/if}
-    {#if $activeTile.rowIndex !== null}s
-      <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={true}/>
-    {/if}
-  </div>
-  <div class="map" >
-    {#if $currentAdventure.map.length === 0 && $page.route.id.includes("/create/")}
-      <div class="emptyMap" >
-        <p>Hit 'random map' until you get a starting point that looks good to you. Then click the tiles to alter them and add notes. Happy dungeon delving!</p>
-      </div>
-    {/if}  
-      {#each $currentAdventure.map as row, i}
-          <div class="gridRow">
-              {#each row as cell, j}
-                <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;" class:masterFoggedTile = {cell.fogOfWar}>
-                  {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
-                    <TileNotesIndicator/>
-                  {/if}
-                  {#if cell.chosenTile?.img !== "/tiles/dungeon/roomBlank.webp" || !$page.route.id.includes("/player/")}
-                    <div class="tileSelectorHoverDetector">
-                      <div
-                        on:click={(e) => handleTileClick(e, cell, i, j)}
-                        class="tileSelector"
-                        class:disabledHoverSelector = {mapDisabled}
-                        on:keydown={(e) => handleTileClick(e, cell, i, j)}
-                        role="button"
-                        tabindex="0">
-                      </div>
-                    </div>
-                  {/if}
-                  {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
-                    <img src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
-                  {:else}
-                    <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
-                  {/if}
-                </div>
-              {/each}
-          </div>
-      {/each}
-    </div>
-</div>
+  <div class="adventureNotesContainer">
+    <h3>Primer</h3>
+    <textarea rows="5" class="primer" placeholder="Adventure primer" maxlength="3000" bind:value={$currentAdventure.notes.primer}/>
+    <h3>Notes</h3>
+    <textarea rows="5" class="notes" placeholder="Adventure notes" maxlength="10000" bind:value={$currentAdventure.notes.notes}/>
+  </div> 
 

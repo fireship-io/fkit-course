@@ -49,13 +49,37 @@
 
 <style>
 
+
+    .button p {
+        text-align: left;
+        margin: 0;
+        align-self: center;
+    }
+
+    .button.whiteButton {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 2.2rem;
+    }
+
+
+    .button.blackButton {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        height: 2.2rem;
+        gap: 0.75rem;
+        border: 0.1rem solid var(--batlas-black);
+        padding: 0.5rem 0.75rem;
+    }
+
     .savedAdventure {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        max-width: calc(25% - 1.5rem);
+        flex: 1;
         min-width: 15em;
-        height: 100%;
         padding: 1rem;
         gap: 1rem;
         background: var(--batlas-white);
@@ -66,86 +90,12 @@
     .savedAdventureOptions {
         display: flex;
         flex-direction: row;
+        flex: 1;
         justify-content: flex-start;
         align-items: flex-start;
-        gap: 0.6em;
+        gap: 1rem;
         text-transform: uppercase;
     }
-
-    .savedAdventureOptions div {
-        margin: 0;
-        border: 0.2em solid var(--batlas-black);
-        width: 100%;
-        padding: 0.2em 0.6em;
-        border-radius: 0.6em;
-        background-color: var(--batlas-white);
-        color: var(--batlas-black);
-        text-align:center;
-        text-decoration: none;
-        z-index: 100;
-        gap: 0.6em;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .savedAdventureOptions div:hover {
-        transform: translateY(-0.2em);
-    }
-
-    .savedAdventureOptions div p{
-        margin: 0;
-        font-size: 0.8em;
-        line-height: 0.8em;
-    }
-
-    .savedAdventureOptions div:hover {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
-        .savedAdventure h4{
-            font-size: 1.3em;
-        }
-
-        .savedAdventureOptions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
-        height: 100%;
-        width: 100%;
-        order: 1;
-        background-color: var(--batlas-white);
-        }
-
-        .savedAdventureOptions div {
-            display: flex;
-            flex-direction: row;
-            min-width: 3em;
-            width: 100%;
-            height: 100%;
-        }
-
-        .adventureBlurb {
-            width: 100%;
-            max-height: 5em;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        div.play {
-            grid-column: 2/3;
-            grid-row: 1/3;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--batlas-black);
-            color: var(--batlas-white);
-        }
 
         .deleteConfirmation {
             position: fixed;
@@ -199,34 +149,26 @@
             transform: translateY(-0.2em);
         }
 
-        @media (max-width: 735px) {
-            .savedAdventure {
-                width: 100%;
-                max-width: 100%;
-            }
-        }
 
 </style>
     
-<a class="savedAdventure brutalismBorder">
+<div class="savedAdventure whiteBox">
     <div class="savedAdventureTitle">
         <h4>{adventureData.title}</h4>
     </div>
     <div class="savedAdventureOptions">
-        <div on:click={editAdventure}>
-            <Icons icon={"edit"} size={"small"} color={"black"} />
-            <p>Edit</p>
+        <div on:click={() => deleteConfirmation(adventureData)} class="button whiteButton">
+            <Icons icon={"remove"} size={"small"} color={"black"} />
         </div>
-        <div on:click={playAdventure} class="play">
-            <Icons icon={"d20"} size={"large"} color={"white"} />
+        <div on:click={editAdventure} class="button whiteButton">
+            <Icons icon={"edit"} size={"small"} color={"black"} />
+        </div>
+        <div on:click={playAdventure} class="play button blackButton">
+            <Icons icon={"d20"} size={"medium"} color={"white"} />
             <p>Play</p>
         </div>
-        <div on:click={() => deleteConfirmation(adventureData)}>
-            <Icons icon={"remove"} size={"small"} color={"black"} />
-            <p>Delete</p>
-        </div>
     </div>
-</a>
+</div>
 
 {#if deleteConfirmationDialogue}
     <div class="deleteConfirmation brutalismBorder">

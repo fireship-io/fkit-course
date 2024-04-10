@@ -16,6 +16,7 @@
     import { v4 as uuidv4 } from "uuid";
     import { createAlert, premiumUser } from "$lib/dashboardState";
   import { onMount } from 'svelte';
+  import LoginDialogue from './LoginDialogue.svelte';
 
   export let guideText;
   export let updateGuideText;
@@ -29,12 +30,17 @@
     let maxFreeHeight = false;
     let maxFreeWidth = false;
     let controlWindowMode = "options";
+    let loginDialogueVisible = false;
 
     let screenWidth;
 
 
     function deepCloneArray(arr) {
         return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
+    }
+
+    function displayLoginDialogue() {
+      loginDialogueVisible = true;
     }
 
 
@@ -211,6 +217,15 @@
     function changeWindowMode(newMode){
         controlWindowMode = newMode;
     }
+
+    function demoSaveAttempt() {
+      updateGuideText("Saves your adventure. You need an account to save your adventures.");
+      createAlert("You need an account to save your adventures.");
+    }
+
+    onMount(() => {
+      $currentAdventure.title = "Demo";
+    })
 
 </script>
 
@@ -438,6 +453,21 @@
     flex-wrap: nowrap;
     text-align: center;
   }
+
+  .loginDialogueContainer {
+    position: fixed;
+    top: calc(50vh - 25vh);
+    left: calc(50vw - 25vw);
+    width: 50vw;
+    height: 50vh;
+    background-color: var(--batlas-black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    border: 0.5rem solid var(--batlas-white);
+    border-radius: 3rem;
+  }
 </style>
 
 <svelte:window bind:innerWidth={screenWidth} />
@@ -492,7 +522,7 @@
             <p>Random</p>
           </div>
           <div class="userControl" 
-            on:click={() => updateGuideText("Saves your adventure. You need an account to save your adventures.")}
+            on:click={demoSaveAttempt}
             role="button"
             tabindex="0"
           >
@@ -705,8 +735,13 @@
   </div>
 
   <div class="mapControlsContainer guideContainer">
-    <h4>Sign up</h4>
-    <a class="userControl" href="/login">Free account</a>
-    <a class="userControl" href="/premium-signup">Go premium</a>
+    <h4>Create an account</h4>
+    <a class="userControl" href="#" on:click={displayLoginDialogue}>Sign up</a>
   </div>
+
+  {#if loginDialogueVisible}
+  <div class="loginDialogueContainer">
+    <LoginDialogue />
+  </div>
+  {/if}
 

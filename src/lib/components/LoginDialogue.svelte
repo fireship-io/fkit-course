@@ -1,14 +1,17 @@
 <script lang="ts">
-  import LoginDialogue from '../../../lib/components/LoginDialogue.svelte';
-
   import { db, userData, auth, user } from "$lib/firebase";
-  import { doc, getDoc, writeBatch, deleteDoc } from "firebase/firestore";
+  import { doc, getDoc, writeBatch, deleteDoc, collection, addDoc, onSnapshot, setDoc } from "firebase/firestore";
 
   import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, deleteUser, reauthenticateWithCredential, reauthenticateWithPopup } from "firebase/auth";
     import { error } from "@sveltejs/kit";
     import { currentAdventure } from "$lib/adventureData";
-    import { screenChoice, createAlert } from "$lib/dashboardState";
+    import { screenChoice, createAlert, currentAdventureChange } from "$lib/dashboardState";
   import { onMount } from "svelte";
+  import { v4 as uuidv4 } from "uuid";
+
+
+  let disabledSave = false;
+
 
   async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -77,9 +80,11 @@
     }
 
     setInterval(() => {
-      if ($user) {
-        window.location.href = "/dashboard";
-      }
+      if ($user && window.location.pathname.includes("/demo/map-maker")) {
+            saveAdventureToFirebase($currentAdventure);
+        } else if ($user) {
+          window.location.href = "/dashboard";
+        }
     }, 1000)
 
     let legalToggle = false;
@@ -89,7 +94,50 @@
       legalToggle = currentLegalToggle.checked;
     }
 
-    
+    async function saveAdventureToFirebase(currentAdventure) {
+    console.log("saveAdventureToFirebase fired", currentAdventure);
+
+    disabledSave = true;
+
+    const adventuresRef = collection(db, "users", $user.uid, "adventures");
+
+    if (currentAdventure.title === "") {
+      createAlert("Please enter a title for your adventure.");
+      return;
+    }
+
+    if (currentAdventure.adventureId === "") {
+      let uniqueId = uuidv4();
+      currentAdventure.adventureId = uniqueId;
+      console.log("saving new adventure to firebase", currentAdventure);
+      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
+      await setDoc(adventureRef, {
+        ...currentAdventure,
+        map : JSON.stringify(currentAdventure.map)
+      });
+      createAlert(`${currentAdventure.title} saved!`)
+      setTimeout(() => {
+          disabledSave = false;
+        }, 3000);      
+    } else {
+      console.log("updating new adventure to firebase", currentAdventure);
+      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
+      let newUpdateDate = Date.now();
+      await setDoc(adventureRef, {
+        ...currentAdventure,
+        map : JSON.stringify(currentAdventure.map),
+        updatedDate: newUpdateDate
+      });
+      createAlert(`${currentAdventure.title} updated!`)
+      if (window.location.pathname.includes("/demo/map-maker")) {
+      window.location.href = "/dashboard/play/";
+      }
+      setTimeout(() => {
+          disabledSave = false;
+        }, 3000); 
+    }    
+    currentAdventureChange.set(false);
+  }
 
 </script>
 
@@ -284,11 +332,21 @@
    }
 </style>
 
+<div class=" loginBox">
+      {#if $user}
+      <h2>Welcome, {$user.displayName}</h2>
+      <p>You will be redirected to your dashboard.</p>
+      <a href="/dashboard" >If you aren't redirected, click here</a>
+      <!-- <a on:click={signOutSSR}>Sign out</a>
+      <a on:click={() => handleDeleteUser($user)}>Delete Account</a> -->
+      {:else}
+        <h2>Login / Register</h2>
+        <a class:disabled={!legalToggle} on:click={signInWithGoogle}>Sign in with Google</a>
+        <div class="legal">
+          <input name="legal" type="checkbox" id="legalToggleCheckbox" on:change={alignLegalToggle}>
+          <label class="legalLabel" for="legal">I agree to the Batlas <a class="simpleLink" href="/legalities" target="_blank">Terms & Conditions, Privacy Policy, and Cyber Security Policy.</a></label>
+        </div>
+        {/if}
+        <p>By signing up or logging in you agree to the Batlas Terms & Conditions, Privacy Policy, and Cyber Security Policy.</p>
+    </div>
 
-
-
-<div class="batlasSection singleColumn">
-  <div class="batlasColumn">
-    <LoginDialogue />
-  </div>
-</div>

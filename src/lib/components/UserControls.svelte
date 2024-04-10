@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import { generateMap } from "$lib/mapGen";
-    import { activeTile, currentAdventureChange } from "$lib/dashboardState";
+    import { activeTile, currentAdventureChange, adventureNotesDisplayed } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import Icons from './Icons.svelte';
     import { tiles } from '$lib/tiles';
@@ -16,11 +16,11 @@
     import { v4 as uuidv4 } from "uuid";
     import { createAlert, premiumUser } from "$lib/dashboardState";
   import { onMount } from 'svelte';
+  import { saveAdventureToFirebase, disabledSave } from '$lib/firebaseFunctions';
 
     let disabledMapGenButton = false;
 
     
-    let disabledSave = false;
     let maxRows = 12;
     let maxColumns = 6;
     let maxFreeHeight = false;
@@ -48,47 +48,7 @@
       console.log(currentAdventure.adventureId)
     }
 
-    async function saveAdventureToFirebase(currentAdventure) {
-    console.log("saveAdventureToFirebase fired", currentAdventure);
-
-    disabledSave = true;
-
-    const adventuresRef = collection(db, "users", $user.uid, "adventures");
-
-    if (currentAdventure.title === "") {
-      createAlert("Please enter a title for your adventure.");
-      return;
-    }
-
-    if (currentAdventure.adventureId === "") {
-      let uniqueId = uuidv4();
-      currentAdventure.adventureId = uniqueId;
-      console.log("saving new adventure to firebase", currentAdventure);
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
-      await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map)
-      });
-      createAlert(`${currentAdventure.title} saved!`)
-      setTimeout(() => {
-          disabledSave = false;
-        }, 3000);      
-    } else {
-      console.log("updating new adventure to firebase", currentAdventure);
-      const adventureRef = doc(adventuresRef, currentAdventure.adventureId);
-      let newUpdateDate = Date.now();
-      await setDoc(adventureRef, {
-        ...currentAdventure,
-        map : JSON.stringify(currentAdventure.map),
-        updatedDate: newUpdateDate
-      });
-      createAlert(`${currentAdventure.title} updated!`)
-      setTimeout(() => {
-          disabledSave = false;
-        }, 3000); 
-    }    
-    currentAdventureChange.set(false);
-  }
+    
 
     function addBottomRow() {
       if ($currentAdventure.map.length >= maxRows && !$premiumUser) {
@@ -265,13 +225,17 @@
     }
     };
 
-    onMount(() => {
-      console.log("onMount fired");
-      console.log("Current Title", $currentAdventure);
-    })
-
     function changeWindowMode(newMode){
         controlWindowMode = newMode;
+    }
+
+    function clearActiveTile(){
+      activeTile.set({tileOptions: null, rowIndex: null, columnIndex: null});
+    }
+
+    function toggleAdventureNotes() {
+      clearActiveTile();
+      adventureNotesDisplayed.set(!$adventureNotesDisplayed);
     }
 
 </script>
@@ -508,7 +472,21 @@
           <p>Title</p>
         </div>
         <textarea rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
-        </div>
+      </div>
+      <div class="userControlNoHover labelledControl">
+        <div class="userControl" 
+        on:click={toggleAdventureNotes}
+        on:keydown={toggleAdventureNotes}
+        role="button"
+        tabindex="0"
+      >
+      {#if $adventureNotesDisplayed}
+        <p>Hide Adventure Notes</p>
+        {:else}
+        <p>Show Adventure Notes</p>
+      {/if}
+      </div>
+      </div>
         <div class="controlRow">
           <div class="userControl"
             on:click={fogAllTiles}
@@ -543,8 +521,8 @@
             <p>Random</p>
           </div>
           <div class="userControl" 
-            on:click={() => saveAdventureToFirebase($currentAdventure)}
-            on:keydown={() => saveAdventureToFirebase($currentAdventure)}
+            on:click={() => saveAdventureToFirebase($currentAdventure, $user)}
+            on:keydown={() => saveAdventureToFirebase($currentAdventure, $user)}
             role="button"
             tabindex="0"
           >
@@ -759,4 +737,3 @@
 </div>
 {/if}
 {/if}
-

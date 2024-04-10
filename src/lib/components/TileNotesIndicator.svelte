@@ -18,7 +18,6 @@
 
     function notesOrder() {
       let tileNotesIndicators = document.getElementsByClassName("tileNotesIndicator");
-      console.log(tileNotesIndicators);
       for (let i = 0; i < tileNotesIndicators.length; i++) {
         let index = document.createElement("p");
         index.style = "margin: 0px; padding: 0px; font-size: 0.8em; font-weight: 600; color: white;";

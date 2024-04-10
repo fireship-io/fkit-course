@@ -4,6 +4,8 @@
     import { user } from "$lib/firebase";
     import PlayerMap from '$lib/components/PlayerMap.svelte';
     import Map from '$lib/components/Map.svelte';
+  import { onMount } from 'svelte';
+  import { currentAdventure } from '$lib/adventureData';
     
 </script>
     

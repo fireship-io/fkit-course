@@ -1,10 +1,10 @@
 :root {
-  --batlas-black: #000000;
-  --batlas-white: #fff;
+  --batlas-black: #101010;
+  --batlas-white: #f3f3f3;
   --batlas-font: "Poppins", sans-serif;
   background-color: var(--batlas-black);
   font-family: "Poppins", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 html {
@@ -43,33 +43,98 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   margin: 0em;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
 }
 
-input {
-  font-family: "Poppins", sans-serif;
-}
-
-h2 {
-  font-family: "Poppins", sans-serif;
-  margin: 0em;
-  font-size: 2.2rem;
+h1 {
+  font-size: 3.815rem;
   font-weight: 800;
 }
 
+h2 {
+  font-size: 3.052rem;
+  font-weight: 600;
+}
+
 h3 {
-  font-size: 1.8rem;
-  margin: 0rem;
+  font-size: 2.441rem;
+  font-weight: 500;
 }
 
 h4 {
-  font-size: 1.4rem;
-  margin: 0rem;
+  font-size: 1.953rem;
+  font-weight: 400;
 }
 
-div {
+h5 {
+  font-size: 1.563rem;
+  font-weight: 300;
+}
+
+h6 {
+  font-size: 1.25rem;
+  font-weight: 200;
+}
+
+p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.divider {
+  border-top: 0.25rem dashed var(--batlas-black);
+  width: 100%;
+}
+
+.noScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.whiteBox {
+  background-color: var(--batlas-white);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 0.4rem;
+}
+
+.button {
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.whiteButton {
+  background-color: var(--batlas-white);
+  color: var(--batlas-black);
+  border: 0.1rem solid var(--batlas-black);
+}
+
+.whiteButton:hover {
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+}
+
+.blackButton {
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+  border: 0.1rem solid var(--batlas-white);
+}
+
+.blackButton:hover {
+  background-color: var(--batlas-white);
+  color: var(--batlas-black);
+}
+
+.thirdsColumn {
+  min-width: 20rem;
+  flex: 1;
 }
 
 .dungeonBorder {
@@ -85,19 +150,19 @@ div {
 
 .brutalismBorder {
   border: 0.3rem solid var(--batlas-black);
-  border-radius: 0.8rem;
+  border-radius: 0.25rem;
   box-shadow: var(--batlas-black) -0.4rem 0.4rem;
 }
 
 .brutalismBorderWhite {
   border: 0.3rem solid var(--batlas-white);
-  border-radius: 0.8rem;
+  border-radius: 0.25rem;
   box-shadow: var(--batlas-white) -0.4rem 0.4rem;
 }
 
 .brutalismBorderInverted {
   border: 0.3rem solid var(--batlas-black);
-  border-radius: 0.8rem;
+  border-radius: 0.25rem;
   box-shadow: var(--batlas-black) -0.4rem 0.4rem;
   background-color: var(--batlas-black) !important;
   color: var(--batlas-white);
@@ -113,7 +178,7 @@ div {
   border: 0.1rem solid var(--batlas-white);
   width: 100%;
   padding: 0.2rem 0.4rem;
-  border-radius: 0.6rem;
+  border-radius: 0.25rem;
   background-color: var(--batlas-black);
   color: var(--batlas-white);
   text-align: center;
@@ -144,7 +209,7 @@ div {
   background-color: var(--batlas-black);
   color: var(--batlas-white);
   border: 0.1rem solid var(--batlas-white);
-  border-radius: 0.6rem;
+  border-radius: 0.25rem;
   padding: 0.2rem 0.8rem;
   text-align: center;
   position: fixed;

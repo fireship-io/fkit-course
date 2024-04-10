@@ -222,14 +222,14 @@
                       <Icons icon={"downChevron"} size={"medium"} color={"black"} />
                     </div>
                   </div>
-                  {#if !$page.route.id.includes("play")}
+                  {#if !$page.route.id.includes("/play/")}
                     <textarea class="interestPointTitle" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Interesting thing" rows="1" maxlength="22" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].title}></textarea>
                   {:else}
                   <div class="interestPointTitle">
                     <p>{interestPoint.title}</p>
                   </div>
                   {/if}
-                  {#if !$page.route.id.includes("play")}
+                  {#if !$page.route.id.includes("/dungeons/") && !$page.route.id.includes("/play/")}
                     <div on:click={() => handlePointOfInterestDelete(interestPoint)} class="iconContainer">
                       <Icons icon={"remove"} size={"medium"} color={"black"} />
                     </div>
@@ -244,7 +244,7 @@
                 </div>
               {/each}
             {/if}
-            {#if !$page.route.id.includes("play")}
+            {#if !$page.route.id.includes("/dungeons/") && !$page.route.id.includes("/play/")}
               <div on:click={() => handlePointOfInterestCreation()} class="iconContainer centerAlignIcon pointOfInterestAddIcon">
                 <Icons icon={"add"} size={"large"} color={"black"} />
               </div>

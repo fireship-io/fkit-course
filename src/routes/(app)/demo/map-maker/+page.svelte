@@ -1,5 +1,15 @@
 <script>
     import DemoMap from "$lib/components/DemoMap.svelte";
+    import { onMount } from 'svelte';
+    import { user } from "$lib/firebase";
+
+    onMount(async () => {
+
+        if ($user) {
+            window.location.href = '/dashboard/create';
+        }
+    });
+
 </script>
 
 <style>

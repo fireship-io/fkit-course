@@ -13,6 +13,7 @@ export const activeRule = writable({
 export const premiumUser = writable(false);
 export const userAdventureCount = writable(0);
 export const currentAdventureChange = writable(false);
+export const adventureNotesDisplayed = writable(false);
 
 export const activeTile = writable({
   rowIndex: null,
