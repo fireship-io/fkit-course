@@ -1,40 +1,27 @@
 <script>
     export let adventureData;
-    export let deleteAdventure;
     import { currentAdventure, playAdventureCurrent } from "$lib/adventureData";
     import { screenChoice, createAlert } from "$lib/dashboardState";
     import { error } from "@sveltejs/kit";
     import { db, user } from "$lib/firebase";
     import Icons from '$lib/components/Icons.svelte';
+    import { deleteAdventure } from "$lib/firebaseFunctions";
+  import OffScreenMenu from "./OffScreenMenu.svelte";
+
 
     let deleteConfirmationDialogue = false;
 
-    function deleteConfirmation(adventureData) {
+    function deleteConfirmation() {
         deleteConfirmationDialogue = true;
     }
 
     async function handleDeleteClick(adventureData) {
         try {
-        await deleteAdventure(adventureData.adventureId);
-        screenChoice.set('playHome');
+        await deleteAdventure(adventureData, $user);
         } catch {
             console.log (error)
-        } finally {
-            createAlert(`${adventureData.title} deleted`)
         }
         deleteConfirmationDialogue = false;
-    }
-
-    function setActive(e) {
-        playAdventureCurrent.set(true);
-        currentAdventure.set({ ...adventureData});
-        console.log("currentAdventure on adventure set", $currentAdventure)
-        screenChoice.set("playAdventureNotes");
-
-        document.querySelectorAll('.savedAdventure').forEach((element) => {
-            element.classList.remove("brutalismBorderInverted");
-        });
-        e.target.closest('a').classList.toggle("brutalismBorderInverted");
     }
 
     function editAdventure() {
@@ -62,6 +49,7 @@
         justify-content: center;
         align-items: center;
         height: 2.2rem;
+        padding: 0.1;
     }
 
 
@@ -80,6 +68,7 @@
         flex-direction: column;
         flex: 1;
         min-width: 15em;
+        max-width: 18rem;
         padding: 1rem;
         gap: 1rem;
         background: var(--batlas-white);
@@ -91,10 +80,21 @@
         display: flex;
         flex-direction: row;
         flex: 1;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 0.5rem;
         text-transform: uppercase;
+    }
+
+    .savedAdventureTitle p {
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--batlas-black);
+        margin: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
         .deleteConfirmation {
@@ -154,7 +154,7 @@
     
 <div class="savedAdventure whiteBox">
     <div class="savedAdventureTitle">
-        <h4>{adventureData.title}</h4>
+        <p>{adventureData.title}</p>
     </div>
     <div class="savedAdventureOptions">
         <div on:click={() => deleteConfirmation(adventureData)} class="button whiteButton">

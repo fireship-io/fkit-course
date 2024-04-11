@@ -3,16 +3,19 @@
 
     import { page } from '$app/stores';
     import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
+    import { activeTile, playMode, setActiveTile, activeTileSidebar } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
     import { tiles } from '$lib/tiles';
     import { fly } from 'svelte/transition';
+  import Divider from '$lib/components/Divider.svelte';
+
 
     export let handleFogToggle;
     export let tileOptions;
+    export let role;
 
     let screenSize = 0;
     let mapDisabled = false;
@@ -152,6 +155,13 @@
         clearActiveTile();
     }
 
+    function handleClose() {
+      activeTileSidebar.set(false);
+        setTimeout(() => {
+          clearActiveTile();
+        }, 500);
+    }
+
 </script>
 
 <style>
@@ -189,11 +199,28 @@
   }
 
   .tileInfoBar {
-    padding: 1rem;
-    display: none;
     overflow-y: scroll;
     z-index: 999;
-    position: fixed;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out, max-width 0.3s ease-in-out 0.3s;
+    will-change: transform, max-width;
+    right: 0;
+    top: 0;
+    left: auto;
+    bottom: auto;
+    display: block;
+    width: 24rem;
+    max-width: 0rem;
+    height: 100%;
+    max-height: 100lvh;
+    border-radius: 0;
+    border: none;
+  }
+
+  .tileInfoBar.active {
+    transform: translateX(0%);
+    max-width: 24rem;
+    transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
   }
 
   .tileInfoBar::-webkit-scrollbar {
@@ -207,6 +234,7 @@
     align-items: flex-start;
     gap: 1.5em;
     height: 100%;
+    margin-top: 1rem;
   }
 
   .tileInfo p {
@@ -222,14 +250,14 @@
   }
 
   .tileInfoText {
-    overflow-y: scroll;
-    max-height: 20em;
     width: 100%;
-    outline: none;
-    border: 0.3em solid var(--batlas-black);
-    border-radius: 2em;
-    padding: 1em;
-    font-size: 1em;
+    height: 100%;
+    padding: 1rem;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border: 0.1rem solid var(--batlas-white);
+    border-radius: 0.25em;
+    font-size: 1rem;
     font-family: var(--batlas-font);
   }
 
@@ -239,24 +267,6 @@
 
   p.roomDescription {
     margin-bottom: 2em;
-  }
-
-
-  .tileOptionsBarActive{
-        display: block;
-        position: absolute;
-        bottom: 0em;
-  }
-
-  .tileInfoBarActive{
-        right: 2rem;
-        top: auto;
-        left: auto;
-        bottom: auto;
-        display: block;
-        width: 20rem;
-        max-height: calc(100% - 10rem);
-        z-index: 999;
   }
 
 
@@ -311,14 +321,6 @@
     transform: scale(1.1);
   }
 
-
-
-
-    .infoBox {
-      background-color: var(--batlas-white);
-      border: 0.25em solid var(--batlas-black);
-      border-radius: 3em;
-    }
 
     .roomOptionsToggle {
       display: flex;
@@ -421,8 +423,8 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      background-color: var(--batlas-white);
       text-align: center;
+      color: var(--batlas-white);
     }
 
     .connectionsController {
@@ -444,20 +446,20 @@
     }
 
     .NEControl {
-      top: 1em;
-      right: 1em;
+      top: 0;
+      right: 0;
     }
     .SEControl {
-      bottom: 2em;
-      right: 1em;
+      bottom: 0;
+      right: 0;
     }
     .NWControl {
-      top: 1em;
-      left: 1em;
+      top: 0;
+      left: 0;
     }
     .SWControl {
-      bottom: 2em;
-      left: 1em;
+      bottom: 0;
+      left: 0;
     }
 
 
@@ -468,7 +470,6 @@
     }
 
     .roomTitlePlay {
-        padding: 0.3em;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -477,7 +478,7 @@
         font-size: 1.8em;
         font-weight: 600;
         text-transform: uppercase;
-        color: var(--batlas-black);
+        color: var(--batlas-white);
         text-align: left;
     }
 
@@ -486,24 +487,24 @@
     }
 
     p.roomDescription {
-        padding: 0.6em;
         width: 100%;
         font-size: 1em;
-        color: var(--batlas-black);
+        color: var(--batlas-white);
         text-align: left;
     }
 
     .closeButton {
-        position: sticky;
         width: auto;
-        height: auto;
+        height: 100%;
         display: flex;
+        flex: 1;
+        padding: 0.5rem;
         justify-content: flex-start;
         align-items: center;
         cursor: pointer;
-        padding: 0.3em 0.6em;
         transition: all 0.2s ease-in-out;
-        top: 1em;
+        align-self: center;
+        justify-self: center;
     }
 
     .closeButton:hover {
@@ -539,20 +540,33 @@
         justify-content: flex-start;
         align-items: center;
         width: 100%;
-        background-color: var(--batlas-white);
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
         text-align: center;
     }
 
     .roomOptionsToggles {
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
-        background-color: var(--batlas-white);
         text-align: center;
-        gap: 1em;
+        gap: 0.5rem;
     }
+
+    .titleBar {
+    width: 100%;
+      background: transparent;
+      outline: none;
+      border: none;
+      text-align: left;
+      color: var(--batlas-white);
+      padding: 1rem;
+      font-family: var(--batlas-font);
+      font-size: 1rem;
+      cursor: text;
+  }
 
 
 
@@ -571,65 +585,62 @@
   }
 
 </style>
-<div class="tileInfoBar" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
-    <div class="tileInfoTopbar">
-        <div class="closeButton" on:click={() => clearActiveTile()}>
-            <Icons icon={"remove"} size={"medium"} color={"black"}/>
-        </div>
-        {#if tileOptions}
-        <div class="roomOptionsToggles">
-            <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
-                {#if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}
-                <p>Unfog</p>
-                {:else}
-                <p>Fog</p>
-                {/if}
-                <Icons icon={"d20"} size={"medium"} color={"black"}/>
+<div class="tileInfoBar blackBox" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:active="{$activeTileSidebar}">
+  {#if $activeTile.rowIndex !== null && $activeTileSidebar}
+  <div class="tileInfoTopbar">
+      {#if tileOptions}
+      <div class="roomOptionsToggles">
+        {#if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}
+        <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+              <p class="button whiteButton">Unfog</p>
+          </div>
+              {:else}
+              <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+              <p class="button blackButton">Fog</p>
             </div>
-        </div>
-        <div class="roomOptionsToggles">
-            <div class="clearTileInfo" on:click={(e) => clearTileInfo(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
-                <p>Clear Tile</p>
-            </div>
-        </div>
-        {/if}
+              {/if}
+          {#if role === "editor"}
+          <div class="clearTileInfo" on:click={(e) => clearTileInfo(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+              <p class="button blackButton">Clear</p>
+          </div>
+          {/if}
+      </div>
+      {/if}
+      <div class="closeButton button blackButton" on:click={handleClose}>
+        <Icons icon={"remove"} size={"small"} color={"white"}/>
     </div>
-    <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
-    {#if !$page.route.id.includes("/dungeons/") && !$page.route.id.includes("/player/")}
-        <div class="roomOptionsToggle">
-            <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
-            <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
+  </div>
+  <Divider color={"white"}/>
+  <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
+    {#if role === "editor"}
+        <div class="">
+            <a class="button blackButton" class:whiteButton="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
+            <a class="button blackButton" class:whiteButton="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
         </div>
     {/if}
-        {#if windowMode === "notes" || $page.route.id.includes("/player/")}
-            {#if $page.route.id.includes("/player/") || $page.route.id.includes("/dungeons/")}
+        {#if windowMode === "notes"}
+            {#if role==="gameMaster" || role==="player"}
                 {#if $activeTile.tileTitle !== ""}
-                <div class="roomTitlePlay">
-                    <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
-                </div>
+                  <div class="roomTitlePlay">
+                      <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
+                  </div>
                 {/if}
-            {:else}
-                <div class="roomOptionsTitle">
-                    <p>Title</p>
-                    <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
-                </div>
+            {:else if role === "editor"}
+                    <input type="text" class="titleBar" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
             {/if}
-          {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
-            {#if !$page.route.id.includes("/dungeons/") && !$page.route.id.includes("/play/")}
+            {#if role==="editor"}
               <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
-            {:else}
+            {:else if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
               <p class="roomDescription">{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}</p>
             {/if}
-          {/if}
-            <InterestPointList/>
+            <InterestPointList {role}/>
         {:else if windowMode === "tile"}
         <div class="connectionsControls">
-          <p>Connections</p>
           <div class="connectionsController">
-            <img class="NEControl control activeConnection" src="/img/tileOptionsArrowNorthEast.webp" alt="North East Control" on:click={(e) => toggleActiveConnection(e, "NE")}/>
-            <img class="SEControl control activeConnection" src="/img/tileOptionsArrowSouthEast.webp" alt="South East Control" on:click={(e) => toggleActiveConnection(e, "SE")}/>
-            <img class="NWControl control activeConnection" src="/img/tileOptionsArrowNorthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "NW")}/>
-            <img class="SWControl control activeConnection" src="/img/tileOptionsArrowSouthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "SW")}/>
+            <img class="NEControl control blackButton activeConnection" src="/img/tileOptionsArrowNorthEast.webp" alt="North East Control" on:click={(e) => toggleActiveConnection(e, "NE")}/>
+            <img class="SEControl control blackButton activeConnection" src="/img/tileOptionsArrowSouthEast.webp" alt="South East Control" on:click={(e) => toggleActiveConnection(e, "SE")}/>
+            <img class="NWControl control blackButton activeConnection" src="/img/tileOptionsArrowNorthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "NW")}/>
+            <img class="SWControl control blackButton activeConnection" src="/img/tileOptionsArrowSouthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "SW")}/>
             <img class="centralControl activeConnection" src="/img/{controlTile.img}" alt="Empty Square"/>
           </div>
           <div class="tileOptionsToggleContainer">
@@ -651,4 +662,5 @@
         </div>
         {/if}
           </div>
-    </div>
+  {/if}
+</div>

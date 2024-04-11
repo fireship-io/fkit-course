@@ -2,7 +2,7 @@
     import AdventureNotes from './AdventureNotes.svelte';
   
     import TileNotesIndicator from './TileNotesIndicator.svelte';
-    import UserControls from './UserControls.svelte';
+    import UserControls from './UserMapControls.svelte';
     import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
     import { page } from '$app/stores';
     import { activeTile, setActiveTile, currentAdventureChange, adventureNotesDisplayed } from "$lib/dashboardState";

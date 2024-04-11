@@ -1,5 +1,5 @@
 <script>
-  import UserControls from './UserControls.svelte';
+  import UserControls from './UserMapControls.svelte';
 
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
 

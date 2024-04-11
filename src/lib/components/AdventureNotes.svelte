@@ -1,7 +1,4 @@
 <script>
-  import TileNotesIndicator from './TileNotesIndicator.svelte';
-  import UserControls from './UserControls.svelte';
-  import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
   import { page } from '$app/stores';
   import { activeTile, setActiveTile, currentAdventureChange, adventureNotesDisplayed } from "$lib/dashboardState";
   import { currentAdventure } from "$lib/adventureData";
@@ -11,7 +8,6 @@
     setDoc,
     getDoc,
     collection,
-    onSnapshot,
   } from "firebase/firestore";
   import { v4 as uuidv4 } from "uuid";
   import { createAlert } from "$lib/dashboardState";

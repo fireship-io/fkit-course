@@ -1,14 +1,11 @@
 <script>
     import SavedAdventure from "./SavedAdventure.svelte";
-    import { page } from '$app/stores';
-    import { collection, getDocs, limit, query, where, onSnapshot } from "firebase/firestore";
+    import { collection, onSnapshot } from "firebase/firestore";
     import { premiumUser } from "$lib/dashboardState";
     import { db, user } from "$lib/firebase";
-    import { error } from "@sveltejs/kit";
     import { onMount } from "svelte";
-    import {adventureListStore, currentAdventure, playAdventureCurrent} from "$lib/adventureData";
+    import {adventureListStore, playAdventureCurrent} from "$lib/adventureData";
 
-    export let deleteAdventure;
     let userAdventures = [];
 
     adventureListStore.subscribe(value => {
@@ -24,8 +21,6 @@
         }
         return 0;
     }
-
-    const userAdventuresRef = collection(db, "users", $user.uid, "adventures");
 
     onMount(() => {
         playAdventureCurrent.set(false);
@@ -105,6 +100,6 @@
     </div>
     {/if}
     {#each $adventureListStore as adventure}
-        <SavedAdventure adventureData={adventure} {deleteAdventure}/>
+        <SavedAdventure adventureData={adventure}/>
     {/each}
 </div>

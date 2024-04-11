@@ -57,13 +57,12 @@
         height: 100%;
         max-height: 100lvh;
         background-color: var(--batlas-black);
-        border: 1px solid lime;
     }
     
     .contentSlot {
         height: 100%;
-        display: block;
-        border: 1px solid fuchsia;
+        display: flex;
+        flex: 1;
     }
 
 

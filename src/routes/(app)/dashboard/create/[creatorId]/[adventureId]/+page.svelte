@@ -29,5 +29,5 @@ import Map from "$lib/components/Map.svelte";
 </style>
 
 <div class="mapColumn">
-    <Map />
+    <Map role={"editor"}/>
 </div>

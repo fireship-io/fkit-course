@@ -100,6 +100,14 @@ p {
   border-radius: 0.4rem;
 }
 
+.blackBox {
+  background-color: var(--batlas-black);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 0.4rem;
+  border: 0.1rem solid var(--batlas-white);
+}
+
 .button {
   border-radius: 0.25rem;
   padding: 0.2rem 0.75rem;
@@ -108,6 +116,21 @@ p {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.blackButton {
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+  border: 0.1rem solid var(--batlas-white);
+}
+
+.blackButton:hover {
+  background-color: var(--batlas-white);
+  color: var(--batlas-black);
+}
+
+.blackButton:hover path {
+  fill: var(--batlas-black);
 }
 
 .whiteButton {
@@ -121,15 +144,8 @@ p {
   color: var(--batlas-white);
 }
 
-.blackButton {
-  background-color: var(--batlas-black);
-  color: var(--batlas-white);
-  border: 0.1rem solid var(--batlas-white);
-}
-
-.blackButton:hover {
-  background-color: var(--batlas-white);
-  color: var(--batlas-black);
+.whiteButton:hover path {
+  fill: var(--batlas-white);
 }
 
 .thirdsColumn {

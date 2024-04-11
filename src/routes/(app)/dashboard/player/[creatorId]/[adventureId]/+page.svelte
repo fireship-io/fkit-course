@@ -4,31 +4,28 @@
     import { user } from "$lib/firebase";
     import PlayerMap from '$lib/components/PlayerMap.svelte';
     import Map from '$lib/components/Map.svelte';
-  import { onMount } from 'svelte';
-  import { currentAdventure } from '$lib/adventureData';
     
 </script>
     
 <style>
 
-    .map {
+    .mapScreen {
         padding: 0em;
-        grid-column: 1/17;
-        grid-row: auto / span 2;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        flex: 1;
         height: calc(100%);
         width: 100%;
     }   
     
 </style>
         
-<div class="map">
-    {#if $user?.uid !== $page.params.creatorId}
-        <PlayerMap />
+<div class="mapScreen">
+    {#if $user?.uid === $page.params.creatorId}
+        <Map role={"gameMaster"}/>
     {:else}
-        <Map />
+        <PlayerMap role={"player"}/>
     {/if}
 </div>

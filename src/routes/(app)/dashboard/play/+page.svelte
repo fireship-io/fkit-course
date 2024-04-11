@@ -3,13 +3,6 @@
     import { db, user } from "$lib/firebase";
     import { doc, deleteDoc } from "firebase/firestore";
 
-    async function deleteAdventure(adventure) {
-        try {
-            let adventureRef = doc(db, "users", $user.uid, "adventures", adventure);
-            await deleteDoc(adventureRef);
-        } catch (error) {
-        }
-    }
 </script>
 
 <style>
@@ -22,5 +15,5 @@
 </style>
 
 <div class="fullScreen">
-    <SavedAdventures {deleteAdventure}/>
+    <SavedAdventures />
 </div>

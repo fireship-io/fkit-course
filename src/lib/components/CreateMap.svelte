@@ -60,6 +60,12 @@ async function saveNewAdventureToFirebase(newAdventure) {
 
   }
 
+  function handleEnter(event) {
+        if (event.key === 'Enter') {
+            saveNewAdventureToFirebase($currentAdventure);
+        }
+    }
+
   onMount(async() => {
     const adventuresCountRef = collection(db, "users", $user.uid, "adventures");
     const adventuresCountSnapshot = await getDocs(adventuresCountRef);
@@ -119,19 +125,7 @@ async function saveNewAdventureToFirebase(newAdventure) {
       color: var(--batlas-white);
       border-color: var(--batlas-white);
     }
-  
-    .titleBar {
-      width: 100%;
-      background-color: transparent;
-      color: var(--batlas-black);
-      cursor: pointer;
-      border: none;
-      outline: none;
-      text-align: left;
-      padding: 0.5em;
-      font-size: 1em;
-      font-family: var(--batlas-font);
-    }
+
   
     .controlLabel {
       width: 33%;
@@ -236,23 +230,54 @@ async function saveNewAdventureToFirebase(newAdventure) {
       font-family: var(--batlas-font);
       text-align: center;
     }
+
+    .blackBox {
+      padding: 0;
+      text-align: center;
+      color: var(--batlas-white);
+      width: 15rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .blackBox:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+      width: 100%;
+      max-width: 30rem;
+    }
+
+    .titleBar {
+      width: 100%;
+      background: transparent;
+      outline: none;
+      border: none;
+      text-align: center;
+      color: var(--batlas-white);
+      padding: 0.5rem;
+      font-family: var(--batlas-font);
+      font-size: 2rem;
+    }
   
   </style>
 
-<div class="userControlContainer">
+<div class="container">
         <div class="controlRow">
         {#if !$premiumUser && $userAdventureCount >= 5}
           <div class="upgradeButton">
             <p>Upgrade to save more adventures</p>
           </div>
         {:else}
-        <div class="userControlNoHover labelledControl">
-          <div class="controlLabel">
-            <p>Title</p>
-          </div>
-          <textarea rows="1" class="titleBar" placeholder="Enter a title" maxlength="300" bind:value={$currentAdventure.title}/>
-        </div>
-        <div class="userControl" on:click={() => saveNewAdventureToFirebase($currentAdventure)}>
+          <input type="text" rows="1" class="titleBar" placeholder="Enter a title" maxlength="300" bind:value={$currentAdventure.title} on:keydown={handleEnter}/>
+        <div class="blackBox" on:click={() => saveNewAdventureToFirebase($currentAdventure)}>
           <p>Create map</p>
         </div>
         {/if}

@@ -5,7 +5,7 @@
     import { collection, getDoc, limit, query, where, onSnapshot, doc } from "firebase/firestore";
     import { db, user } from "$lib/firebase";
     import TileNotesIndicator from './TileNotesIndicator.svelte';
-    import UserControls from './UserControls.svelte';
+    import UserControls from './UserMapControls.svelte';
 
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
 
@@ -83,6 +83,7 @@
         background-color: var(--batlas-black);
         height: 100%;
         max-height: calc(100lvh - 2em);
+        border: 1px solid MediumBlue;
     }
 
 
@@ -204,9 +205,6 @@
 <svelte:window bind:innerWidth = {screenSize}/>
 
 <div class="mapContainer">
-  <div class="screenNotes">
-    <h1 style="color:white;">Player Screen</h1>
-  </div>
     <div class="map">
             {#each $currentAdventure.map as row, i}
                 <div class="gridRow">

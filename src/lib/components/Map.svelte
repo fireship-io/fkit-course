@@ -2,10 +2,10 @@
   import AdventureNotes from './AdventureNotes.svelte';
 
   import TileNotesIndicator from './TileNotesIndicator.svelte';
-  import UserControls from './UserControls.svelte';
+  import UserMapControls from './UserMapControls.svelte';
   import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
   import { page } from '$app/stores';
-  import { activeTile, setActiveTile, currentAdventureChange, adventureNotesDisplayed } from "$lib/dashboardState";
+  import { activeTile, setActiveTile, currentAdventureChange, adventureNotesDisplayed, activeTileSidebar } from "$lib/dashboardState";
   import { currentAdventure } from "$lib/adventureData";
   import { db, user } from "$lib/firebase";
   import {
@@ -18,6 +18,8 @@
   import { v4 as uuidv4 } from "uuid";
   import { createAlert } from "$lib/dashboardState";
   import { onMount } from 'svelte';
+
+  export let role;
 
   let mapDisabled = false;
 
@@ -36,6 +38,7 @@
     mapDisabled = true;
 
       setActiveTile(cell, i, j)
+      activeTileSidebar.set(true);
       adventureNotesDisplayed.set(false);
       let floatingTiles = document.getElementsByClassName("tileFloat");
       for (let i = 0; i < floatingTiles.length; i++) {
@@ -111,7 +114,6 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
-      gap: 2rem;
       align-items: stretch;
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
@@ -119,7 +121,6 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       width: 100%;
       max-width: 100%;
       position: static;
-      overflow-x: scroll;
   }
 
   .map::-webkit-scrollbar {
@@ -138,7 +139,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   }
 
   .map {
-        overflow: visible;
+        overflow: scroll;
         background-color: var(--batlas-black);
         height: 100%;
         width: 100%;
@@ -239,14 +240,12 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
-    width: auto;
     position: sticky;
-    left: 1rem;
+    padding: 1rem;
+    min-width: 18rem;
     top: 0rem;
     pointer-events: none;
-    gap: 2em;
-    padding: 1.5rem;
-    padding-right: 1rem;
+    gap: 1rem;
     z-index: 100;
   }
 
@@ -352,12 +351,8 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 <div class="mapContainer">
 
   <div class="dialogueContainer">
-    <UserControls/>
-    {#if $adventureNotesDisplayed}
-      <AdventureNotes />
-    {/if}
-    {#if $activeTile.rowIndex !== null}s
-      <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={true}/>
+    {#if role === "editor"}
+      <UserMapControls/>
     {/if}
   </div>
   <div class="map" >
@@ -371,9 +366,11 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
               {#each row as cell, j}
                 <div class="gridTile" style="background-image: {cell.chosenTile?.img}; position: relative; bottom: 0em;" class:masterFoggedTile = {cell.fogOfWar}>
                   {#if cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != ""}
-                    <TileNotesIndicator/>
+                    {#if role === "gameMaster" || role === "editor"}
+                      <TileNotesIndicator/>
+                    {/if}
                   {/if}
-                  {#if cell.chosenTile?.img !== "/tiles/dungeon/roomBlank.webp" || !$page.route.id.includes("/player/")}
+                  {#if role === "gameMaster" && cell.tileNotes != "" || cell.interestPoints.length > 0 || cell.tileTitle != "" || role === "editor"}
                     <div class="tileSelectorHoverDetector">
                       <div
                         on:click={(e) => handleTileClick(e, cell, i, j)}
@@ -385,7 +382,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
                       </div>
                     </div>
                   {/if}
-                  {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
+                  {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && role === "gameMaster" || role === "player"}
                     <img src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
                   {:else}
                     <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
@@ -395,5 +392,9 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
           </div>
       {/each}
     </div>
+  {#if $adventureNotesDisplayed}
+    <AdventureNotes />
+  {/if}
+    <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={true} {role}/>
 </div>
 

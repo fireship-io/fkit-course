@@ -1,6 +1,6 @@
 import { currentAdventureChange } from "$lib/dashboardState";
 import { db, user } from "$lib/firebase";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection, deleteDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { createAlert } from "$lib/dashboardState";
 
@@ -84,4 +84,20 @@ export async function savePremadeAdventureToAccount(currentAdventure, user) {
     }, 3000);
   }
   currentAdventureChange.set(false);
+}
+
+export async function deleteAdventure(adventure, user) {
+  console.log("deleteAdventure fired", adventure, user.uid);
+  try {
+    let adventureRef = doc(
+      db,
+      "users",
+      user.uid,
+      "adventures",
+      adventure.adventureId
+    );
+    await deleteDoc(adventureRef).then(() => {
+      createAlert(`${adventure.title} deleted!`);
+    });
+  } catch (error) {}
 }

@@ -7,6 +7,8 @@
     import MapArray from './MapArray.svelte';
     import Icons from './Icons.svelte';
 
+    export let role;
+
     let screenSize = 0;
     let mapDisabled = false;
 
@@ -85,7 +87,6 @@
     gap: 0.4em;
     height: 100%;
     width: 100%;
-    overflow-y: scroll;
   }
 
   .interestPointsList::-webkit-scrollbar {
@@ -117,14 +118,21 @@
 
     .interestPoint {
       width: 100%;
-      padding: 0.4em 0em;;
-      border: 0.25em solid var(--batlas-black);
-      border-radius: 2em;
-      display: grid;
+      border: 0.1em solid var(--batlas-white);
+      border-radius: 0.25em;
+      display: flex;
+      flex-direction: column;
       position: relative;
-      grid-template-columns: 1fr 4fr 1fr;
-      grid-template-rows: auto;
       cursor: pointer;
+      padding: 0.5rem 1rem;
+    }
+
+    .interestPointTopBar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      gap: 0.5rem
     }
 
 
@@ -147,23 +155,18 @@
     }
 
     .interestPointInfo {
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
       display: none;
-      grid-column: 1/4;
-      padding: 1em;
       border:none;
+      border-top: 0.1rem dashed var(--batlas-white);
       background-color: transparent;
       outline: none;
+      color: var(--batlas-white);
       font-family: var(--batlas-font);
     }
 
-    .interestPointInfo:focus {
-      display: block;
-      grid-column: 1/4;
-      padding: 1em;
-      border:none;
-      background-color: transparent;
-      outline: none;
-    }
+  
 
     .interestPointPlay {
       grid-template-columns: 1fr 5fr;
@@ -177,14 +180,10 @@
       line-height: 1.2rem;
     }
 
-    .interestPointTitle {
-      width: 100%;
-      font-size: 0.8em;
-      border: none;
-      font-family: var(--batlas-font);
-      font-weight: bold;
-      padding: 0.4em;
-
+    .interestPointTitle p{
+      margin: 0px;
+      padding: 0px;
+      color: var(--batlas-white);
     }
 
     .interestPointTitle::-webkit-scrollbar {
@@ -210,30 +209,45 @@
       transform: rotate(180deg);
     }
 
+    .titleBar {
+    width: 100%;
+      background: transparent;
+      outline: none;
+      border: none;
+      text-align: left;
+      color: var(--batlas-white);
+      padding: 0rem;
+      font-family: var(--batlas-font);
+      font-size: 1rem;
+      cursor: text;
+  }
+
 
 </style>
 
          <div class="interestPointsList hideScrollbar">
-            {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.length > 0}
+            {#if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints.length > 0}
               {#each $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints as interestPoint, i}
                 <div  class="interestPoint" class:interestPointActive={false} class:interestPointPlay={$page.route.id.includes("play")}>
-                  <div on:click={(e) => toggleActive(e)} class="iconContainer">
-                    <div class="chevronRotate">
-                      <Icons icon={"downChevron"} size={"medium"} color={"black"} />
+                  <div class="interestPointTopBar">
+                    {#if role === "editor"}
+                      <input type="text" class="titleBar" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Interesting thing" maxlength="22" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].title}>
+                    {:else}
+                    <div class="interestPointTitle">
+                      <p>{interestPoint.title}</p>
                     </div>
+                    {/if}
+                      <div on:click={(e) => toggleActive(e)} class="iconContainer">
+                        <div class="chevronRotate">
+                          <Icons icon={"add"} size={"medium"} color={"white"} />
+                        </div>
+                      </div>
+                      {#if role==="editor"}
+                        <div on:click={() => handlePointOfInterestDelete(interestPoint)} class="iconContainer">
+                          <Icons icon={"remove"} size={"small"} color={"white"} />
+                        </div>
+                    {/if}
                   </div>
-                  {#if !$page.route.id.includes("/play/")}
-                    <textarea class="interestPointTitle" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Interesting thing" rows="1" maxlength="22" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].title}></textarea>
-                  {:else}
-                  <div class="interestPointTitle">
-                    <p>{interestPoint.title}</p>
-                  </div>
-                  {/if}
-                  {#if !$page.route.id.includes("/dungeons/") && !$page.route.id.includes("/play/")}
-                    <div on:click={() => handlePointOfInterestDelete(interestPoint)} class="iconContainer">
-                      <Icons icon={"remove"} size={"medium"} color={"black"} />
-                    </div>
-                  {/if}
                   {#if !$page.route.id.includes("play")}
                     <textarea class="interestPointInfo" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Info about the thing" rows="5" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].info}></textarea>
                   {:else}
@@ -244,9 +258,9 @@
                 </div>
               {/each}
             {/if}
-            {#if !$page.route.id.includes("/dungeons/") && !$page.route.id.includes("/play/")}
-              <div on:click={() => handlePointOfInterestCreation()} class="iconContainer centerAlignIcon pointOfInterestAddIcon">
-                <Icons icon={"add"} size={"large"} color={"black"} />
+            {#if role === "editor"}
+              <div on:click={() => handlePointOfInterestCreation()} class="iconContainer centerAlignIcon pointOfInterestAddIcon button blackButton">
+                <Icons icon={"add"} size={"medium"} color={"white"} />
               </div>
             {/if}
           </div>
