@@ -52,6 +52,11 @@ $: {
     text-align: center;
   }
 
+  .authCheck h1 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
   .userCheck {
     display: flex;
     flex-direction: column;
@@ -102,7 +107,7 @@ $: {
   <section class="userCheck" class:active = {checkingUserStatus}>
     <div class="authCheck">
       <h1>403 unauthorised access</h1>
-        <h2>Looks like you've hit a dead-end</h2>
+        <h2>You need a different key for this door</h2>
         <p>You have tried to access a part of the site that requires authorisation that you do not have in your current browser session.</p>
     </div>
     <div class="doubleColumn">

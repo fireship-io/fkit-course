@@ -119,8 +119,7 @@
       updateChosenTileOptionImage(chosenTileOptions);
     }
 
-    function toggleActiveConnection(e, direction) {
-      e.target.closest('.control').classList.toggle("activeConnection");
+    function toggleActiveConnection(direction) {
       chosenTileOptions.connections[direction] = !chosenTileOptions.connections[direction];
       updateChosenTileOptionImage(chosenTileOptions);
     }
@@ -186,35 +185,37 @@
 
    
 
-  .tileOptionsBar {
-    display: block;
-    width: 100%;
-    height: auto;
+  .tileOptionsColumn {
+    display: flex;
+    height: 100%;
+    width: 50%;
     overflow-y: scroll;
-    border-radius: 2em;
+    border-radius: 0.25rem;
+    border: 0.1rem solid var(--batlas-white)
   }
 
-  .tileOptionsBar::-webkit-scrollbar {
+  .tileOptionsColumn::-webkit-scrollbar {
     display: none;
   }
 
   .tileInfoBar {
-    overflow-y: scroll;
-    z-index: 999;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out, max-width 0.3s ease-in-out 0.3s;
+    overflow-y: hidden;
+    z-index: 100;
+    transform: translateX(130%);
+    transition: transform 0.5s ease-in-out, max-width 0.3s ease-in-out 0.3s;
     will-change: transform, max-width;
-    right: 0;
-    top: 0;
+    position: fixed;
+    right: 0.5rem;
+    top: 1rem;
     left: auto;
     bottom: auto;
     display: block;
-    width: 24rem;
+    width: 18rem;
     max-width: 0rem;
-    height: 100%;
+    height: calc(100% - 3rem);
     max-height: 100lvh;
-    border-radius: 0;
-    border: none;
+    border-radius: 0.25rem;
+    border: 0.1rem solid var(--batlas-white);
   }
 
   .tileInfoBar.active {
@@ -251,6 +252,7 @@
 
   .tileInfoText {
     width: 100%;
+    min-height: 20rem;
     height: 100%;
     padding: 1rem;
     background-color: var(--batlas-black);
@@ -272,15 +274,12 @@
 
   .tileOptions {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
-    overflow-x: hidden;
     overflow-y: scroll;
-    background-color: var(--batlas-white);
-    gap: 2em;
-    padding: 0em;
+    background-color: var(--batlas-black);
+    gap: 0.5rem;
     width: 100%;
   }
 
@@ -291,10 +290,10 @@
     align-items: center;
     aspect-ratio: 3/2;
     transition: all 0.1s ease-in-out;
-    border: 0.25em solid var(--batlas-black);
-    border-radius: 2em;
+    border: 0.1rem solid var(--batlas-white);
+    border-radius: 0.25rem;
     background-color: var(--batlas-black);
-    width: calc(50% - 1em); 
+    width: 100%; 
   }
 
   .tileOption:hover {
@@ -344,32 +343,23 @@
       cursor: pointer;
     }
 
-    p.tileOptionsToggle{
-      padding: 0.5em;
-      width: auto;
-      border: 0.25em solid var(--batlas-black);
-      border-radius: 2em;
-      padding: 0.5em 1em;
-      cursor: pointer;
+    .tileOptionsToggle {
+      width: 100%;
     }
+
 
     .tileOptionsToggleContainer {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
       width: 100%;
-      gap: 1em;
-      background-color: var(--batlas-white);
+      gap: 0.5rem;
+      background-color: var(--batlas-black);
       text-align: center;
-      font-size: 0.8em;
     }
 
     .tileOptionsToggleContainer .active {
-      background-color: var(--batlas-black);
-      color: var(--batlas-white);
-    }
-
-    .roomOptionsToggleActive, .tileOptionsToggle:hover {
       background-color: var(--batlas-black);
       color: var(--batlas-white);
     }
@@ -430,19 +420,19 @@
     .connectionsController {
       position: relative;
       display: block;
-      width: calc(100% - 4em);
+      width: 100%;
       height: auto;
     }
 
-    .control {
+    p.control {
+      width: 2rem;
+      height: 2rem;
       position: absolute;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
-      opacity: 0.5;
-    }
-
-    .control:hover {
-      transform: translateY(-0.25em);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .NEControl {
@@ -568,7 +558,39 @@
       cursor: text;
   }
 
+  .tileWindowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    height: calc(100% - 6rem);
+    overflow-y: hidden;
+  }
 
+  .leftColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 50%;
+  }
+
+  .tileInfoNotes {
+    overflow-y: scroll;
+  }
+
+  .tileInfoNotes .tileInfo {
+    height: auto;
+  }
+
+  .tileInfoNotes .tileInfoText {
+    height: auto;
+    max-height: 20rem;
+    overflow-y: scroll;
+  }
 
   @media screen and (max-width: 735px) {
     .tileInfoBar {
@@ -580,12 +602,12 @@
     }
 
     .tileOptionsToggleContainer {
-        z-index: 999;
+        z-index: 105;
     }
   }
 
 </style>
-<div class="tileInfoBar blackBox" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:active="{$activeTileSidebar}">
+<div class="tileInfoBar blackBox" class:tileInfoNotes="{windowMode==="notes"}" class:active="{$activeTileSidebar}">
   {#if $activeTile.rowIndex !== null && $activeTileSidebar}
   <div class="tileInfoTopbar">
       {#if tileOptions}
@@ -635,21 +657,24 @@
             {/if}
             <InterestPointList {role}/>
         {:else if windowMode === "tile"}
+        <div class="tileWindowContainer">
+          <div class="leftColumn">
         <div class="connectionsControls">
           <div class="connectionsController">
-            <img class="NEControl control blackButton activeConnection" src="/img/tileOptionsArrowNorthEast.webp" alt="North East Control" on:click={(e) => toggleActiveConnection(e, "NE")}/>
-            <img class="SEControl control blackButton activeConnection" src="/img/tileOptionsArrowSouthEast.webp" alt="South East Control" on:click={(e) => toggleActiveConnection(e, "SE")}/>
-            <img class="NWControl control blackButton activeConnection" src="/img/tileOptionsArrowNorthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "NW")}/>
-            <img class="SWControl control blackButton activeConnection" src="/img/tileOptionsArrowSouthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "SW")}/>
+            <p class="NWControl control button blackButton" on:click={() => toggleActiveConnection("NW")} class:whiteButton={chosenTileOptions.connections.NW}>NW</p>
+            <p class="NEControl control button blackButton" on:click={() => toggleActiveConnection("NE")} class:whiteButton={chosenTileOptions.connections.NE}>NE</p>
+            <p class="SWControl control button blackButton" on:click={() => toggleActiveConnection("SW")} class:whiteButton={chosenTileOptions.connections.SW}>SW</p>
+            <p class="SEControl control button blackButton" on:click={() => toggleActiveConnection("SE")} class:whiteButton={chosenTileOptions.connections.SE}>SE</p>
             <img class="centralControl activeConnection" src="/img/{controlTile.img}" alt="Empty Square"/>
           </div>
           <div class="tileOptionsToggleContainer">
-            <p class="tileOptionsToggle" class:active="{tileMode === 'rooms'}" on:click={() => changeTileMode('rooms')}>Room</p>
-            <p class="tileOptionsToggle" class:active="{tileMode === 'connectors'}" on:click={() => changeTileMode('connectors')}>Hall</p>
-            <p class="tileOptionsToggle" class:active="{tileMode === 'descenders'}" on:click={() => changeTileMode('descenders')}>Descent</p>
+            <p class="tileOptionsToggle button blackButton" class:whiteButton="{tileMode === 'rooms'}" on:click={() => changeTileMode('rooms')}>Room</p>
+            <p class="tileOptionsToggle button blackButton" class:whiteButton="{tileMode === 'connectors'}" on:click={() => changeTileMode('connectors')}>Hall</p>
+            <p class="tileOptionsToggle button blackButton" class:whiteButton="{tileMode === 'descenders'}" on:click={() => changeTileMode('descenders')}>Descent</p>
           </div>
         </div>
-        <div class="tileOptionsBar">
+      </div>
+        <div class="tileOptionsColumn">
           <div class="tileOptions hideScrollbar">
               {#if $activeTile.rowIndex != null}
                   {#each controlTiles as tile}
@@ -660,6 +685,7 @@
               {/if}
           </div>
         </div>
+      </div>
         {/if}
           </div>
   {/if}
