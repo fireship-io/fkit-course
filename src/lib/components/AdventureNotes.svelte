@@ -94,7 +94,6 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
   let creatorId = $page.params.creatorId;
 
   onMount(async () =>{
-    console.log($currentAdventure)
     await setCurrentAdventureFromFirebase(creatorId, adventureId);
   });
 
@@ -291,7 +290,14 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
         left: auto;
         bottom: auto;
         width: 20rem;
-        color: var(--batlas-white)
+        color: var(--batlas-white);
+        transform: translateX(150%);
+        transition: all 0.2s ease-in-out;
+        will-change: transform;
+    }
+
+    .adventureNotesContainer.active {
+      transform: translateX(0%);
     }
 
     .adventureNotesContainer::-webkit-scrollbar {
@@ -356,16 +362,15 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 </style>
 
-
 {#if role==="editor"}
-  <div class="adventureNotesContainer blackBox">
+  <div class="adventureNotesContainer blackBox" class:active={$adventureNotesDisplayed}>
     <h5>Primer</h5>
     <textarea rows="5" class="primer" placeholder="Adventure primer" maxlength="3000" bind:value={$currentAdventure.notes.primer}/>
     <h5>Notes</h5>
     <textarea rows="5" class="notes" placeholder="Adventure notes" maxlength="10000" bind:value={$currentAdventure.notes.notes}/>
   </div>
 {:else}
-  <div class="adventureNotesContainer blackBox">
+  <div class="adventureNotesContainer blackBox" class:active={adventureNotesDisplayed}>
     <h5>Primer</h5>
     <p>{$currentAdventure.notes.primer}</p>
     <h5>Notes</h5>

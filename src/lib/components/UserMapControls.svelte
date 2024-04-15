@@ -234,8 +234,10 @@
     }
 
     function toggleAdventureNotes() {
+      console.log($currentAdventure)
       clearActiveTile();
       adventureNotesDisplayed.set(!$adventureNotesDisplayed);
+      console.log($currentAdventure)
     }
 
 </script>

@@ -1,5 +1,5 @@
 <script>
-  import AdventureNotes from './AdventureNotes.svelte';
+  import AdventureNotes from '$lib/components/AdventureNotes.svelte';
 
   import TileNotesIndicator from './TileNotesIndicator.svelte';
   import UserMapControls from './UserMapControls.svelte';
@@ -364,7 +364,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     {/if}
   </div>
   <div class="map" >
-    {#if $currentAdventure.map.length === 0 && $page.route.id.includes("/create/")}
+    {#if $currentAdventure.map.length === 0 && $currentAdventure.map.title === "" && $page.route.id.includes("/create/")}
       <div class="emptyMap" >
         <p>Hit 'random map' until you get a starting point that looks good to you. Then click the tiles to alter them and add notes. Happy dungeon delving!</p>
       </div>
@@ -400,9 +400,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
           </div>
       {/each}
     </div>
-  {#if $adventureNotesDisplayed}
     <AdventureNotes {role} />
-  {/if}
     <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={true} {role}/>
 </div>
 
