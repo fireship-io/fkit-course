@@ -3,11 +3,12 @@
   import DemoUserControls from './DemoUserControls.svelte';
   import DemoTileOptions from './DemoTileOptions.svelte';
   import { page } from '$app/stores';
-  import { activeTile, setActiveTile, currentAdventureChange } from "$lib/dashboardState";
+  import { activeTile, setActiveTile, currentAdventureChange, activeTileSidebar, adventureNotesDisplayed } from "$lib/dashboardState";
   import { currentAdventure } from "$lib/adventureData";
   import { onMount } from 'svelte';
   import { generateMap } from "$lib/mapGen";
 
+  export let role;
 
   let mapDisabled = false;
   let guideText = "As you click around helpful text will appear here";
@@ -32,6 +33,8 @@
     mapDisabled = true;
 
       setActiveTile(cell, i, j)
+      activeTileSidebar.set(true);
+      adventureNotesDisplayed.set(false);
       let floatingTiles = document.getElementsByClassName("tileFloat");
       for (let i = 0; i < floatingTiles.length; i++) {
         floatingTiles[i].classList.remove("tileFloat");
@@ -184,6 +187,7 @@
     align-items: flex-start;
     height: 100%;
     width: auto;
+    max-width: 20rem;
     position: sticky;
     left: 1rem;
     top: 0rem;
@@ -243,6 +247,7 @@
     }
     .dialogueContainer {
         width: calc(100% - 2rem);
+        max-width: none;
         height: 100%;
         top: auto;
         bottom: 1rem;
@@ -270,9 +275,9 @@
 <div class="mapContainer">
 
   <div class="dialogueContainer">
-    <DemoUserControls guideText={guideText} updateGuideText={updateGuideText}/>
+    <DemoUserControls guideText={guideText} updateGuideText={updateGuideText} {role}/>
     {#if $activeTile.rowIndex !== null}s
-    <DemoTileOptions handleFogToggle={handleFogToggle} />
+    <DemoTileOptions handleFogToggle={handleFogToggle} tileOptions={true} {role}/>
     {/if}
   </div>
   <div class="map" > 

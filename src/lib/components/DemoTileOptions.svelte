@@ -1,17 +1,20 @@
 <script>
   import InterestPointList from './InterestPointList.svelte';
 
-    import { page } from '$app/stores';
-    import { map, generateMap } from "$lib/mapGen";
-    import { activeTile, playMode, setActiveTile } from "$lib/dashboardState";
-    import { currentAdventure } from "$lib/adventureData";
-    import { onMount } from 'svelte';
-    import MapArray from './MapArray.svelte';
-    import Icons from './Icons.svelte';
-    import { tiles } from '$lib/tiles';
-    import { fly } from 'svelte/transition';
+import { page } from '$app/stores';
+import { map, generateMap } from "$lib/mapGen";
+import { activeTile, playMode, setActiveTile, activeTileSidebar } from "$lib/dashboardState";
+import { currentAdventure } from "$lib/adventureData";
+import { onMount } from 'svelte';
+import MapArray from './MapArray.svelte';
+import Icons from './Icons.svelte';
+import { tiles } from '$lib/tiles';
+import { fly } from 'svelte/transition';
+import Divider from '$lib/components/Divider.svelte';
 
     export let handleFogToggle;
+    export let role;
+    export let tileOptions;
 
 
     let screenSize = 0;
@@ -22,7 +25,7 @@
     let tileMode = "rooms";
     let windowMode = "notes";
 
-
+    
     let chosenTileOptions = {
       type: tileMode,
       connections: {
@@ -1117,8 +1120,7 @@
       updateChosenTileOptionImage(chosenTileOptions);
     }
 
-    function toggleActiveConnection(e, direction) {
-      e.target.closest('.control').classList.toggle("activeConnection");
+    function toggleActiveConnection(direction) {
       chosenTileOptions.connections[direction] = !chosenTileOptions.connections[direction];
       updateChosenTileOptionImage(chosenTileOptions);
     }
@@ -1139,6 +1141,25 @@
     function toggleFogOfWar(e){
         $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar = !$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar;
         console.log("Fog toggle", $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar);
+    }
+
+    function clearTileInfo(e){
+        console.log("Clearing tile info", "ActiveTile:", $activeTile, "Current Adventure:", $currentAdventure, tiles);
+        let newMap = deepCloneArray($currentAdventure.map);
+        newMap[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle = "";
+        newMap[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes = "";
+        newMap[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints = [];
+        newMap[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar = false;
+        newMap[$activeTile.rowIndex][$activeTile.columnIndex].chosenTile = tiles.type.blank[0];
+        currentAdventure.set({ ...$currentAdventure, map: newMap});
+        clearActiveTile();
+    }
+
+    function handleClose() {
+      activeTileSidebar.set(false);
+        setTimeout(() => {
+          clearActiveTile();
+        }, 500);
     }
 
 </script>
@@ -1165,24 +1186,44 @@
 
    
 
-  .tileOptionsBar {
-    display: block;
-    width: 100%;
+  .tileOptionsColumn {
+    display: flex;
     height: auto;
+    max-height: 100%;
+    width: 50%;
     overflow-y: scroll;
-    border-radius: 2em;
+    border-radius: 0.25rem;
+    border: 0.1rem solid var(--batlas-white)
   }
 
-  .tileOptionsBar::-webkit-scrollbar {
+  .tileOptionsColumn::-webkit-scrollbar {
     display: none;
   }
 
   .tileInfoBar {
-    padding: 1rem;
-    display: none;
-    overflow-y: scroll;
-    z-index: 999;
+    overflow-y: hidden;
+    z-index: 100;
+    transform: translateX(130%);
+    transition: transform 0.5s ease-in-out, max-width 0.3s ease-in-out 0.3s;
+    will-change: transform, max-width;
     position: fixed;
+    right: 0.5rem;
+    top: 1rem;
+    left: auto;
+    bottom: auto;
+    display: block;
+    width: 18rem;
+    max-width: 0rem;
+    height: calc(100% - 3rem);
+    max-height: 100lvh;
+    border-radius: 0.25rem;
+    border: 0.1rem solid var(--batlas-white);
+  }
+
+  .tileInfoBar.active {
+    transform: translateX(0%);
+    max-width: 24rem;
+    transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
   }
 
   .tileInfoBar::-webkit-scrollbar {
@@ -1196,6 +1237,7 @@
     align-items: flex-start;
     gap: 1.5em;
     height: 100%;
+    margin-top: 1rem;
   }
 
   .tileInfo p {
@@ -1211,14 +1253,15 @@
   }
 
   .tileInfoText {
-    overflow-y: scroll;
-    max-height: 20em;
     width: 100%;
-    outline: none;
-    border: 0.3em solid var(--batlas-black);
-    border-radius: 2em;
-    padding: 1em;
-    font-size: 1em;
+    min-height: 20rem;
+    height: 100%;
+    padding: 1rem;
+    background-color: var(--batlas-black);
+    color: var(--batlas-white);
+    border: 0.1rem solid var(--batlas-white);
+    border-radius: 0.25em;
+    font-size: 1rem;
     font-family: var(--batlas-font);
   }
 
@@ -1231,35 +1274,14 @@
   }
 
 
-  .tileOptionsBarActive{
-        display: block;
-        position: absolute;
-        bottom: 0em;
-  }
-
-  .tileInfoBarActive{
-        right: 2rem;
-        top: auto;
-        left: auto;
-        bottom: auto;
-        display: block;
-        width: 20rem;
-        max-height: calc(100% - 10rem);
-        z-index: 999;
-  }
-
-
   .tileOptions {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
-    overflow-x: hidden;
     overflow-y: scroll;
-    background-color: var(--batlas-white);
-    gap: 2em;
-    padding: 0em;
+    background-color: var(--batlas-black);
+    gap: 0.5rem;
     width: 100%;
   }
 
@@ -1270,10 +1292,10 @@
     align-items: center;
     aspect-ratio: 3/2;
     transition: all 0.1s ease-in-out;
-    border: 0.25em solid var(--batlas-black);
-    border-radius: 2em;
+    border: 0.1rem solid var(--batlas-white);
+    border-radius: 0.25rem;
     background-color: var(--batlas-black);
-    width: calc(50% - 1em); 
+    width: 100%; 
   }
 
   .tileOption:hover {
@@ -1301,14 +1323,6 @@
   }
 
 
-
-
-    .infoBox {
-      background-color: var(--batlas-white);
-      border: 0.25em solid var(--batlas-black);
-      border-radius: 3em;
-    }
-
     .roomOptionsToggle {
       display: flex;
       flex-direction: row;
@@ -1331,32 +1345,23 @@
       cursor: pointer;
     }
 
-    p.tileOptionsToggle{
-      padding: 0.5em;
-      width: auto;
-      border: 0.25em solid var(--batlas-black);
-      border-radius: 2em;
-      padding: 0.5em 1em;
-      cursor: pointer;
+    .tileOptionsToggle {
+      width: 100%;
     }
+
 
     .tileOptionsToggleContainer {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
       width: 100%;
-      gap: 1em;
-      background-color: var(--batlas-white);
+      gap: 0.5rem;
+      background-color: var(--batlas-black);
       text-align: center;
-      font-size: 0.8em;
     }
 
     .tileOptionsToggleContainer .active {
-      background-color: var(--batlas-black);
-      color: var(--batlas-white);
-    }
-
-    .roomOptionsToggleActive, .tileOptionsToggle:hover {
       background-color: var(--batlas-black);
       color: var(--batlas-white);
     }
@@ -1410,43 +1415,43 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      background-color: var(--batlas-white);
       text-align: center;
+      color: var(--batlas-white);
     }
 
     .connectionsController {
       position: relative;
       display: block;
-      width: calc(100% - 4em);
+      width: 100%;
       height: auto;
     }
 
-    .control {
+    p.control {
+      width: 2rem;
+      height: 2rem;
       position: absolute;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
-      opacity: 0.5;
-    }
-
-    .control:hover {
-      transform: translateY(-0.25em);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .NEControl {
-      top: 1em;
-      right: 1em;
+      top: 0;
+      right: 0;
     }
     .SEControl {
-      bottom: 2em;
-      right: 1em;
+      bottom: 0;
+      right: 0;
     }
     .NWControl {
-      top: 1em;
-      left: 1em;
+      top: 0;
+      left: 0;
     }
     .SWControl {
-      bottom: 2em;
-      left: 1em;
+      bottom: 0;
+      left: 0;
     }
 
 
@@ -1457,7 +1462,6 @@
     }
 
     .roomTitlePlay {
-        padding: 0.3em;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -1466,7 +1470,7 @@
         font-size: 1.8em;
         font-weight: 600;
         text-transform: uppercase;
-        color: var(--batlas-black);
+        color: var(--batlas-white);
         text-align: left;
     }
 
@@ -1475,24 +1479,24 @@
     }
 
     p.roomDescription {
-        padding: 0.6em;
         width: 100%;
         font-size: 1em;
-        color: var(--batlas-black);
+        color: var(--batlas-white);
         text-align: left;
     }
 
     .closeButton {
-        position: sticky;
         width: auto;
-        height: auto;
+        height: 100%;
         display: flex;
+        padding: 0.5rem;
         justify-content: flex-start;
         align-items: center;
         cursor: pointer;
-        padding: 0.3em 0.6em;
         transition: all 0.2s ease-in-out;
-        top: 1em;
+        align-self: center;
+        justify-self: center;
+        border: none;
     }
 
     .closeButton:hover {
@@ -1501,6 +1505,15 @@
 
     .fogOfWar {
         opacity: 0.5;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5em;
+    }
+
+    .clearTileInfo {
         cursor: pointer;
         display: flex;
         flex-direction: row;
@@ -1519,99 +1532,168 @@
         justify-content: flex-start;
         align-items: center;
         width: 100%;
-        background-color: var(--batlas-white);
+        background-color: var(--batlas-black);
+        color: var(--batlas-white);
         text-align: center;
     }
 
     .roomOptionsToggles {
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
-        background-color: var(--batlas-white);
         text-align: center;
-        gap: 1em;
+        gap: 0.5rem;
     }
 
+    .titleBar {
+    width: 100%;
+      background: transparent;
+      outline: none;
+      border: none;
+      text-align: left;
+      color: var(--batlas-white);
+      padding: 1rem;
+      font-family: var(--batlas-font);
+      font-size: 1rem;
+      cursor: text;
+  }
 
+  .tileWindowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    height: calc(100% - 6rem);
+    overflow-y: hidden;
+  }
+
+  .leftColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 50%;
+  }
+
+  .tileInfoNotes {
+    overflow-y: scroll;
+  }
+
+  .tileInfoNotes .tileInfo {
+    height: auto;
+  }
+
+  .tileInfoNotes .tileInfoText {
+    height: auto;
+    max-height: 20rem;
+    overflow-y: scroll;
+  }
 
   @media screen and (max-width: 735px) {
     .tileInfoBar {
-      width: calc(100% - 4rem);
+      max-width: 0rem;
+      width: 100%;
       height: auto;
-      bottom: 2rem;
-      right: auto;
+      top: 20lvh;
+      bottom: auto;
+      right: 1rem;
       left: auto;
+      padding: 1rem;
+      transform: translateX(150%);
     }
 
-    .tileOptionsToggleContainer {
-        z-index: 999;
+    .tileInfoBar.active {
+      transform: translateX(0%);
+      max-width: calc(100% - 2rem);
+      transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
+      overflow-y: scroll;
+      height: 100%;
+      max-height: calc(80lvh - 1rem);
+    }
+
+    .tileOptions {
+      max-height: 30rem;
+    }
+
+    .tileWindowContainer {
+      height: auto;
     }
   }
 
 </style>
-<div class="tileInfoBar" class:tileInfoBarActivePlay="{$activeTile.rowIndex != null && $page.route.id.includes("play ")}" class:tileInfoBarActive="{$activeTile.rowIndex != null}" class:infoBox="{$activeTile.rowIndex != null}" in:fly={{ x: 0, y: 0, duration: 500 }}>
-    <div class="tileInfoTopbar">
-        <div class="closeButton" on:click={() => clearActiveTile()}>
-            <Icons icon={"remove"} size={"medium"} color={"black"}/>
-        </div>
-        <div class="roomOptionsToggles">
-            <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
-                {#if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}
-                <p>Unfog</p>
-                {:else}
-                <p>Fog</p>
-                {/if}
-                <Icons icon={"d20"} size={"medium"} color={"black"}/>
+<div class="tileInfoBar blackBox" class:tileInfoNotes="{windowMode==="notes"}" class:active="{$activeTileSidebar}">
+  {#if $activeTile.rowIndex !== null && $activeTileSidebar}
+  <div class="tileInfoTopbar">
+      {#if tileOptions}
+      <div class="roomOptionsToggles">
+        {#if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}
+        <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+              <p class="button whiteButton">Unfog</p>
+          </div>
+              {:else}
+              <div class="fogOfWar" on:click={(e) => handleFogToggle(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+              <p class="button blackButton">Fog</p>
             </div>
-        </div>
+              {/if}
+          {#if role === "editor"}
+          <div class="clearTileInfo" on:click={(e) => clearTileInfo(e, $currentAdventure, $activeTile, $activeTile.rowIndex, $activeTile.columnIndex)} class:activeConnection="{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].fogOfWar}">
+              <p class="button blackButton">Clear</p>
+          </div>
+          {/if}
+      </div>
+      {/if}
+      <div class="closeButton button blackButton" on:click={handleClose}>
+        <Icons icon={"remove"} size={"small"} color={"white"}/>
     </div>
-    <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
-    {#if !$page.route.id.includes("/player/")}
-        <div class="roomOptionsToggle">
-            <a class:roomOptionsToggleActive="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
-            <a class:roomOptionsToggleActive="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
+  </div>
+  <Divider color={"white"}/>
+  <div class="tileInfo" class:hideScrollbar="{!$activeTile.tileOptions}">
+    {#if role === "editor"}
+        <div class="">
+            <a class="button blackButton" class:whiteButton="{windowMode === "notes"}" on:click={() => changeWindowMode('notes')} >Notes</a>
+            <a class="button blackButton" class:whiteButton="{windowMode === "tile"}"  on:click={() => changeWindowMode('tile')} >Tile</a>
         </div>
     {/if}
-        {#if windowMode === "notes" || $page.route.id.includes("/player/")}
-            {#if $page.route.id.includes("/player/")}
+        {#if windowMode === "notes"}
+            {#if role==="gameMaster" || role==="player"}
                 {#if $activeTile.tileTitle !== ""}
-                <div class="roomTitlePlay">
-                    <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
-                </div>
+                  <div class="roomTitlePlay">
+                      <p>{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}</p>
+                  </div>
                 {/if}
-            {:else}
-                <div class="roomOptionsTitle">
-                    <p>Title</p>
-                    <input class="roomTitle" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
-                </div>
+            {:else if role === "editor"}
+                    <input type="text" class="titleBar" placeholder="Room title" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileTitle}>
             {/if}
-          {#if !$page.route.id.includes("play") || $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
-            {#if !$page.route.id.includes("play")}
+            {#if role==="editor"}
               <textarea class="tileInfoText" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Room notes" rows="40" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}></textarea>
-            {:else}
+            {:else if $currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes != ""}
               <p class="roomDescription">{$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].tileNotes}</p>
             {/if}
-          {/if}
-            <InterestPointList/>
+            <InterestPointList {role}/>
         {:else if windowMode === "tile"}
+        <div class="tileWindowContainer">
+          <div class="leftColumn">
         <div class="connectionsControls">
-          <p>Connections</p>
           <div class="connectionsController">
-            <img class="NEControl control activeConnection" src="/img/tileOptionsArrowNorthEast.webp" alt="North East Control" on:click={(e) => toggleActiveConnection(e, "NE")}/>
-            <img class="SEControl control activeConnection" src="/img/tileOptionsArrowSouthEast.webp" alt="South East Control" on:click={(e) => toggleActiveConnection(e, "SE")}/>
-            <img class="NWControl control activeConnection" src="/img/tileOptionsArrowNorthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "NW")}/>
-            <img class="SWControl control activeConnection" src="/img/tileOptionsArrowSouthWest.webp" alt="North West Control" on:click={(e) => toggleActiveConnection(e, "SW")}/>
+            <p class="NWControl control button blackButton" on:click={() => toggleActiveConnection("NW")} class:whiteButton={chosenTileOptions.connections.NW}>NW</p>
+            <p class="NEControl control button blackButton" on:click={() => toggleActiveConnection("NE")} class:whiteButton={chosenTileOptions.connections.NE}>NE</p>
+            <p class="SWControl control button blackButton" on:click={() => toggleActiveConnection("SW")} class:whiteButton={chosenTileOptions.connections.SW}>SW</p>
+            <p class="SEControl control button blackButton" on:click={() => toggleActiveConnection("SE")} class:whiteButton={chosenTileOptions.connections.SE}>SE</p>
             <img class="centralControl activeConnection" src="/img/{controlTile.img}" alt="Empty Square"/>
           </div>
           <div class="tileOptionsToggleContainer">
-            <p class="tileOptionsToggle" class:active="{tileMode === 'rooms'}" on:click={() => changeTileMode('rooms')}>Room</p>
-            <p class="tileOptionsToggle" class:active="{tileMode === 'connectors'}" on:click={() => changeTileMode('connectors')}>Hall</p>
-            <p class="tileOptionsToggle" class:active="{tileMode === 'descenders'}" on:click={() => changeTileMode('descenders')}>Descent</p>
+            <p class="tileOptionsToggle button blackButton" class:whiteButton="{tileMode === 'rooms'}" on:click={() => changeTileMode('rooms')}>Room</p>
+            <p class="tileOptionsToggle button blackButton" class:whiteButton="{tileMode === 'connectors'}" on:click={() => changeTileMode('connectors')}>Hall</p>
+            <p class="tileOptionsToggle button blackButton" class:whiteButton="{tileMode === 'descenders'}" on:click={() => changeTileMode('descenders')}>Descent</p>
           </div>
         </div>
-        <div class="tileOptionsBar">
+      </div>
+        <div class="tileOptionsColumn">
           <div class="tileOptions hideScrollbar">
               {#if $activeTile.rowIndex != null}
                   {#each controlTiles as tile}
@@ -1622,6 +1704,8 @@
               {/if}
           </div>
         </div>
+      </div>
         {/if}
           </div>
-    </div>
+  {/if}
+</div>

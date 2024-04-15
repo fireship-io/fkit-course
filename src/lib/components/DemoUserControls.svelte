@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import { generateMap } from "$lib/mapGen";
-    import { activeTile, currentAdventureChange } from "$lib/dashboardState";
+    import { activeTile, currentAdventureChange, adventureNotesDisplayed } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import Icons from './Icons.svelte';
     import { tiles } from '$lib/tiles';
@@ -17,9 +17,11 @@
     import { createAlert, premiumUser } from "$lib/dashboardState";
   import { onMount } from 'svelte';
   import LoginDialogue from './LoginDialogue.svelte';
+  import Divider from '$lib/components/Divider.svelte';
 
   export let guideText;
   export let updateGuideText;
+  export let role;
 
     let disabledMapGenButton = false;
 
@@ -29,8 +31,9 @@
     let maxColumns = 6;
     let maxFreeHeight = false;
     let maxFreeWidth = false;
-    let controlWindowMode = "options";
     let loginDialogueVisible = false;
+    let controlWindowMode = "adventure";
+
 
     let screenWidth;
 
@@ -223,6 +226,12 @@
       createAlert("You need an account to save your adventures.");
     }
 
+    
+    function toggleAdventureNotes() {
+      clearActiveTile();
+      adventureNotesDisplayed.set(!$adventureNotesDisplayed);
+    }
+
     onMount(() => {
       $currentAdventure.title = "Demo";
     })
@@ -238,7 +247,7 @@
     align-items: center;
     width: auto;
     min-width: 15rem;
-    max-width: 15rem;
+    max-width: none;
     height: auto;
     gap: 1rem;
     padding: 1rem;
@@ -247,8 +256,6 @@
     border: 0.25rem solid var(--batlas-black);
     font-size: clamp(0.8rem, 2vw + 0.4rem, 0.8rem);
   }
-
-
 
   .mapControlsContainer {
     min-width: 15rem;
@@ -284,55 +291,15 @@
 
   .titleBar {
     width: 100%;
-    background-color: transparent;
-    color: var(--batlas-black);
-    cursor: pointer;
-    border: none;
-    outline: none;
-    text-align: left;
-    padding: 0.5rem;
-    font-size: 1rem;
-    font-family: var(--batlas-font);
-  }
-
-  .controlLabel {
-    width: 33%;
-    height: 100%;
-    display: flex;
-    background-color: var(--batlas-black);
-    color: var(--batlas-white);
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8rem;
-    font-family: var(--batlas-font);
-    border-radius: 2rem 0 0 2rem;
-    transform: translateX(-2px);
-    padding: 0.5rem;
-  }
-
-  .mapControls {
-    width: 100%;
-    height: 3rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.2rem;
-    padding-right: 0.5rem;
-  }
-
-  .mapControlLabel {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    background-color: var(--batlas-black);
-    color: var(--batlas-white);
-    justify-content: flex-start;
-    align-items: center;
-    font-family: var(--batlas-font);
-    border-radius: 2rem 0 0 2rem;
-    transform: translateX(-2px);
-    padding: 0.8rem;
-    font-size: 0.8rem;
+      background: transparent;
+      outline: none;
+      border: none;
+      text-align: center;
+      color: var(--batlas-white);
+      padding: 0.5rem;
+      font-family: var(--batlas-font);
+      font-size: 1rem;
+      cursor: text;
   }
 
   .iconContainer {
@@ -344,14 +311,29 @@
   }
 
   .controlRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .button {
+    font-weight: 400;
+  }
+
+  .button p {
+    margin: 0;
+  }
+
+  .controlRow .button {
+    flex: 1;
+  }
+
+  .controlRow .whiteButton {
+    border: 0.1rem solid var(--batlas-white);
   }
 
   :global(.iconContainer) {
@@ -378,6 +360,13 @@
   }
 
   .changeAlert {
+    position: fixed;
+    width: 20rem;
+    top: 0.5rem;
+    background-color: var(--batlas-black);
+    left: calc(50% - 10rem);
+    right: calc(50% - 10rem);
+    color: var(--batlas-white);
     margin: 0rem;
     text-align: center;
   }
@@ -445,75 +434,134 @@
       cursor: pointer;
     }
 
-    .guideContainer {
-      display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    text-align: center;
-  }
+    .adventureNotes {
+      margin-bottom: 0.5rem;
+    }
 
-  .loginDialogueContainer {
-    position: fixed;
-    top: calc(50vh - 25vh);
-    left: calc(50vw - 25vw);
-    width: 50vw;
-    height: 50vh;
-    background-color: var(--batlas-black);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    border: 0.5rem solid var(--batlas-white);
-    border-radius: 3rem;
-  }
+    .mapSizeControlRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      color: var(--batlas-white)
+    }
+
+    .blackBox {
+      width: 100%;
+    }
+
+    .mapSizeIcons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .guideBox {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background-color: var(--batlas-black);
+      color: var(--batlas-white);
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .row h4 {
+      margin: 0;
+    }
+
 </style>
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-{#if !$page.route.id.includes("/player/")}
-  <div class="userControlContainer">
-    {#if !$page.route.id.includes("/player/")}
-    {#if screenWidth <= 735} 
-      <div class="roomOptionsToggle">
-        <a class:roomOptionsToggleActive="{controlWindowMode === "options"}" on:click={() => changeWindowMode('options')} >Options</a>
-        <a class:roomOptionsToggleActive="{controlWindowMode === "size"}"  on:click={() => changeWindowMode('size')} >Size</a>
-    </div>
+  <div class="blackBox">
+    {#if screenWidth <= 735}
+    <div class="controlRow">
+      <div class="button blackButton"
+        class:active={controlWindowMode === 'adventure'}
+        on:click={() => changeWindowMode("adventure")}
+        on:keydown={() => changeWindowMode("adventure")}
+        role="button"
+        tabindex="0"
+        >
+        <p>Adventure</p>
+      </div>
+
+        <div class="button blackButton"
+          class:active={controlWindowMode === 'size'}
+          on:click={() => changeWindowMode("size")} 
+          on:keydown={() => changeWindowMode("size")}
+          role="button"
+          tabindex="0" 
+        >
+            <p>Size</p>
+            </div>
+        </div>
+        <Divider color={"white"}/>
     {/if}
-    {#if controlWindowMode === "options" || screenWidth > 735}
-      <div class="userControlNoHover labelledControl">
-        <div class="controlLabel">  
-          <p>Title</p>
+      <div>
+        <input type="text" rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
+      </div>
+      {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "adventure"}
+      <div class="button blackButton adventureNotes" 
+          on:click={toggleAdventureNotes}
+          on:keydown={toggleAdventureNotes}
+          role="button"
+          tabindex="0"
+        >
+        {#if $adventureNotesDisplayed}
+          <p>Hide Notes</p>
+          {:else}
+          <p>Adventure Notes</p>
+        {/if}
+      </div>
+      <div class="controlRow">
+        <div class="button blackButton"
+          on:click={fogAllTiles}
+          on:keydown={fogAllTiles}
+          role="button"
+          tabindex="0"
+          >
+          <p>Fog all</p>
         </div>
-        <textarea rows="1" class="titleBar" placeholder="Demo" maxlength="300" bind:value={$currentAdventure.title}/>
-        </div>
-        <div class="controlRow">
-          <div class="userControl"
-            on:click={fogAllTiles}
-            on:keydown={fogAllTiles}
-            role="button"
-            tabindex="0"
-            >
-            <p>Fog all</p>
-          </div>
-          <div class="publicToggle"
-            on:click={handleVisibilityToggle} 
-            on:keydown={handleVisibilityToggle}
+          {#if $currentAdventure.public}
+          <div class="button whiteButton"
+            on:click={togglePublic} 
+            on:keydown={togglePublic}
             role="button"
             tabindex="0" 
             class:activeConnection="{$currentAdventure.public}"
           >
-              {#if $currentAdventure.public}
               <p>Public</p>
-              <Icons icon={"rules"} size={"small"} color={"white"}/>
-              {:else}
+              </div>
+          {:else}
+          <div class="button blackButton"
+            on:click={togglePublic} 
+            on:keydown={togglePublic}
+            role="button"
+            tabindex="0" 
+            class:activeConnection="{$currentAdventure.public}"
+          >
               <p>Private</p>
-              {/if}
+              </div>
+            {/if}
           </div>
-        </div>
         <div class="controlRow">
-          <div class="userControl"
+          <div class="button blackButton"
             on:click={() => handleMapGenerate($currentAdventure, $user)}
             on:keydown={() => handleMapGenerate($currentAdventure, $user)}
             role="button"
@@ -521,128 +569,36 @@
           >
             <p>Random</p>
           </div>
-          <div class="userControl" 
+          <div class="button" class:whiteButton="{$currentAdventureChange}" 
             on:click={demoSaveAttempt}
+            on:keydown={demoSaveAttempt}
             role="button"
             tabindex="0"
           >
             <p>Save</p>
           </div>
         </div>
-      {/if}
-      {/if}
-      {#if controlWindowMode === "size" && screenWidth <= 735}
-      <div class="mapControlsContainer sizingControls">
-        <div class="sizingControlRow">
-          <div class="mapSizeControls">
-            <div class="iconContainer"
-              on:click={addTopRow}
-              on:keydown={addTopRow}
-              role="button"
-              tabindex="0"
-              class:mapControlDisabled = {maxFreeHeight}
-            >
-              <Icons icon={"add"} size={"medium"} color={"black"}/>
-            </div>
-            <div class="iconContainer"
-              on:click={removeTopRow}
-              on:keydown={removeTopRow}
-              role="button"
-              tabindex="0"
-            >
-              <Icons icon={"minus"} size={"medium"} color={"black"} />
-            </div>
-          </div>
-        </div>
-        <div class="sizingControlRow">
-          <div class="mapSizeControls vertical">
-            <div class="iconContainer"
-              on:click={addColumnLeft}
-              on:keydown={addColumnLeft}
-              role="button"
-              tabindex="0"
-              class:mapControlDisabled = {maxFreeHeight}
-            >
-              <Icons icon={"add"} size={"medium"} color={"black"}/>
-            </div>
-            <div class="iconContainer"
-              on:click={removeColumnLeft}
-              on:keydown={removeColumnLeft}
-              role="button"
-              tabindex="0"
-            >
-              <Icons icon={"minus"} size={"medium"} color={"black"} />
-            </div>
-          </div>
-          <div class="mapSizeControlImage">
-            <img src="/img/tiles/dungeon/c1-v2.webp" width="auto" height="50px">
-          </div>
-          <div class="mapSizeControls vertical">
-            <div class="iconContainer"
-              on:click={addColumnRight}
-              on:keydown={addColumnRight}
-              role="button"
-              tabindex="0"
-              class:mapControlDisabled = {maxFreeHeight}
-            >
-              <Icons icon={"add"} size={"medium"} color={"black"}/>
-            </div>
-            <div class="iconContainer"
-              on:click={removeColumnRight}
-              on:keydown={removeColumnRight}
-              role="button"
-              tabindex="0"
-            >
-              <Icons icon={"minus"} size={"medium"} color={"black"} />
-            </div>
-          </div>
-        </div>
-        <div class="sizingControlRow">
-          <div class="mapSizeControls">
-            <div class="iconContainer"
-              on:click={addBottomRow}
-              on:keydown={addBottomRow}
-              role="button"
-              tabindex="0"
-              class:mapControlDisabled = {maxFreeHeight}
-            >
-              <Icons icon={"add"} size={"medium"} color={"black"}/>
-            </div>
-            <div class="iconContainer"
-              on:click={removeBottomRow}
-              on:keydown={removeBottomRow}
-              role="button"
-              tabindex="0"
-            >
-              <Icons icon={"minus"} size={"medium"} color={"black"} />
-            </div>
-          </div>
-        </div>
-        {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
-        <p class="changeAlert">Free account max map size limit reached</p>
-      {:else if maxFreeHeight && !$premiumUser}
-        <p class="changeAlert">Free account max height reached</p>
-      {:else if maxFreeWidth && !$premiumUser}
-        <p class="changeAlert">Free account max width reached</p>
-      {/if}
-      </div>
-      {/if}
-      </div>
-  {/if}
-{#if !$page.route.id.includes("/player/")}
+        {#if $currentAdventureChange}
+          <p class="changeAlert">Remember to save your changes</p>
+        {/if}      
 
-{#if screenWidth > 735}
-<div class="mapControlsContainer sizingControls">
-  <div class="sizingControlRow">
-    <div class="mapSizeControls">
-      <div class="iconContainer"
+    {/if}
+        <div>
+  {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "size"}
+  {#if screenWidth > 735}
+  <Divider color={"white"}/>
+  {/if}
+  <div class="mapSizeControlRow">
+    <p>Top</p>
+    <div class="mapSizeIcons">
+    <div class="iconContainer"
         on:click={addTopRow}
         on:keydown={addTopRow}
         role="button"
         tabindex="0"
         class:mapControlDisabled = {maxFreeHeight}
       >
-        <Icons icon={"add"} size={"medium"} color={"black"}/>
+        <Icons icon={"add"} size={"small"} color={"white"}/>
       </div>
       <div class="iconContainer"
         on:click={removeTopRow}
@@ -650,63 +606,21 @@
         role="button"
         tabindex="0"
       >
-        <Icons icon={"minus"} size={"medium"} color={"black"} />
+        <Icons icon={"minus"} size={"small"} color={"white"} />
       </div>
     </div>
   </div>
-  <div class="sizingControlRow">
-    <div class="mapSizeControls vertical">
-      <div class="iconContainer"
-        on:click={addColumnLeft}
-        on:keydown={addColumnLeft}
-        role="button"
-        tabindex="0"
-        class:mapControlDisabled = {maxFreeHeight}
-      >
-        <Icons icon={"add"} size={"medium"} color={"black"}/>
-      </div>
-      <div class="iconContainer"
-        on:click={removeColumnLeft}
-        on:keydown={removeColumnLeft}
-        role="button"
-        tabindex="0"
-      >
-        <Icons icon={"minus"} size={"medium"} color={"black"} />
-      </div>
-    </div>
-    <div class="mapSizeControlImage">
-      <img src="/img/tiles/dungeon/c1-v2.webp" width="auto" height="50px">
-    </div>
-    <div class="mapSizeControls vertical">
-      <div class="iconContainer"
-        on:click={addColumnRight}
-        on:keydown={addColumnRight}
-        role="button"
-        tabindex="0"
-        class:mapControlDisabled = {maxFreeHeight}
-      >
-        <Icons icon={"add"} size={"medium"} color={"black"}/>
-      </div>
-      <div class="iconContainer"
-        on:click={removeColumnRight}
-        on:keydown={removeColumnRight}
-        role="button"
-        tabindex="0"
-      >
-        <Icons icon={"minus"} size={"medium"} color={"black"} />
-      </div>
-    </div>
-  </div>
-  <div class="sizingControlRow">
-    <div class="mapSizeControls">
-      <div class="iconContainer"
+  <div class="mapSizeControlRow">
+    <p>Bottom</p>
+    <div class="mapSizeIcons">
+    <div class="iconContainer"
         on:click={addBottomRow}
         on:keydown={addBottomRow}
         role="button"
         tabindex="0"
         class:mapControlDisabled = {maxFreeHeight}
       >
-        <Icons icon={"add"} size={"medium"} color={"black"}/>
+        <Icons icon={"add"} size={"small"} color={"white"}/>
       </div>
       <div class="iconContainer"
         on:click={removeBottomRow}
@@ -714,29 +628,66 @@
         role="button"
         tabindex="0"
       >
-        <Icons icon={"minus"} size={"medium"} color={"black"} />
+        <Icons icon={"minus"} size={"small"} color={"white"} />
       </div>
     </div>
   </div>
-  {#if maxFreeHeight && maxFreeWidth && !$premiumUser}
-  <p class="changeAlert">Free account max map size limit reached</p>
-{:else if maxFreeHeight && !$premiumUser}
-  <p class="changeAlert">Free account max height reached</p>
-{:else if maxFreeWidth && !$premiumUser}
-  <p class="changeAlert">Free account max width reached</p>
+  <div class="mapSizeControlRow">
+    <p>Left</p>
+    <div class="mapSizeIcons">
+    <div class="iconContainer"
+        on:click={addColumnLeft}
+        on:keydown={addColumnLeft}
+        role="button"
+        tabindex="0"
+        class:mapControlDisabled = {maxFreeHeight}
+      >
+        <Icons icon={"add"} size={"small"} color={"white"}/>
+      </div>
+      <div class="iconContainer"
+        on:click={removeColumnLeft}
+        on:keydown={removeColumnLeft}
+        role="button"
+        tabindex="0"
+      >
+        <Icons icon={"minus"} size={"small"} color={"white"} />
+      </div>
+    </div>
+  </div>
+  <div class="mapSizeControlRow">
+    <p>Right</p>
+    <div class="mapSizeIcons">
+    <div class="iconContainer"
+        on:click={addColumnRight}
+        on:keydown={addColumnRight}
+        role="button"
+        tabindex="0"
+        class:mapControlDisabled = {maxFreeHeight}
+      >
+        <Icons icon={"add"} size={"small"} color={"white"}/>
+      </div>
+      <div class="iconContainer"
+        on:click={removeColumnRight}
+        on:keydown={removeColumnRight}
+        role="button"
+        tabindex="0"
+      >
+        <Icons icon={"minus"} size={"small"} color={"white"} />
+      </div>
+    </div>
+  </div>
 {/if}
 </div>
-{/if}
-{/if}
+</div>
 
-  <div class="mapControlsContainer guideContainer">
+  <div class="blackBox guideBox">
+    <div class="row">
     <h4>Guide</h4>
-    {guideText}
+    <a class="button whiteButton" href="#" on:click={displayLoginDialogue}>Sign up</a>
   </div>
-
-  <div class="mapControlsContainer guideContainer">
-    <h4>Create an account</h4>
-    <a class="userControl" href="#" on:click={displayLoginDialogue}>Sign up</a>
+  <p>
+    {guideText}
+  </p>
   </div>
 
   {#if loginDialogueVisible}

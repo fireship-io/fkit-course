@@ -83,7 +83,7 @@
       if ($user && window.location.pathname.includes("/demo/map-maker")) {
             saveAdventureToFirebase($currentAdventure);
         } else if ($user) {
-          window.location.href = "/dashboard";
+          // window.location.href = "/dashboard";
         }
     }, 1000)
 
@@ -142,9 +142,6 @@
 </script>
 
 <style>
-  h1 {
-    text-transform: uppercase;
-  }
 
   a:hover {
     cursor: pointer;
@@ -156,72 +153,6 @@
       font-size: 1em;
   }
 
-  .batlasSection {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background-color: var(--batlas-black);
-    color: var(--batlas-white);
-    padding: 9em 2em;
-    width: 100%;
-    max-width: 1240px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 3em;
-  }
-
-  .batlasSection h2 {
-    text-align: center;
-  }
-
-  .batlasColumn {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .batlasColumn h1 {
-    font-size: 2em;
-    font-weight: 900;
-    margin-bottom: 0.5em;
-    color: var(--batlas-black)
-  }
-
-  .batlasColumn h2 {
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-    line-height: 1.2em;
-    letter-spacing: 0.05em;
-    font-size: 2.8em;
-    font-weight: 800;
-    margin-bottom: 0.5em;
-    color: var(--batlas-black);
-    text-shadow: none;
-  }
-
-  .singleColumn {
-    grid-template-columns: 1fr;
-  }
-
-  .doubleColumn {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3em;
-  }
-
-  .lostButton {
-      font-size: 1.3em;
-      font-weight: 600;
-      padding: 1em 2em;
-  }
-
-  .lostButton a {
-      color: var(--batlas-white);
-  }
-
-  .fillHeight {
-      min-height: 110lvh;
-  }
 
   .loginBox {
     padding: 3em;
@@ -307,34 +238,30 @@
     color: var(--batlas-white);
   }
 
-  @media screen and (max-width: 1500px) {
-      h2 {
-      color: var(--batlas-white);
-      }
-   }
+  .blackBox {
+    text-align: center;
+    border: none;
+  }
 
-   @media screen and (max-width: 900px) {
-      p {
-      font-size: 2.5em;
-    }
-    .batlasSection {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      padding: 12em 2em;
-      max-width: 900px;
-      gap: 6em;
-    }
+  .legals a{
+    border: 0;
+    background: none;
+    padding: 0;
+    text-decoration: underline;
+  }
 
-    .batlasColumn {
-      align-items: center;
-      font-size: 2em;
-    } 
-   }
+  .legals a:hover{
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--batlas-white)
+  }
+
 </style>
 
-<div class=" loginBox">
+<div class=" loginBox blackBox">
       {#if $user}
-      <h2>Welcome, {$user.displayName}</h2>
+      <h4>Welcome, {$user.displayName}</h4>
       <p>You will be redirected to your dashboard.</p>
       <a href="/dashboard" >If you aren't redirected, click here</a>
       <!-- <a on:click={signOutSSR}>Sign out</a>
@@ -347,6 +274,6 @@
           <label class="legalLabel" for="legal">I agree to the Batlas <a class="simpleLink" href="/legalities" target="_blank">Terms & Conditions, Privacy Policy, and Cyber Security Policy.</a></label>
         </div>
         {/if}
-        <p>By signing up or logging in you agree to the Batlas Terms & Conditions, Privacy Policy, and Cyber Security Policy.</p>
+        <p class="legals">By signing up or logging in you agree to the Batlas <a href="https://batlas.art/terms-and-conditions" target="_blank">Terms & Conditions</a>, <a href="https://batlas.art/privacy-policy" target="_blank">Privacy Policy</a>, and <a href="https://batlas.art/privacy-policy" target="_blank">Cyber Security Policy</a>.</p>
     </div>
 

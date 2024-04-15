@@ -18,6 +18,7 @@
   import { v4 as uuidv4 } from "uuid";
   import { createAlert } from "$lib/dashboardState";
   import { onMount } from 'svelte';
+  import DungeonMapControls from './DungeonMapControls.svelte';
 
   export let role;
 
@@ -144,6 +145,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
         height: 100%;
         width: 100%;
         max-height: none;
+        padding-top: 3rem;
   }
 
 
@@ -305,6 +307,10 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       display: none;
     }
 
+    .minWidthZero {
+      min-width: 0;
+    }
+
   @media(max-width:735px){
 
     .mapContainer {
@@ -350,9 +356,11 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 <div class="mapContainer">
 
-  <div class="dialogueContainer">
+  <div class="dialogueContainer" class:minWidthZero={role==="gameMaster"}>
     {#if role === "editor"}
       <UserMapControls/>
+    {:else if role === "gameMaster"}
+      <DungeonMapControls/>
     {/if}
   </div>
   <div class="map" >

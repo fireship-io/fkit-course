@@ -1,0 +1,37 @@
+<script>
+    import DemoMap from "$lib/components/DemoMap.svelte";
+    import { onMount } from 'svelte';
+    import { user } from "$lib/firebase";
+
+    onMount(async () => {
+
+        if ($user) {
+            window.location.href = '/dashboard/create';
+        }
+    });
+
+</script>
+
+<style>
+    .mapColumn {
+        grid-column: 1/18;
+        grid-row: 1/3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        min-height: 100lvh;
+    }
+
+    @media (max-width: 700px){
+        .mapColumn {
+        margin: 0rem;
+        }
+    }
+</style>
+
+<div class="mapColumn">
+    <DemoMap />
+</div>

@@ -76,11 +76,11 @@
       }
     }
 
-    setInterval(() => {
-      if ($user) {
-        window.location.href = "/dashboard";
-      }
-    }, 1000)
+    // setInterval(() => {
+    //   if ($user) {
+    //     window.location.href = "/dashboard";
+    //   }
+    // }, 1000)
 
     let legalToggle = false;
 
@@ -94,201 +94,18 @@
 </script>
 
 <style>
-  h1 {
-    text-transform: uppercase;
-  }
-
-  a:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  p {
-      color: var(--batlas-black);
-      font-size: 1em;
-  }
-
-  .batlasSection {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background-color: var(--batlas-black);
-    color: var(--batlas-white);
-    padding: 9em 2em;
+  .loginScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     width: 100%;
-    max-width: 1240px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 3em;
   }
-
-  .batlasSection h2 {
-    text-align: center;
-  }
-
-  .batlasColumn {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .batlasColumn h1 {
-    font-size: 2em;
-    font-weight: 900;
-    margin-bottom: 0.5em;
-    color: var(--batlas-black)
-  }
-
-  .batlasColumn h2 {
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-    line-height: 1.2em;
-    letter-spacing: 0.05em;
-    font-size: 2.8em;
-    font-weight: 800;
-    margin-bottom: 0.5em;
-    color: var(--batlas-black);
-    text-shadow: none;
-  }
-
-  .singleColumn {
-    grid-template-columns: 1fr;
-  }
-
-  .doubleColumn {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3em;
-  }
-
-  .lostButton {
-      font-size: 1.3em;
-      font-weight: 600;
-      padding: 1em 2em;
-  }
-
-  .lostButton a {
-      color: var(--batlas-white);
-  }
-
-  .fillHeight {
-      min-height: 110lvh;
-  }
-
-  .loginBox {
-    padding: 3em;
-    padding-bottom: 1em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 30em;
-    color: var(--batlas-white);
-  }
-
-  .loginBox a {
-    transition: all 0.3 ease;
-    margin-top: 1em;
-    font-family: 'Poppins', sans-serif;
-    border: 0.1em solid var(--batlas-white);
-    border-radius: 0.6em;
-    font-size: 1em;
-    font-weight: 400;
-    background-color: var(--batlas-black);
-    padding: 0.5em 1em;
-    color: var(--batlas-white);
-  }
-
-  .loginBox a:hover {
-    cursor: pointer;
-    background-color: var(--batlas-white);
-    color: var(--batlas-black);
-  }
-
-  .loginBox h2 {
-    color: var(--batlas-white)
-  }
-
-  .loginBox p {
-    font-size: 0.8em;
-    text-align: center;
-    margin-top: 3em;
-    color: var(--batlas-white);
-
-  }
-
-  label {
-    font-size: 1rem;
-    text-align: center;
-    margin-top: 3rem;
-    color: var(--batlas-white);
-  }
-
-  a.simpleLink {
-    border: none;
-    text-decoration: underline;
-    background-color: transparent;
-    color: var(--batlas-white);
-    padding: 0rem;
-    text-align: center;
-  }
-
-  a.simpleLink:hover {
-    cursor: pointer;
-    color: var(--batlas-white);
-    background-color: transparent;
-  }
-
-  .disabled {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  .legal {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 1em;
-  }
-
-  .legalLabel {
-    font-size: 0.8rem;
-    text-align: center;
-    margin-top: 0rem;
-    color: var(--batlas-white);
-  }
-
-  @media screen and (max-width: 1500px) {
-      h2 {
-      color: var(--batlas-white);
-      }
-   }
-
-   @media screen and (max-width: 900px) {
-      p {
-      font-size: 2.5em;
-    }
-    .batlasSection {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      padding: 12em 2em;
-      max-width: 900px;
-      gap: 6em;
-    }
-
-    .batlasColumn {
-      align-items: center;
-      font-size: 2em;
-    } 
-   }
 </style>
 
 
 
 
-<div class="batlasSection singleColumn">
-  <div class="batlasColumn">
+<div class="loginScreen">
     <LoginDialogue />
-  </div>
 </div>

@@ -286,8 +286,8 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       gap: 1rem;
       padding: 1rem;
       overflow-y: scroll;
-      right: 2rem;
-        top: auto;
+      right: 1rem;
+        top: 0.5rem;
         left: auto;
         bottom: auto;
         width: 20rem;
@@ -346,6 +346,12 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       font-size: 1rem;
       justify-content: flex-start;
     }
+
+    .adventureNotesContainer {
+      top: 8rem;
+      z-index: 999;
+      width: calc(100% - 2rem);
+    }
   }
 
 </style>
@@ -353,16 +359,16 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 {#if role==="editor"}
   <div class="adventureNotesContainer blackBox">
-    <p>Primer</p>
+    <h5>Primer</h5>
     <textarea rows="5" class="primer" placeholder="Adventure primer" maxlength="3000" bind:value={$currentAdventure.notes.primer}/>
-    <p>Notes</p>
+    <h5>Notes</h5>
     <textarea rows="5" class="notes" placeholder="Adventure notes" maxlength="10000" bind:value={$currentAdventure.notes.notes}/>
   </div>
 {:else}
   <div class="adventureNotesContainer blackBox">
-    <p>Primer</p>
+    <h5>Primer</h5>
     <p>{$currentAdventure.notes.primer}</p>
-    <p>Notes</p>
+    <h5>Notes</h5>
     <p>{$currentAdventure.notes.notes}</p>
   </div>
 {/if}

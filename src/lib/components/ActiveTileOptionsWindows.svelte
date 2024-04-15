@@ -598,7 +598,7 @@
       max-width: 0rem;
       width: 100%;
       height: auto;
-      top: 40lvh;
+      top: 20lvh;
       bottom: auto;
       right: 1rem;
       left: auto;
@@ -612,7 +612,7 @@
       transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
       overflow-y: scroll;
       height: 100%;
-      max-height: calc(60lvh - 1rem);
+      max-height: calc(80lvh - 1rem);
     }
 
     .tileOptions {
