@@ -86,6 +86,31 @@ export async function savePremadeAdventureToAccount(currentAdventure, user) {
   currentAdventureChange.set(false);
 }
 
+export async function saveNewAdventureToFirebase(newAdventure, user) {
+  disabledSave = true;
+
+  const adventuresRef = collection(db, "users", user.uid, "adventures");
+
+  if (newAdventure.title === "") {
+    createAlert("Please enter a title for your adventure.");
+    return;
+  }
+
+  let uniqueId = uuidv4();
+  let newUpdateDate = Date.now();
+
+  newAdventure.updatedDate = newUpdateDate;
+
+  newAdventure.adventureId = uniqueId;
+  const adventureRef = doc(adventuresRef, newAdventure.adventureId);
+  await setDoc(adventureRef, {
+    ...newAdventure,
+    map: JSON.stringify(newAdventure.map),
+  });
+
+  window.location.href = `/dashboard/create/${user?.uid}/${newAdventure.adventureId}`;
+}
+
 export async function deleteAdventure(adventure, user) {
   console.log("deleteAdventure fired", adventure, user.uid);
   try {

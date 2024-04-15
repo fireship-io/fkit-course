@@ -187,7 +187,8 @@
 
   .tileOptionsColumn {
     display: flex;
-    height: 100%;
+    height: auto;
+    max-height: 100%;
     width: 50%;
     overflow-y: scroll;
     border-radius: 0.25rem;
@@ -487,7 +488,6 @@
         width: auto;
         height: 100%;
         display: flex;
-        flex: 1;
         padding: 0.5rem;
         justify-content: flex-start;
         align-items: center;
@@ -495,6 +495,7 @@
         transition: all 0.2s ease-in-out;
         align-self: center;
         justify-self: center;
+        border: none;
     }
 
     .closeButton:hover {
@@ -594,15 +595,32 @@
 
   @media screen and (max-width: 735px) {
     .tileInfoBar {
-      width: calc(100% - 4rem);
+      max-width: 0rem;
+      width: 100%;
       height: auto;
-      bottom: 2rem;
-      right: auto;
+      top: 40lvh;
+      bottom: auto;
+      right: 1rem;
       left: auto;
+      padding: 1rem;
+      transform: translateX(150%);
     }
 
-    .tileOptionsToggleContainer {
-        z-index: 105;
+    .tileInfoBar.active {
+      transform: translateX(0%);
+      max-width: calc(100% - 2rem);
+      transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
+      overflow-y: scroll;
+      height: 100%;
+      max-height: calc(60lvh - 1rem);
+    }
+
+    .tileOptions {
+      max-height: 30rem;
+    }
+
+    .tileWindowContainer {
+      height: auto;
     }
   }
 

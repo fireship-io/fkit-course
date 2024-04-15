@@ -14,6 +14,7 @@
       collection,
       onSnapshot,
     } from "firebase/firestore";
+  import Divider from './Divider.svelte';
     let screenSize = 0;
 
     function clearActiveTile() {
@@ -67,6 +68,8 @@
         clearCurrentAdventureAndScreenChoice();
         clearActiveTile();
         setScreenChoice('');
+        offScreenMenu.set(false);
+        window.location.href = "/dashboard/create";
     }
 
     function returnHome() {
@@ -119,160 +122,61 @@
     }
     };
 
+    function navigateTo(route) {
+        clearCurrentAdventureAndScreenChoice();
+        clearActiveTile();
+        offScreenMenu.set(false);
+        setScreenChoice(route);
+        window.location.href = `/dashboard/${route}`;
+    }
+
 </script>
 
 <style>
-
-    .iconBox {
-        font-size: 0.5em;
-        text-align: center;
-        color: var(--batlas-white);
-        width: 100%;
-        height: 7em;
-        padding: 0.8em;
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        align-items: center;
-        border-radius: 1em;
-        border: 0.3em solid var(--batlas-black);
-        text-decoration: none;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .iconBox:hover {
-        color: var(--batlas-white);
-        cursor: pointer;
-        border: 0.3em solid var(--batlas-white);
-        transform: translateX(0.5em);
-    }
-
-    .iconBox p {
-        margin: 0em;
-        margin-left: 1em;
-        text-align: left;
-        font-size: clamp(0.8rem, 2vw + 0.4rem, 0.8rem);
-        text-transform: uppercase;
-    }
-
-    .active {
-        border: 0.3em solid var(--batlas-white)
-    }
-
-    .currentScreen {
-        text-decoration: underline;
-    }
-
-    .responsiveNav {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.5em;
-        width: 100%;
-        height: auto;
-        padding: 0em 0.5em;
-    }
-
-    .responsiveNav * {
-        margin: 0em;
-    }
-
-    .secondaryNavBar {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.5em;
-        width: 100%;
-        height: auto;
-        padding: 0em 0.5em;
-    }
-
-    .secondaryNavBar * {
-        margin: 0em;
-        margin-top: 1em;
-        cursor: pointer;
-    }
-
-
-    .menuIcon svg{
-        max-height: 30em;
-        height: autop;
-        width: 2em;
-    }
-
-    .backButton {
-        height: 1em;
-    }
-
-    .secondaryNavLink:hover {
-        text-decoration: underline;
-    }
-
-    .secondaryNavLink svg{
-        margin: 0em;
-    }
-
-    .offScreenMenu {
-        position: fixed;
-        top: 7em;
-        right: 1em;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-end;
-        gap: 2em;
-        width: 6em;
-        padding: 2em 1em;
-        height: auto;
-        background-color: var(--batlas-white);
-        transition: all 0.3s ease-in-out;
-        z-index: 999;
-    }
-
-    .offScreenMenu svg {
-        fill: var(--batlas-black);
-    }
-
-    .offScreenMenu a {
-        border: none;
-    }
-
-    .offScreenMenu .active {
-        border: solid 0.3em var(--batlas-black);
-    }
-
-    .premiumButton {
-        background-color: var(--batlas-white);
-        color: var(--batlas-black);
-        border: 0.3em solid var(--batlas-white);
-    }
-
-    .premiumButton:hover {
-        color: var(--batlas-black)
-    }
-
-    .topSection, .bottomSection {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 1em;
-        width: 100%;
-        height: auto;
-    }
 
     .navigationColumn {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 1em;
-        width: 100%;
         height: 100%;
-        background-color: var(--batlas-black);
+        width: 100%;
+        padding: 0.5rem;
         color: var(--batlas-white);
-        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+
+    .topSection {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .bottomSection {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        cursor: pointer;
+        border: 0.1rem solid var(--batlas-black);
+    }
+
+    .button.active {
+        border: 0.1rem solid var(--batlas-white);
+    }
+
+    .premiumButton {
+        background-color: var(--batlas-white);
+        color: var(--batlas-black)
     }
 
     .disabled {
@@ -280,73 +184,94 @@
         pointer-events: none;
     }
 
-    .invisible {
-        display:none;
+    .responsiveNav {
+        display: none;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        height: 3rem;
+        background-color: var(--batlas-black);
+        width: 100%;
+        border-bottom: 0.1rem solid var(--batlas-white);
+    }
+
+    .siteLogo {
+        height: 2rem;
+        width: auto;
     }
 
     @media (max-width: 735px) {
-        .siteLogo {
-            width: auto;
-            height: 4rem;
+        .navigationColumn {
+            position: fixed;
+            top: 3rem;
+            z-index: 999;
+            right: 0;
+            background-color: var(--batlas-black);
+            transform: translateX(100%);
+            will-change: transform;
+            transition: transform 0.3s ease-in-out;
+            height: calc(100% - 3rem);
         }
 
-        .menuIcon {
-            max-width: none;
-            width: 4rem;
+        .navigationColumn.active {
+            transform: translateX(0);
+        }
+
+        .responsiveNav {
+            display: flex;
         }
     }
 
 </style>
 
 <svelte:window bind:innerWidth = {screenSize}/>
-{#if screenSize > 735}
-<div class="navigationColumn">
+<div class="responsiveNav">
+    <a href="/dashboard/" on:click={returnHome}>
+        <img src="/img/batlasLogo_white.webp" alt="BATLAS" width="auto" height="auto" class="siteLogo">
+    </a>
+    <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
+        <Icons icon={"rules"} size={"medium"} color={"white"} />
+    </a>
+</div>
+<div class="navigationColumn" class:active={!$offScreenMenu}>
 <div class="topSection">
     {#if !$premiumUser}
-    <a href="#" class="iconBox premiumButton" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>
-        <Icons icon={"d20"} size={"full"} color={"black"} />
-            <p>Upgrade to premium</p>
+    <a href="#" class="iconBox button blackButton premiumButton" on:click={() => upgradeToPremium("price_1OVqLtJBUqZ2A3eLxjmGdXhE")}>
+        <Icons icon={"d20"} size={"medium"} color={"black"} />
+        <p>Go premium</p>
     </a>
     {/if}
-    <a href="/dashboard/play" class="iconBox" class:active="{$page.route.id.includes("play")}" on:click={setScreenChoice('adventures')}>
-        <Icons icon={"sword"} size={"full"} color={"white"} />
+    <a href="#" class="iconBox button blackButton" class:active="{$page.route.id.includes("play")}" on:click={() => navigateTo("play")}>
+        <Icons icon={"sword"} size={"medium"} color={"white"} />
         <p>Adventures</p>
     </a>
-    <a href="/dashboard/create" class="iconBox" class:active="{$page.route.id.includes("create")}" on:click={navigateToCreate}>
-        <Icons icon={"add"} size={"full"} color={"white"} />
+    <a href="/dashboard/create" class="iconBox button blackButton" class:active="{$page.route.id.includes("create")}" on:click={navigateToCreate}>
+        <Icons icon={"add"} size={"medium"} color={"white"} />
         <p>Create</p>
     </a>
-    <p class:invisible={$premiumUser}>Premium features</p>
-    <a href="/dashboard/dungeons" class="iconBox" class:active="{$page.route.id.includes("dungeons")}" class:disabled={!$premiumUser}>
-        <Icons icon={"rules"} size={"full"} color={"white"} />
+    {#if !$premiumUser}
+    <Divider color={"white"} />
+    <p>Premium features</p>
+    {/if}
+    <a href="#" class="iconBox button blackButton" class:active="{$page.route.id.includes("dungeons")}" class:disabled={!$premiumUser} on:click={() => navigateTo("dungeons")}>
+        <Icons icon={"rules"} size={"medium"} color={"white"} />
         <p>Dungeons</p>
     </a>
-    <a href="/dashboard/rules" class="iconBox" class:active="{$page.route.id.includes("rules")}" class:disabled={!$premiumUser}>
-        <Icons icon={"d20"} size={"full"} color={"white"} />
+    <a href="#" class="iconBox button blackButton disabled" class:active="{$page.route.id.includes("rules")}" on:click={() => navigateTo("rules")}>
+        <Icons icon={"d20"} size={"medium"} color={"white"} />
         <p>Batlas RPG</p>
     </a>
 </div>
 <div class="bottomSection">
-    <a href="/dashboard/account" class="iconBox" class:active="{$page.route.id.includes("account")}">
-        <Icons icon={"gear"} size={"full"} color={"white"} />
+    <a href="#" class="iconBox button blackButton" class:active="{$page.route.id.includes("account")}" on:click={() => navigateTo("account")}>
+        <Icons icon={"gear"} size={"medium"} color={"white"} />
         <p>Account</p>
     </a>
-    <a href="/" class="iconBox" on:click={signOutSSR}>
-        <Icons icon={"logOut"} size={"full"} color={"white"} />
+    <a href="/" class="iconBox button blackButton" on:click={signOutSSR}>
+        <Icons icon={"logOut"} size={"medium"} color={"white"} />
         <p>Log Out</p>
     </a>
 </div>
 </div>
-{:else}
-<div class="responsiveNav">
-    <a href="/dashboard/play" on:click={returnHome}>
-        <img src="/img/batlasLogo_white.webp" alt="BATLAS" width="auto" height="auto" class="siteLogo">
-    </a>
-    <p style="text-transform: uppercase;">Beta testing</p>
-    <a href="#" class="menuIcon" on:click={toggleOffScreenMenu}>
-        <Icons icon={"rules"} size={"full"} color={"white"} />
-    </a>
-</div>
-{/if}
-
 

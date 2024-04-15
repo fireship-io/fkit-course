@@ -2,6 +2,7 @@
   import HomeUpdates from '$lib/components/HomeUpdates.svelte';
     import HomeTutorial from '$lib/components/HomeTutorial.svelte';
     import HomePoll from '$lib/components/HomePoll.svelte';
+
 </script>
 
 <style>

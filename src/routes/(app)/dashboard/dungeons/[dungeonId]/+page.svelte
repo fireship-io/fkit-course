@@ -19,5 +19,5 @@ import DungeonMap from "$lib/components/DungeonMap.svelte";
 </style>
         
 <div class="map">
-        <DungeonMap />
+        <DungeonMap role={"player"}/>
 </div>

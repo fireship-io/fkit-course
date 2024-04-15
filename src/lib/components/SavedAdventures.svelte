@@ -60,7 +60,7 @@
         gap: 1em;
         width: 100%;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
@@ -70,32 +70,24 @@
         display: none;
     }
 
-    .freeAccountNotice {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 1em;
-        width: 100%;
-        max-width: 20em;
-        height: auto;
-        padding: 1em;
-        background-color: var(--color-dark);
-        border-radius: 0.8em;
-        background: var(--batlas-white);
+    .freeAccountNotice.blackBox {
+        width: auto;
+        border:none;
+        padding: 0;
         z-index: 5;
-        text-align: center;
+        text-align: left;
+        color: var(--batlas-white);
     }
 
 </style>
 <div class="adventureList">
     {#if $adventureListStore.length === 0}
-    <div class="freeAccountNotice">
+    <div class="freeAccountNotice blackBox">
         <p>You don't have any adventures saved. Head to 'Create' and start designing you dungeon!</p>
     </div>
     {/if}
     {#if !$premiumUser}
-    <div class="freeAccountNotice">
+    <div class="freeAccountNotice blackBox">
         <p>On a free account you're limited to 5 saved adventures</p>
     </div>
     {/if}

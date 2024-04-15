@@ -5,11 +5,13 @@
     import UserControls from './UserMapControls.svelte';
     import ActiveTileOptionsWindows from './ActiveTileOptionsWindows.svelte';
     import { page } from '$app/stores';
-    import { activeTile, setActiveTile, currentAdventureChange, adventureNotesDisplayed } from "$lib/dashboardState";
+    import { activeTile, setActiveTile, currentAdventureChange, adventureNotesDisplayed, activeTileSidebar } from "$lib/dashboardState";
     import { currentAdventure } from "$lib/adventureData";
     import { onMount } from 'svelte';
     import {premadeAdventures} from "$lib/adventureData";
   import Icons from './Icons.svelte';
+  import DungeonMapControls from '$lib/components/DungeonMapControls.svelte';
+  export let role;
   
     let mapDisabled = false;
     
@@ -17,17 +19,18 @@
       console.log("Change alert");
       currentAdventureChange.set(true);
     }
-  
+
     function handleTileClick(e, cell, i, j){
-      mapDisabled = true;
-  
-        setActiveTile(cell, i, j)
-        adventureNotesDisplayed.set(false);
-        let floatingTiles = document.getElementsByClassName("tileFloat");
-        for (let i = 0; i < floatingTiles.length; i++) {
-          floatingTiles[i].classList.remove("tileFloat");
-        }
-    }
+    mapDisabled = true;
+
+      setActiveTile(cell, i, j)
+      activeTileSidebar.set(true);
+      adventureNotesDisplayed.set(false);
+      let floatingTiles = document.getElementsByClassName("tileFloat");
+      for (let i = 0; i < floatingTiles.length; i++) {
+        floatingTiles[i].classList.remove("tileFloat");
+      }
+  }
     
   
   
@@ -84,9 +87,11 @@
     .map {
           overflow: visible;
           background-color: var(--batlas-black);
-          height: 100%;
+          height: calc(100vh - 6rem);
           width: 100%;
           max-height: none;
+          margin-top: 3rem;
+
     }
   
   
@@ -296,15 +301,12 @@
   <div class="mapContainer">
   
     <div class="dialogueContainer">
-        <div class="previewControls">
-           <p>Leave preview</p>
-           <p>Show adventure notes</p>
-        </div>
+      <DungeonMapControls {role}/>
       {#if $adventureNotesDisplayed}
-        <AdventureNotes />
+        <AdventureNotes {role}/>
       {/if}
-      {#if $activeTile.rowIndex !== null}s
-      <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={false}/>
+      {#if $activeTile.rowIndex !== null}
+      <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={false} {role}/>
     {/if}
     </div>
     <div class="map" > 
@@ -327,11 +329,7 @@
                         </div>
                       </div>
                     {/if}
-                    {#if cell.chosenTile?.img === "/tiles/dungeon/roomBlank.webp" && $page.route.id.includes("/player/")}
-                      <img src="/img/tiles/dungeon/roomBlankPlay.webp" alt="{cell.chosenTile?.img}">
-                    {:else}
                       <img src="/img{cell.chosenTile?.img}" alt="{cell.chosenTile?.img}">
-                    {/if}
                   </div>
                 {/each}
             </div>

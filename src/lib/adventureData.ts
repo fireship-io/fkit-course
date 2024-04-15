@@ -36,11 +36,13 @@ export const currentAdventure = writable({
 export const premadeAdventures = [
   {
     title: "Witches Coven",
-    notes:
-      "The adventure takes place in a witches' lair. The witch has made a pact with a patron of vermin and disease to gain her power. She is capturing victims and transforming them into wandering headless zombies filled  with rats to unleash plague onto the world.",
+    notes: {
+      notes:
+        "The adventure takes place in a witches' lair. The witch has made a pact with a patron of vermin and disease to gain her power. She is capturing victims and transforming them into wandering headless zombies filled  with rats to unleash plague onto the world.",
+      primer:
+        "A small town has been plagued by vermin-sickness and missing persons for a year. Now the town's healer has gone missing and things look dire. Townsfolk talk off a witch in the woods nearby but all those foolish enough to enter her domain never return.",
+    },
     updatedDate: 1712558786801,
-    primer:
-      "A small town has been plagued by vermin-sickness and missing persons for a year. Now the town's healer has gone missing and things look dire. Townsfolk talk off a witch in the woods nearby but all those foolish enough to enter her domain never return.",
     userId: null,
     dungeonId: "witches-coven",
     map: [
@@ -50,7 +52,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -81,7 +83,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -232,7 +234,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -580,7 +582,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -1900,7 +1902,7 @@ export const premadeAdventures = [
           zIndex: 6,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2022,7 +2024,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2302,7 +2304,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2463,7 +2465,7 @@ export const premadeAdventures = [
           zIndex: 8,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2583,7 +2585,7 @@ export const premadeAdventures = [
           zIndex: 8,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2661,7 +2663,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2692,7 +2694,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2723,7 +2725,7 @@ export const premadeAdventures = [
           zIndex: 9,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2843,7 +2845,7 @@ export const premadeAdventures = [
           zIndex: 0,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2876,7 +2878,7 @@ export const premadeAdventures = [
           zIndex: 10,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2906,7 +2908,7 @@ export const premadeAdventures = [
           zIndex: 10,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2966,7 +2968,7 @@ export const premadeAdventures = [
           zIndex: 10,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -2998,7 +3000,7 @@ export const premadeAdventures = [
           zIndex: 11,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -3028,7 +3030,7 @@ export const premadeAdventures = [
           zIndex: 11,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,
@@ -3102,7 +3104,7 @@ export const premadeAdventures = [
           zIndex: 11,
           chosenTile: {
             set: "simplified_shapeset",
-            img: "/tiles/dungeon/roomBlank.webp",
+            img: "/tiles/dungeon/roomBlankPlay.webp",
             edges: {
               NW: {
                 connection: true,

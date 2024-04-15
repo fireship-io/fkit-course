@@ -17,12 +17,11 @@
 
 <style>
     .adventureList {
-        gap: 2em;
+        padding: 1rem;
+        gap: 1em;
         width: 100%;
-        height: auto;
-        overflow: scroll;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
@@ -30,22 +29,6 @@
 
     .adventureList::-webkit-scrollbar {
         display: none;
-    }
-
-    @media (max-width: 735px) {
-        .adventureList {
-            height: auto;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            margin-right: 0;
-            padding-right: 0;
-            width: 100%;
-            flex-wrap: nowrap;
-            flex: 1;
-            overflow: auto;
-            padding-bottom: 10em;
-        }
     }
 
 </style>

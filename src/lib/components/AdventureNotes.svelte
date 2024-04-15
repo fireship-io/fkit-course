@@ -13,6 +13,8 @@
   import { createAlert } from "$lib/dashboardState";
   import { onMount } from 'svelte';
 
+  export let role;
+
   let mapDisabled = false;
 
   $: $currentAdventure, changeAlert();
@@ -277,8 +279,6 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
   .adventureNotesContainer {
     position: fixed;
-      height: calc(100vh - 6rem);
-      background-color: var(--batlas-white);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -291,19 +291,11 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
         left: auto;
         bottom: auto;
         width: 20rem;
-        max-height: calc(100% - 10rem);
-        z-index: 999;
-        border: 0.25em solid var(--batlas-black);
-    border-radius: 3em;
+        color: var(--batlas-white)
     }
 
     .adventureNotesContainer::-webkit-scrollbar {
       display: none;
-    }
-
-    .adventureNotesContainer h3 {
-      color: var(--batlas-black);
-      font-size: 1.5rem;
     }
 
     .adventureNotesContainer textarea {
@@ -358,10 +350,19 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
 
 </style>
 
-  <div class="adventureNotesContainer">
-    <h3>Primer</h3>
-    <textarea rows="5" class="primer" placeholder="Adventure primer" maxlength="3000" bind:value={$currentAdventure.notes.primer}/>
-    <h3>Notes</h3>
-    <textarea rows="5" class="notes" placeholder="Adventure notes" maxlength="10000" bind:value={$currentAdventure.notes.notes}/>
-  </div> 
 
+{#if role==="editor"}
+  <div class="adventureNotesContainer blackBox">
+    <p>Primer</p>
+    <textarea rows="5" class="primer" placeholder="Adventure primer" maxlength="3000" bind:value={$currentAdventure.notes.primer}/>
+    <p>Notes</p>
+    <textarea rows="5" class="notes" placeholder="Adventure notes" maxlength="10000" bind:value={$currentAdventure.notes.notes}/>
+  </div>
+{:else}
+  <div class="adventureNotesContainer blackBox">
+    <p>Primer</p>
+    <p>{$currentAdventure.notes.primer}</p>
+    <p>Notes</p>
+    <p>{$currentAdventure.notes.notes}</p>
+  </div>
+{/if}

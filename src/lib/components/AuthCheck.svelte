@@ -6,6 +6,8 @@ import { writable } from "svelte/store";
 import { premiumUser } from "$lib/dashboardState";
   import { onMount } from 'svelte';
 
+
+
 let checkingUserStatus = false;
 
 onMount(() => {
@@ -104,15 +106,28 @@ $: {
   {#if $user}
     <slot />
   {:else if !$user}
-  <section class="userCheck" class:active = {checkingUserStatus}>
-    <div class="authCheck">
-      <h1>403 unauthorised access</h1>
-        <h2>You need a different key for this door</h2>
-        <p>You have tried to access a part of the site that requires authorisation that you do not have in your current browser session.</p>
-    </div>
-    <div class="doubleColumn">
-            <a href="/" class="lostButton">Leave the dungeon<br>(Return home)</a>
-            <a href="/login" class="lostButton">Take up your sword<br>(Log in/Sign up)</a>
-    </div>
-  </section>
+    {#if $page.url.href.includes("/player/")}
+    <section class="userCheck" class:active = {checkingUserStatus}>
+      <div class="authCheck">
+        <h1>403 unauthorised access</h1>
+          <h2>You need an account to play</h2>
+          <p>It's easy to sign up, just link your google account below.</p>
+      </div>
+      <div class="doubleColumn">
+              <a href="/login" class="lostButton">Take up your sword<br>(Log in/Sign up)</a>
+      </div>
+    </section>
+    {:else}
+    <section class="userCheck" class:active = {checkingUserStatus}>
+      <div class="authCheck">
+        <h1>403 unauthorised access</h1>
+          <h2>You need a different key for this door</h2>
+          <p>You have tried to access a part of the site that requires authorisation that you do not have in your current browser session.</p>
+      </div>
+      <div class="doubleColumn">
+              <a href="/" class="lostButton">Leave the dungeon<br>(Return home)</a>
+              <a href="/login" class="lostButton">Take up your sword<br>(Log in/Sign up)</a>
+      </div>
+    </section>
+    {/if}
   {/if}

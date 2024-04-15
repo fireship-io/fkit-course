@@ -8,10 +8,10 @@
     export let category
 
     function setActive(e) {
-        document.querySelectorAll('.savedAdventure').forEach((element) => {
-            element.classList.remove("brutalismBorderInverted");
+        document.querySelectorAll('.categoryButton').forEach((element) => {
+            element.classList.remove("active");
         });
-        e.target.closest('a').classList.toggle("brutalismBorderInverted");
+        e.target.closest('a').classList.toggle("active");
     }
 
     function handleCategoryClick(event, categoryChoice){
@@ -23,81 +23,32 @@
 
 <style>
 
-    .savedAdventure {
+    .button {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        height: auto;
-        padding: 0.5rem;
-        gap: 0.5rem;
-        background: var(--batlas-white);
+        height: 3rem;
         cursor: pointer;
-    }
-
-
-    .savedAdventureOptions {
-        display:none;
-    }
-
-    .savedAdventure h4 {
-        font-size: 1.4rem;
-    }
-
-    .savedAdventure:hover h4 {
-        text-decoration: underline;
+        transition: background-color 0.15s ease-out;
     }
 
     .subsectionsContainer {
         width: 100%;
-        display: none;
+        overflow: hidden;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-end;
-        gap: 1rem;
+        gap: 0.5rem;
         max-height: 0rem;
-        transition: max-height 0.15s ease-out;
-    }
-
-
-
-    @media screen and (max-width: 1500px) {
-
-        .savedAdventure {
-            display: grid;
-            grid-template-columns: 9fr 1fr;
-            grid-template-rows: auto;
-        }
-        .savedAdventure h4{
-            margin: 0.2rem;
-        }
-
-        .savedAdventureTitle {
-            grid-column: 1 / 9;
-            grid-row: 1 / 2;
-        }
-
-        .savedAdventureDescription {
-            grid-column: 1 / 9;
-            grid-row: 2 / 3;
-        }
-
-        .savedAdventureOptions {
-        display: block;
-        grid-column: 9 / 11;
-        grid-row: 1 / 3;
-        border: 0.2em solid var(--batlas-black);
-        height: 100%;
-        width: 0.5rem;
-        background-color: var(--batlas-black);
-        }
+        transition: max-height 0.3s ease-out;
+        will-change: max-height;
     }
 
 
 </style>
-<a class="rulesCategory savedAdventure brutalismBorder" on:click={(event) => handleCategoryClick(event, category)}>
-    <div class="savedAdventureTitle"><h4>{category.title}</h4></div>
+<a class="categoryButton button blackButton" on:click={(event) => handleCategoryClick(event, category)}>
+    <p>{category.title}</p>
 </a>
 <div class="subsectionsContainer">
     {#each category.subsections as subsection}

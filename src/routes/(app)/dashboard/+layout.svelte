@@ -6,6 +6,9 @@
     import { map } from "$lib/mapGen";
     import { user } from "$lib/firebase";
     import { currentAdventure } from '$lib/adventureData';
+    import { offScreenMenu } from "$lib/dashboardState";
+    import { onMount } from 'svelte';
+
     
     export let data: LayoutData;
 
@@ -16,7 +19,6 @@
         mapArray = value;
         mapString = JSON.stringify(mapArray);
     })
-
 
 
 </script>
@@ -92,6 +94,8 @@
             position: fixed;
             top: 0rem;
             z-index: 999;
+            width: 100%;
+            height: auto;
         }
 
         .contentSlot {
@@ -105,12 +109,6 @@
             width: 100%;
             max-width: 100%;
             margin-top: 75px;
-        }
-
-        .navigation {
-            width: 100%;
-            height: 100%;
-            max-height: 75px;
         }
 
 

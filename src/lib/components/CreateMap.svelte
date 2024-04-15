@@ -17,6 +17,7 @@
       } from "firebase/firestore";
       import { v4 as uuidv4 } from "uuid";
       import { createAlert, premiumUser, userAdventureCount } from "$lib/dashboardState";
+      import {saveNewAdventureToFirebase} from "$lib/firebaseFunctions";
   
   
       
@@ -28,41 +29,11 @@
 function deepCloneArray(arr) {
           return arr.map(item => Array.isArray(item) ? deepCloneArray(item) : item);
       }
-  
-async function saveNewAdventureToFirebase(newAdventure) {
-      disabledSave = true;
-  
-      const adventuresRef = collection(db, "users", $user.uid, "adventures");
-  
-      if (newAdventure.title === "") {
-        createAlert("Please enter a title for your adventure.");
-        return;
-      }
-  
-      let uniqueId = uuidv4();
-      let newUpdateDate = Date.now();
-      
-      newAdventure.updatedDate = newUpdateDate;
 
-      newAdventure.adventureId = uniqueId;
-      const adventureRef = doc(adventuresRef, newAdventure.adventureId);
-      await setDoc(adventureRef, {
-        ...newAdventure,
-        map : JSON.stringify(newAdventure.map)
-      });
-
-      
-      console.log("newAdventure", newAdventure)
-      currentAdventure.set({...newAdventure});
-      console.log("changed", $currentAdventure)
-
-      window.location.href = `/dashboard/create/${$user?.uid}/${newAdventure.adventureId}`;
-
-  }
 
   function handleEnter(event) {
         if (event.key === 'Enter') {
-            saveNewAdventureToFirebase($currentAdventure);
+            saveNewAdventureToFirebase($currentAdventure, $user);
         }
     }
 
@@ -216,7 +187,9 @@ async function saveNewAdventureToFirebase(newAdventure) {
       display: none;
     }
 
-    .usageNotifier p{
+    .usageNotifier p {
+      margin-top: 1rem;
+      opacity: 0.5;
       color: var(--batlas-white);
     }
 
@@ -277,7 +250,7 @@ async function saveNewAdventureToFirebase(newAdventure) {
           </div>
         {:else}
           <input type="text" rows="1" class="titleBar" placeholder="Enter a title" maxlength="300" bind:value={$currentAdventure.title} on:keydown={handleEnter}/>
-        <div class="blackBox" on:click={() => saveNewAdventureToFirebase($currentAdventure)}>
+        <div class="blackBox" on:click={() => saveNewAdventureToFirebase($currentAdventure, $user)}>
           <p>Create map</p>
         </div>
         {/if}
@@ -285,6 +258,6 @@ async function saveNewAdventureToFirebase(newAdventure) {
 </div>
 {#if !$premiumUser}
 <div class="usageNotifier">
-  <p>You have used {$userAdventureCount}/5 of your free account adventure limit.</p>
+  <p>{$userAdventureCount}/5 free adventures saved.</p>
 </div>
 {/if} 

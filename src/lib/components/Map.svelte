@@ -393,7 +393,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       {/each}
     </div>
   {#if $adventureNotesDisplayed}
-    <AdventureNotes />
+    <AdventureNotes {role} />
   {/if}
     <ActiveTileOptionsWindows handleFogToggle={handleFogToggle} tileOptions={true} {role}/>
 </div>

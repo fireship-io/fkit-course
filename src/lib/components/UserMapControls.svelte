@@ -27,7 +27,7 @@
     let maxColumns = 6;
     let maxFreeHeight = false;
     let maxFreeWidth = false;
-    let controlWindowMode = "options";
+    let controlWindowMode = "adventure";
 
     let screenWidth;
 
@@ -465,9 +465,34 @@
 <svelte:window bind:innerWidth={screenWidth} />
 
   <div class="blackBox">
+    {#if screenWidth <= 735}
+    <div class="controlRow">
+      <div class="button blackButton"
+        class:active={controlWindowMode === 'adventure'}
+        on:click={() => changeWindowMode("adventure")}
+        on:keydown={() => changeWindowMode("adventure")}
+        role="button"
+        tabindex="0"
+        >
+        <p>Adventure</p>
+      </div>
+
+        <div class="button blackButton"
+          class:active={controlWindowMode === 'size'}
+          on:click={() => changeWindowMode("size")} 
+          on:keydown={() => changeWindowMode("size")}
+          role="button"
+          tabindex="0" 
+        >
+            <p>Size</p>
+            </div>
+        </div>
+        <Divider color={"white"}/>
+    {/if}
       <div>
         <input type="text" rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
       </div>
+      {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "adventure"}
       <div class="button blackButton adventureNotes" 
           on:click={toggleAdventureNotes}
           on:keydown={toggleAdventureNotes}
@@ -532,8 +557,13 @@
         {#if $currentAdventureChange}
           <p class="changeAlert">Remember to save your changes</p>
         {/if}      
-<div>
-  <Divider />
+
+    {/if}
+        <div>
+  {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "size"}
+  {#if screenWidth > 735}
+  <Divider color={"white"}/>
+  {/if}
   <div class="mapSizeControlRow">
     <p>Top</p>
     <div class="mapSizeIcons">
@@ -622,5 +652,6 @@
       </div>
     </div>
   </div>
+{/if}
 </div>
 </div>

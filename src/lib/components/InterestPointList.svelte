@@ -248,7 +248,7 @@
                         </div>
                     {/if}
                   </div>
-                  {#if !$page.route.id.includes("play")}
+                  {#if role==="editor"}
                     <textarea class="interestPointInfo" class:hideScrollbar="{!$activeTile.tileOptions}" placeholder="Info about the thing" rows="5" bind:value={$currentAdventure.map[$activeTile.rowIndex][$activeTile.columnIndex].interestPoints[i].info}></textarea>
                   {:else}
                   <div class="interestPointInfo">

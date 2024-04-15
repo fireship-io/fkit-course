@@ -4,6 +4,8 @@
     import { error } from "@sveltejs/kit";
     import { db, user } from "$lib/firebase";
     import Icons from '$lib/components/Icons.svelte';
+  import { saveNewAdventureToFirebase } from "$lib/firebaseFunctions";
+  import { v4 as uuidv4 } from 'uuid';
     
     export let adventure;
 
@@ -21,121 +23,94 @@
 
     function playPremadeAdventure() {;
         currentAdventure.set({ ...adventure});
-        window.location.href = `/dashboard/player/${$user.uid}/${adventure.adventureId}`;
+        window.location.href = `/dashboard/dungeons/${adventure.dungeonId}`;
+
+    }
+
+    async function handlePremadeCopy() {
+        let newAdventureId = uuidv4();
+        adventure.dungeonId = newAdventureId;
+        await saveNewAdventureToFirebase(adventure, $user).then(() => {
+            window.location.href = `/dashboard/play/`;
+        }).catch((e) => {
+        });
     }
 </script>
 
 <style>
 
+
+    .button p {
+        text-align: left;
+        margin: 0;
+        align-self: center;
+    }
+
+
+    .button.blackButton {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        gap: 0.75rem;
+        border: 0.1rem solid var(--batlas-white);
+        padding: 0.5rem 0.75rem;
+    }
+
     .savedAdventure {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
+        flex: 1;
+        min-width: 15em;
         width: 100%;
-        max-width: 12rem;
-        min-width: 10rem;
-        height: 100%;
+        max-width: 30rem;
         padding: 1rem;
         gap: 1rem;
-        background: var(--batlas-white);
         z-index: 5;
+        color: var(--batlas-white);
+        padding: 0.25rem 1rem;
+        font-weight: normal;
     }
 
 
     .savedAdventureOptions {
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
-        gap: 0.6em;
+        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
         text-transform: uppercase;
     }
 
-    .savedAdventureOptions div {
-        margin: 0;
-        border: 0.2em solid var(--batlas-black);
-        width: 100%;
-        padding: 0.2em 0.6em;
-        border-radius: 0.6em;
-        background-color: var(--batlas-white);
-        color: var(--batlas-black);
-        text-align:center;
-        text-decoration: none;
-        z-index: 100;
-        gap: 0.6em;
-        display: flex;
+    .savedAdventureOptions .button.blackButton {
+        border: none;
+    }
+
+    .savedAdventureTitle {
+       display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
-        transition: all 0.2s ease-in-out;
+        flex: 0;
+        gap: 0.5rem;
+        text-transform: uppercase;
     }
 
-    .savedAdventureOptions div:hover {
-        transform: translateY(-0.2em);
-    }
-
-    .savedAdventureOptions div p{
-        margin: 0;
-        font-size: 0.8em;
-        line-height: 0.8em;
-    }
-
-    .savedAdventureOptions div:hover {
-        text-decoration: underline;
+    .savedAdventureTitle:hover p{
         cursor: pointer;
+        text-decoration: underline;
     }
 
-        .savedAdventure h4{
-            font-size: 1.3em;
-        }
-
-        .savedAdventureOptions {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
-        height: 100%;
-        width: 100%;
-        order: 1;
-        background-color: var(--batlas-white);
-        }
-
-        .savedAdventureOptions div {
-            display: flex;
-            flex-direction: row;
-            min-width: 3em;
-            width: 100%;
-            height: 100%;
-        }
-
-        .adventureBlurb {
-            width: 100%;
-            max-height: 5em;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        div.copy {
-            grid-column: 1/2;
-            grid-row: 2/3;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            background-color: var(--batlas-black);
-            color: var(--batlas-white);
-        }
-
-        div.preview {
-            grid-column: 1/2;
-            grid-row: 1/2;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            background-color: var(--batlas-black);
-            color: var(--batlas-white);
-        }
+    .savedAdventureTitle p {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        color: var(--batlas-white);
+        margin: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 
         .deleteConfirmation {
             position: fixed;
@@ -189,26 +164,20 @@
             transform: translateY(-0.2em);
         }
 
-        @media (max-width: 735px) {
-            .savedAdventure {
-                width: 100%;
-                max-width: 100%;
-            }
+        .copy:hover p{
+            cursor: pointer;
+            text-decoration: underline;
         }
+
 
 </style>
     
-<a class="savedAdventure brutalismBorder">
-    <div class="savedAdventureTitle">
-        <h4>{adventure.title}</h4>
+<a class="savedAdventure blackBox">
+    <div class="savedAdventureTitle" on:click={playPremadeAdventure}>
+        <p>{adventure.title}</p>
     </div>
     <div class="savedAdventureOptions">
-    <div class="preview">
-        <Icons icon={"d20"} size={"large"} color={"white"} />
-        <p>Preview</p>
-    </div>
-    <div class="copy">
-        <Icons icon={"rules"} size={"large"} color={"white"} />
+    <div class="copy" on:click={handlePremadeCopy}>
         <p>Copy</p>
     </div>
 </a>

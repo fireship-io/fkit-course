@@ -43,54 +43,64 @@
         align-self: center;
     }
 
-    .button.whiteButton {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        height: 2.2rem;
-        padding: 0.1;
-    }
-
 
     .button.blackButton {
         display: flex;
         flex-direction: row;
         flex: 1;
-        height: 2.2rem;
         gap: 0.75rem;
-        border: 0.1rem solid var(--batlas-black);
+        border: 0.1rem solid var(--batlas-white);
         padding: 0.5rem 0.75rem;
     }
 
     .savedAdventure {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
         flex: 1;
         min-width: 15em;
-        max-width: 18rem;
+        width: 100%;
+        max-width: 30rem;
         padding: 1rem;
         gap: 1rem;
-        background: var(--batlas-white);
         z-index: 5;
+        color: var(--batlas-white);
+        padding: 0.25rem 1rem;
     }
 
 
     .savedAdventureOptions {
         display: flex;
         flex-direction: row;
-        flex: 1;
         justify-content: space-between;
         align-items: flex-start;
         gap: 0.5rem;
         text-transform: uppercase;
     }
 
-    .savedAdventureTitle p {
-        font-size: 1.5rem;
-        font-weight: 700;
+    .savedAdventureOptions .button.blackButton {
+        border: none;
+    }
+
+    .savedAdventureTitle {
+       display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex: 0;
+        gap: 0.5rem;
         text-transform: uppercase;
-        color: var(--batlas-black);
+    }
+
+    .savedAdventureTitle:hover p{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .savedAdventureTitle p {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        color: var(--batlas-white);
         margin: 0;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -152,20 +162,16 @@
 
 </style>
     
-<div class="savedAdventure whiteBox">
-    <div class="savedAdventureTitle">
+<div class="savedAdventure blackBox">
+    <div class="savedAdventureTitle" on:click={playAdventure}>
         <p>{adventureData.title}</p>
     </div>
     <div class="savedAdventureOptions">
-        <div on:click={() => deleteConfirmation(adventureData)} class="button whiteButton">
-            <Icons icon={"remove"} size={"small"} color={"black"} />
+        <div on:click={editAdventure} class="button blackButton">
+            <Icons icon={"edit"} size={"small"} color={"white"} />
         </div>
-        <div on:click={editAdventure} class="button whiteButton">
-            <Icons icon={"edit"} size={"small"} color={"black"} />
-        </div>
-        <div on:click={playAdventure} class="play button blackButton">
-            <Icons icon={"d20"} size={"medium"} color={"white"} />
-            <p>Play</p>
+        <div on:click={deleteConfirmation} class="button blackButton">
+            <Icons icon={"remove"} size={"small"} color={"white"} />
         </div>
     </div>
 </div>

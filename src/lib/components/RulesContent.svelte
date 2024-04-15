@@ -23,7 +23,7 @@
     }
 </style>
 
-<div class="rulesContainer">
+<div class="rulesContainer blackBox">
     <div class="ruleTitle">
         <h2>{rule.title}</h2>
     </div>
