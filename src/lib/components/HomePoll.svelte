@@ -10,6 +10,8 @@
   
   let mostRecentPoll = {options: []};
   let chosenPollOption = null;
+  let freePollAnswer = "";
+  let freePollAnswered = false;
 
   $: userVoted = null;
 
@@ -19,7 +21,7 @@
 
 
   onMount(async () => {
-    mostRecentPoll = await getMostRecentPoll();
+    mostRecentPoll = await getMostRecentPoll($premiumUser);
     let userVoteData = await checkUserVote();
     console.log(userVoteData);
     userVoted = userVoteData ? userVoteData.option : null;
@@ -30,15 +32,16 @@
 
 
 
-async function getMostRecentPoll() {
-  const q = query(pollsCollection, orderBy('startDate', 'desc'), limit(1));
-  const querySnapshot = await getDocs(q);
-  
-  if (!querySnapshot.empty) {
-    return querySnapshot.docs[0].data();
-  }
-
-  return null;
+async function getMostRecentPoll(premiumStatus) {
+    const q = query(pollsCollection, orderBy('startDate', 'desc'), limit(2));
+    const querySnapshot = await getDocs(q);
+    let polls = [];
+    querySnapshot.forEach((doc) => {
+        polls.push(doc.data());
+    });
+    console.log(polls, 'polls', premiumStatus, 'premiumStatus');
+    let recentPoll = polls.filter(poll => poll.premium === premiumStatus)[0];
+    return recentPoll;
 }
 
 async function checkUserVote() {
@@ -46,6 +49,9 @@ async function checkUserVote() {
         const pollVotesRef = collection(db, 'polls', mostRecentPoll.id, 'votes');
         const querySnapshot = await getDocs(pollVotesRef);
         const userVote = querySnapshot.docs.find(doc => doc.id === $user?.uid)?.data();
+        if(userVote){
+            freePollAnswered = true;
+        }
         return userVote;
     }
     return false;
@@ -58,6 +64,16 @@ async function createPollVote(optionChosen, userId) {
         option: optionChosen
       });
       createAlert(`Vote saved!`)
+}
+
+async function createFreePollVote(answer, userId) {
+    const pollVotesRef = collection(db, 'polls', mostRecentPoll.id, 'votes');
+    const vote = doc(pollVotesRef, userId);
+      await setDoc(vote, {
+        answer: answer
+      });
+      createAlert(`Vote saved!`)
+      freePollAnswered = true;
 }
 
 export let data: PageData;
@@ -98,6 +114,14 @@ export let data: PageData;
         text-align: left;
     }
 
+    .votingOptions input[type="text"] {
+        width: 100%;
+        padding: 0.5em;
+        border: 0.1rem solid var(--batlas-black);
+        background-color: var(--batlas-white);
+        border-radius: 0.25em;
+    }
+
     .poll {
         display: flex;
         flex-direction: column;
@@ -134,22 +158,42 @@ export let data: PageData;
 
 </style>
 
-<div class="poll" class:disabled={!$premiumUser}>
-    <div class="pollHeader">
-            <h2>Current Poll</h2>
-            {#if !$premiumUser}
-            <p>Only premium users can vote on polls.</p>
-            {/if}
-            <h5>What should be added next?</h5>
-        </div>
-            <Divider/>
-            <form class="votingOptions" on:change|preventDefault={() => createPollVote(chosenPollOption, $user.uid)}>
-                {#each mostRecentPoll.options as option, index}
-                    <div class="button whiteButton">
-                        <input type="radio" id={`option${index}`} name="votingOption" bind:group={chosenPollOption} value={index}>
-                        <label for={`option${index}`}>{option}</label>
-                    </div>
-                {/each}
-            </form>
-        </div>
 
+{#if $premiumUser}
+<div class="poll">
+    <div class="pollHeader">
+        <h2>Current Poll</h2>
+        <h5>{mostRecentPoll.question}</h5>
+    </div>
+    <Divider/>
+    <form class="votingOptions" on:change|preventDefault={() => createPollVote(chosenPollOption, $user.uid)}>
+        {#each mostRecentPoll.options as option, index}
+            <div class="button whiteButton">
+                <input type="radio" id={`option${index}`} name="votingOption" bind:group={chosenPollOption} value={index}>
+                <label for={`option${index}`}>{option}</label>
+            </div>
+        {/each}
+    </form>
+</div>
+{:else if freePollAnswered}
+<div class="poll">
+    <div class="pollHeader">
+        <h2>Feedback</h2>
+        <h5>{mostRecentPoll.question}</h5>
+    </div>
+    <Divider/>
+    <p>Thank you for your feedback!</p>
+</div>
+{:else}
+<div class="poll">
+    <div class="pollHeader">
+        <h2>Feedback</h2>
+        <h5>{mostRecentPoll.question}</h5>
+    </div>
+    <Divider/>
+    <form class="votingOptions" on:change|preventDefault={() => createFreePollVote(freePollAnswer, $user.uid)}>
+                <input type="text" class="titleBar" placeholder="A new feature? More tiles? Different styles of dungeon?" maxlength="300" bind:value={freePollAnswer}/>
+                <button type="submit" class="button blackButton">Submit</button>
+            </form>
+</div>
+{/if}
