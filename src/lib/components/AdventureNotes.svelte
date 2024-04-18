@@ -354,10 +354,13 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     }
 
     .adventureNotesContainer {
-      top: 7.25rem;
+      top: auto;
       z-index: 999;
       width: calc(100% - 1rem);
       left: 0.5rem;
+      bottom: 0.5rem;
+      max-height: 70lvh;
+      overflow-y: scroll;
     }
   }
 
@@ -371,7 +374,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     <textarea rows="5" class="notes" placeholder="Adventure notes" maxlength="10000" bind:value={$currentAdventure.notes.notes}/>
   </div>
 {:else}
-  <div class="adventureNotesContainer blackBox" class:active={adventureNotesDisplayed}>
+  <div class="adventureNotesContainer blackBox" class:active={$adventureNotesDisplayed}>
     <h5>Primer</h5>
     <p>{$currentAdventure.notes.primer}</p>
     <h5>Notes</h5>

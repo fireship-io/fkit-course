@@ -3,6 +3,7 @@
     import { page } from '$app/stores';
     import { user } from "$lib/firebase";
     import PlayerMap from '$lib/components/PlayerMap.svelte';
+    import CombinedMap from '$lib/components/CombinedMap.svelte';
     import Map from '$lib/components/Map.svelte';
     
 </script>
@@ -24,8 +25,8 @@
         
 <div class="mapScreen">
     {#if $user?.uid === $page.params.creatorId}
-        <Map role={"gameMaster"}/>
+        <CombinedMap role={"gameMaster"}/>
     {:else}
-        <PlayerMap role={"player"}/>
+        <CombinedMap role={"player"}/>
     {/if}
 </div>

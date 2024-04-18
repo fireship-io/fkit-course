@@ -124,7 +124,7 @@
       flex-direction: column;
       position: relative;
       cursor: pointer;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem ;
     }
 
     .interestPointTopBar {

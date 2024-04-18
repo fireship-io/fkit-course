@@ -1,5 +1,6 @@
 <script>
-import DungeonMap from "$lib/components/DungeonMap.svelte";    
+import DungeonMap from "$lib/components/DungeonMap.svelte";
+import CombinedMap from "$lib/components/CombinedMap.svelte";    
 </script>
     
 <style>
@@ -19,5 +20,5 @@ import DungeonMap from "$lib/components/DungeonMap.svelte";
 </style>
         
 <div class="map">
-        <DungeonMap role={"player"}/>
+        <CombinedMap role={"gameMaster"}/>
 </div>

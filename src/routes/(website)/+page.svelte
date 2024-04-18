@@ -1,6 +1,4 @@
 <script>
-  import Footer from "$lib/components/Footer.svelte";
-import Header from "$lib/components/Header.svelte";
 import CycleTile from "$lib/components/CycleTile.svelte";
 
     let topTiles = ['r1-v3', 'r4-v2', 'r11-v2']
@@ -213,7 +211,6 @@ import CycleTile from "$lib/components/CycleTile.svelte";
 
 </style>
 
-<Header />
 
 <div class="container">
     <section>
@@ -342,5 +339,4 @@ import CycleTile from "$lib/components/CycleTile.svelte";
         <a href="/login" class="whiteButton">Get started</a>
     </section>
 </div>
-<Footer />
 

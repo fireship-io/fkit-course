@@ -1,6 +1,6 @@
 <script>
   import { currentAdventure } from "$lib/adventureData";
-import Map from "$lib/components/Map.svelte";
+import CombinedMap from "$lib/components/CombinedMap.svelte";
   import { onMount } from "svelte";
     onMount(() => {
         console.log("Create ID page", $currentAdventure);
@@ -29,5 +29,5 @@ import Map from "$lib/components/Map.svelte";
 </style>
 
 <div class="mapColumn">
-    <Map role={"editor"}/>
+    <CombinedMap role={"editor"}/>
 </div>

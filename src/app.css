@@ -270,8 +270,35 @@ p {
   }
 }
 
+@keyframes slide-up-alert {
+  0% {
+    transform: translateY(120%);
+  }
+
+  20% {
+    transform: translateY(0%);
+  }
+  80% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
 @media screen and (max-width: 700px) {
   .container::-webkit-scrollbar {
     display: none;
+  }
+
+  .alert {
+    top: auto;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+  }
+
+  .alertActive {
+    animation: slide-up-alert 3s ease forwards;
   }
 }
