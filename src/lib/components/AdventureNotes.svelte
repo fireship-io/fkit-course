@@ -354,9 +354,10 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
     }
 
     .adventureNotesContainer {
-      top: 8rem;
+      top: 7.25rem;
       z-index: 999;
-      width: calc(100% - 2rem);
+      width: calc(100% - 1rem);
+      left: 0.5rem;
     }
   }
 

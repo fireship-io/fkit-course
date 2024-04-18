@@ -329,7 +329,7 @@ async function setCurrentAdventureFromFirebase(creatorId, adventureId) {
       padding-bottom: 400px;
     }
     .dialogueContainer {
-        width: calc(100% - 2rem);
+        width: calc(100% - 1rem);
         height: 100%;
         top: auto;
         bottom: 1rem;

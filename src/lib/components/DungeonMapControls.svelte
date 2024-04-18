@@ -244,7 +244,8 @@
 
   .blackBox {
     position: fixed;
-    top: 0.5rem;
+    top: 4rem;
+    left: 1rem;
     width: auto;
     gap: 1.5rem;
     max-width: none;

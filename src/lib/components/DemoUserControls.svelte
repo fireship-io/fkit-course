@@ -25,6 +25,7 @@
 
     let disabledMapGenButton = false;
 
+    let mobileControlsExpanded = false;
     
     let disabledSave = false;
     let maxRows = 12;
@@ -232,6 +233,10 @@
       adventureNotesDisplayed.set(!$adventureNotesDisplayed);
     }
 
+    function toggleMobileControls() {
+      mobileControlsExpanded = !mobileControlsExpanded;
+    }
+
     onMount(() => {
       $currentAdventure.title = "Demo";
     })
@@ -362,13 +367,15 @@
   .changeAlert {
     position: fixed;
     width: 20rem;
-    top: 0.5rem;
+    top: 1rem;
+    padding: 0.5rem;
     background-color: var(--batlas-black);
     left: calc(50% - 10rem);
     right: calc(50% - 10rem);
     color: var(--batlas-white);
     margin: 0rem;
     text-align: center;
+    border-radius: 1rem;
   }
 
   .mapControlDisabled,   .mapControlDisabled .iconContainer {
@@ -484,12 +491,86 @@
       margin: 0;
     }
 
+    .controlContainer {
+      width: 100%;
+    }
+
+    .blackButton.active {
+      background-color: var(--batlas-white);
+      color: var(--batlas-black);
+    }
+
+    @media(max-width:735px){
+      .changeAlert {
+        background-color: transparent;
+        position: static;
+        border-top: 0.1rem solid var(--batlas-white);
+        width: 100%;
+        padding: 0;
+        border-radius: 0rem;
+        padding-top: 0.5rem;
+      }
+
+      .controlContainer {
+        top: 4rem;
+        position: absolute;
+        width: calc(100% - 2rem);
+      }
+
+      .controlRow {
+        margin-top: 0.5rem;
+      }
+
+      .adventureNotes {
+        margin-top: 0.5rem;
+      }
+
+      .controlRow.accordionRow {
+        margin: 0rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .accordionRow input {
+        padding: 0;
+        text-align: left;
+      }
+
+      .accordionRow .button {
+        margin: 0;
+        padding: 0;
+      }
+
+      .collapsedPadding {
+        padding: 1rem;
+        padding-bottom: 0.5rem;
+      }
+    }
 </style>
 
 <svelte:window bind:innerWidth={screenWidth} />
 
-  <div class="blackBox">
-    {#if screenWidth <= 735}
+<div class=" controlContainer blackBox" class:collapsedPadding={!mobileControlsExpanded}>
+    <div class="controlRow accordionRow">
+    <div class="button">
+      <input type="text" rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
+    </div>
+    <div class="button blackButton"
+  on:click={toggleMobileControls}
+  on:keydown={toggleMobileControls}
+  role="button"
+  tabindex="0"
+>
+
+{#if mobileControlsExpanded}
+  <p>Hide</p>
+  {:else}
+  <p>Controls</p>
+{/if}
+</div>
+</div>
+
+{#if screenWidth <= 735 && mobileControlsExpanded}
+<Divider color={"white"}/>
     <div class="controlRow">
       <div class="button blackButton"
         class:active={controlWindowMode === 'adventure'}
@@ -513,10 +594,7 @@
         </div>
         <Divider color={"white"}/>
     {/if}
-      <div>
-        <input type="text" rows="1" class="titleBar" placeholder="Adventure title" maxlength="300" bind:value={$currentAdventure.title}/>
-      </div>
-      {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "adventure"}
+      {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "adventure" && mobileControlsExpanded}
       <div class="button blackButton adventureNotes" 
           on:click={toggleAdventureNotes}
           on:keydown={toggleAdventureNotes}
@@ -577,14 +655,11 @@
           >
             <p>Save</p>
           </div>
-        </div>
-        {#if $currentAdventureChange}
-          <p class="changeAlert">Remember to save your changes</p>
-        {/if}      
+        </div>    
 
     {/if}
         <div>
-  {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "size"}
+  {#if screenWidth > 735 || screenWidth <= 735 && controlWindowMode === "size" && mobileControlsExpanded}
   {#if screenWidth > 735}
   <Divider color={"white"}/>
   {/if}
@@ -681,13 +756,19 @@
 </div>
 
   <div class="blackBox guideBox">
+    {#if screenWidth > 735}
     <div class="row">
     <h4>Guide</h4>
     <a class="button whiteButton" href="#" on:click={displayLoginDialogue}>Sign up</a>
   </div>
+  {/if}
   <p>
     {guideText}
+
   </p>
+  {#if $currentAdventureChange}
+  <p class="changeAlert">You have unsaved changes</p>
+{/if}  
   </div>
 
   {#if loginDialogueVisible}

@@ -273,16 +273,17 @@
         padding-bottom: 400px;
       }
       .dialogueContainer {
-          width: calc(100% - 2rem);
+          width: 100%;
           height: 100%;
-          top: auto;
+          right: 0.5rem;
+          top: 5rem;
           bottom: 1rem;
-          left: 1rem;
+          left: 0rem;
           position: fixed;
           flex-direction: column;
           justify-content: flex-end;
           align-items: flex-start;
-          padding: 1rem;
+          padding: 0.5rem;
       }
   
       .emptyMap {

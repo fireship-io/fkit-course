@@ -1596,25 +1596,25 @@ import Divider from '$lib/components/Divider.svelte';
 
   @media screen and (max-width: 735px) {
     .tileInfoBar {
-      max-width: 0rem;
-      width: 100%;
-      height: auto;
-      top: 20lvh;
-      bottom: auto;
-      right: 1rem;
-      left: auto;
-      padding: 1rem;
-      transform: translateX(150%);
-    }
+    max-width: 0rem;
+    width: 100%;
+    height: auto;
+    top: 4rem;
+    bottom: auto;
+    right: 0.5rem;
+    left: 0.5rem;
+    padding: 1rem;
+    transform: translateX(150%);
+  }
 
-    .tileInfoBar.active {
-      transform: translateX(0%);
-      max-width: calc(100% - 2rem);
-      transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
-      overflow-y: scroll;
-      height: 100%;
-      max-height: calc(80lvh - 1rem);
-    }
+  .tileInfoBar.active {
+    transform: translateX(0%);
+    max-width: calc(100vw - 1rem);
+    overflow-y: scroll;
+    height: 100%;
+    max-height: calc(100lvh - 4.5rem);
+    z-index: 999;
+  }
 
     .tileOptions {
       max-height: 30rem;

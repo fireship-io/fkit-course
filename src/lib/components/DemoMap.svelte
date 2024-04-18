@@ -189,11 +189,11 @@
     width: auto;
     max-width: 20rem;
     position: sticky;
-    left: 1rem;
+    left: 0rem;
     top: 0rem;
     pointer-events: none;
     gap: 2em;
-    padding: 1.5rem;
+    padding: 1rem;
     padding-right: 1rem;
     z-index: 100;
   }
@@ -246,12 +246,12 @@
       padding-bottom: 400px;
     }
     .dialogueContainer {
-        width: calc(100% - 2rem);
+        width: 100%;
         max-width: none;
         height: 100%;
-        top: auto;
+        top: 0rem;
         bottom: 1rem;
-        left: 1rem;
+        left: 0rem;
         position: fixed;
         flex-direction: column;
         justify-content: flex-end;
@@ -276,7 +276,7 @@
 
   <div class="dialogueContainer">
     <DemoUserControls guideText={guideText} updateGuideText={updateGuideText} {role}/>
-    {#if $activeTile.rowIndex !== null}s
+    {#if $activeTile.rowIndex !== null}
     <DemoTileOptions handleFogToggle={handleFogToggle} tileOptions={true} {role}/>
     {/if}
   </div>

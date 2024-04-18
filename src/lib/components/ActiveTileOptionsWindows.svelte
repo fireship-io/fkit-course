@@ -441,21 +441,22 @@ p.roomDescription {
     max-width: 0rem;
     width: 100%;
     height: auto;
-    top: 20lvh;
+    top: 3.5rem;
     bottom: auto;
-    right: 1rem;
-    left: auto;
+    right: 0.5rem;
+    left: 0.5rem;
     padding: 1rem;
     transform: translateX(150%);
   }
 
   .tileInfoBar.active {
     transform: translateX(0%);
-    max-width: calc(100% - 2rem);
+    max-width: calc(100vw - 1rem);
     transition: transform 0.3s ease-in-out 0.3s, max-width 0.3s ease-in-out;
     overflow-y: scroll;
     height: 100%;
-    max-height: calc(80lvh - 1rem);
+    max-height: calc(90lvh - 1rem);
+    z-index: 999;
   }
 
   .tileOptions {
