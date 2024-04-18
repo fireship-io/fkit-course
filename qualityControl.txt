@@ -1,0 +1,2 @@
+On the map editor, disabled the play button until the adventure has been saved and there are no current changes.
+Add delete confirmation dialogue.

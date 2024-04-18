@@ -5,7 +5,13 @@ import { getStorage } from "firebase/storage";
 import { writable, type Readable, derived } from "svelte/store";
 
 const firebaseConfig = {
-
+  apiKey: "AIzaSyBWg0hYb9g0rby3D4QvmDTSENz_w5qN79w",
+  authDomain: "batlas-database.firebaseapp.com",
+  projectId: "batlas-database",
+  storageBucket: "batlas-database.appspot.com",
+  messagingSenderId: "699062214205",
+  appId: "1:699062214205:web:d0e34b585c6163b11e9454",
+  measurementId: "G-P7H4R81GDW",
 };
 
 // Initialize Firebase
@@ -14,7 +20,6 @@ export const db = getFirestore();
 export const auth = getAuth();
 export const storage = getStorage();
 
-
 /**
  * @returns a store with the current firebase user
  */
@@ -22,11 +27,11 @@ function userStore() {
   let unsubscribe: () => void;
 
   if (!auth || !globalThis.window) {
-    console.warn('Auth is not initialized or not in browser');
+    console.warn("Auth is not initialized or not in browser");
     const { subscribe } = writable<User | null>(null);
     return {
       subscribe,
-    }
+    };
   }
 
   const { subscribe } = writable(auth?.currentUser ?? null, (set) => {
@@ -44,16 +49,12 @@ function userStore() {
 
 export const user = userStore();
 
-
-
 /**
  * @param  {string} path document path or reference
  * @param  {any} startWith optional default data
  * @returns a store with realtime updates on document data
  */
-export function docStore<T>(
-  path: string,
-) {
+export function docStore<T>(path: string) {
   let unsubscribe: () => void;
 
   const docRef = doc(db, path);
@@ -73,18 +74,10 @@ export function docStore<T>(
   };
 }
 
-interface UserData {
-  username: string;
-  bio: string;
-  photoURL: string;
-  published: boolean;
-  links: any[];
-}
-
-export const userData: Readable<UserData | null> = derived(user, ($user, set) => { 
+export const userData = derived(user, ($user, set) => {
   if ($user) {
-    return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
+    return docStore(`users/${$user.uid}`).subscribe(set);
   } else {
-    set(null); 
+    set(null);
   }
-});  
+});

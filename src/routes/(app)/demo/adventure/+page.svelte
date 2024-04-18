@@ -1,0 +1,23 @@
+<script>
+    import DemoDungeon from "$lib/components/DemoDungeon.svelte";
+    </script>
+        
+    <style>
+    
+        .map {
+            padding: 0em;
+            grid-column: 1/17;
+            grid-row: auto / span 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100%);
+            width: 100%;
+        }   
+        
+    </style>
+            
+    <div class="map">
+            <DemoDungeon role={"player"}/>
+    </div>

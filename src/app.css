@@ -1,3 +1,304 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --batlas-black: #101010;
+  --batlas-white: #f3f3f3;
+  --batlas-font: "Poppins", sans-serif;
+  background-color: var(--batlas-black);
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+
+html {
+  min-height: 100lvh;
+  background-color: var(--batlas-black);
+}
+
+*::-webkit-scrollbar {
+  color: var(--batlas-black);
+  background-color: var(--batlas-black);
+}
+
+*::-webkit-scrollbar-thumb {
+  color: var(--batlas-black);
+  background: var(--batlas-black);
+  border: 0.2rem solid var(--batlas-white);
+}
+
+*::-webkit-scrollbar-corner {
+  display: none;
+}
+
+body {
+  margin: 0;
+  min-height: 100lvh;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase;
+  margin: 0em;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+h1 {
+  font-size: 3.815rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 3.052rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 2.441rem;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 1.953rem;
+  font-weight: 400;
+}
+
+h5 {
+  font-size: 1.563rem;
+  font-weight: 300;
+}
+
+h6 {
+  font-size: 1.25rem;
+  font-weight: 200;
+}
+
+p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.divider {
+  border-top: 0.25rem dashed var(--batlas-black);
+  width: 100%;
+}
+
+.noScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.whiteBox {
+  background-color: var(--batlas-white);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 0.4rem;
+}
+
+.blackBox {
+  background-color: var(--batlas-black);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 0.4rem;
+  border: 0.1rem solid var(--batlas-white);
+}
+
+.button {
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.blackButton {
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+  border: 0.1rem solid var(--batlas-white);
+}
+
+.blackButton:hover {
+  background-color: var(--batlas-white);
+  color: var(--batlas-black);
+}
+
+.blackButton:hover path {
+  fill: var(--batlas-black);
+}
+
+.whiteButton {
+  background-color: var(--batlas-white);
+  color: var(--batlas-black);
+  border: 0.1rem solid var(--batlas-black);
+}
+
+.whiteButton:hover {
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+}
+
+.whiteButton:hover path {
+  fill: var(--batlas-white);
+}
+
+.thirdsColumn {
+  min-width: 20rem;
+  flex: 1;
+}
+
+.dungeonBorder {
+  border: 1rem solid white;
+  border-image-slice: 103 107 107 111;
+  border-image-width: 1rem;
+  border-image-outset: 0px 0px 0px 0px;
+  border-image-repeat: repeat repeat;
+  border-style: solid;
+  border-image-source: url("/img/border_full.png");
+  background-color: var(--batlas-white);
+}
+
+.brutalismBorder {
+  border: 0.3rem solid var(--batlas-black);
+  border-radius: 0.25rem;
+  box-shadow: var(--batlas-black) -0.4rem 0.4rem;
+}
+
+.brutalismBorderWhite {
+  border: 0.3rem solid var(--batlas-white);
+  border-radius: 0.25rem;
+  box-shadow: var(--batlas-white) -0.4rem 0.4rem;
+}
+
+.brutalismBorderInverted {
+  border: 0.3rem solid var(--batlas-black);
+  border-radius: 0.25rem;
+  box-shadow: var(--batlas-black) -0.4rem 0.4rem;
+  background-color: var(--batlas-black) !important;
+  color: var(--batlas-white);
+}
+
+.brutalismBorderInverted .savedAdventureOptions {
+  border: none !important;
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+}
+
+.brutalismBorderInverted .savedAdventureOptions a {
+  border: 0.1rem solid var(--batlas-white);
+  width: 100%;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+  text-align: center;
+}
+
+.firstLetter::first-letter {
+  font-size: 210%;
+  line-height: 1rem;
+  float: left;
+  margin-right: 0.12rem;
+  font-family: "Pirata One", cursive;
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+  padding: 0.2rem 0.3rem;
+}
+
+.brutalismBorderInverted + .subsectionsContainer {
+  display: flex !important;
+  max-height: 100vh !important;
+}
+
+.invisible {
+  display: none;
+}
+
+.alert {
+  display: none;
+  background-color: var(--batlas-black);
+  color: var(--batlas-white);
+  border: 0.1rem solid var(--batlas-white);
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.8rem;
+  text-align: center;
+  position: fixed;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 100;
+}
+
+.alertActive {
+  display: block;
+  animation: slide-in-alert 3s ease forwards;
+}
+
+.disabledButton {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconContainer:hover {
+  cursor: pointer;
+}
+
+@keyframes slide-in-alert {
+  0% {
+    transform: translateY(-120%);
+  }
+
+  20% {
+    transform: translateY(0%);
+  }
+  80% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-120%);
+  }
+}
+
+@keyframes slide-up-alert {
+  0% {
+    transform: translateY(120%);
+  }
+
+  20% {
+    transform: translateY(0%);
+  }
+  80% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .alert {
+    top: auto;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+  }
+
+  .alertActive {
+    animation: slide-up-alert 3s ease forwards;
+  }
+}
