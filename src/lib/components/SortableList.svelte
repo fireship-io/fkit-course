@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
 
   import { flip } from "svelte/animate";
   import { createEventDispatcher } from "svelte";
@@ -36,6 +35,7 @@
   }
 
   function onDragOver(e: DragEvent) {
+    e.preventDefault();
     // @ts-ignore
     const id = e.target.dataset?.id;
     const dragged = getDraggedParent(e.target);
@@ -48,6 +48,7 @@
   }
 
   function onDrop(e: DragEvent) {
+    e.preventDefault();
     isOver = false;
     const dragged = getDraggedParent(e.target);
     reorder({
@@ -74,9 +75,9 @@
         data-id={item.id}
         draggable="true"
         ondragstart={onDragStart}
-        ondragover={preventDefault(onDragOver)}
+        ondragover={onDragOver}
         ondragleave={onDragLeave}
-        ondrop={preventDefault(onDrop)}
+        ondrop={onDrop}
         animate:flip={{ duration: 300 }}
       >
         {@render children?.({ item, index, })}

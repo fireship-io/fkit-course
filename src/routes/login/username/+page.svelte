@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
-
   import AuthCheck from "$lib/components/AuthCheck.svelte";
   import { db, user, userData } from "$lib/firebase";
   import { doc, getDoc, writeBatch } from "firebase/firestore";
@@ -37,7 +35,8 @@
     }, 500);
   }
 
-  async function confirmUsername() {
+  async function confirmUsername(e: SubmitEvent) {
+    e.preventDefault();
     console.log("confirming username", username);
     const batch = writeBatch(db);
     batch.set(doc(db, "usernames", username), { uid: $user?.uid });
@@ -72,7 +71,7 @@
     <p class="text-sm">(Usernames cannot be changed)</p>
     <a class="btn btn-primary" href="/login/photo">Upload Profile Image</a>
   {:else}
-    <form class="w-2/5" onsubmit={preventDefault(confirmUsername)}>
+    <form class="w-2/5" onsubmit={confirmUsername}>
       <input
         type="text"
         placeholder="Username"
