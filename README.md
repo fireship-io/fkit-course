@@ -13,3 +13,7 @@ git clone <this-repo>
 npm i
 npm run dev
 ```
+
+## Svelte 5 Update
+
+Svelte 5 version of the code is available on [this branch](https://github.com/fireship-io/fkit-course/tree/svelte5)
