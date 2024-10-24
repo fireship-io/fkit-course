@@ -4,7 +4,11 @@
     import { enhance } from "$app/forms";
 
   
-    export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
   
   </script>
   
@@ -25,7 +29,7 @@
           name="bio"
           class="textarea textarea-bordered textarea-accent"
           value={data.bio}
-        />
+></textarea>
       </div>
       <button class="btn btn-primary my-5">Update Bio</button>
     </form>

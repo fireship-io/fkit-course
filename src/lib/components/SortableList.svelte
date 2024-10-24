@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import { flip } from "svelte/animate";
   import { createEventDispatcher } from "svelte";
 
@@ -8,8 +10,13 @@
     [key: string]: any;
   }
 
-  export let list: any[];
-  let isOver: string | boolean = false;
+  interface Props {
+    list: any[];
+    children?: import('svelte').Snippet<[any]>;
+  }
+
+  let { list, children }: Props = $props();
+  let isOver: string | boolean = $state(false);
 
   const dispatch = createEventDispatcher();
 
@@ -66,13 +73,13 @@
         data-index={index}
         data-id={item.id}
         draggable="true"
-        on:dragstart={onDragStart}
-        on:dragover|preventDefault={onDragOver}
-        on:dragleave={onDragLeave}
-        on:drop|preventDefault={onDrop}
+        ondragstart={onDragStart}
+        ondragover={preventDefault(onDragOver)}
+        ondragleave={onDragLeave}
+        ondrop={preventDefault(onDrop)}
         animate:flip={{ duration: 300 }}
       >
-        <slot {item} {index} />
+        {@render children?.({ item, index, })}
       </li>
     {/each}
   </ul>

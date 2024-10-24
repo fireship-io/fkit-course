@@ -2,6 +2,11 @@
   import { page } from "$app/stores";
   import AnimatedRoute from "$lib/components/AnimatedRoute.svelte";
   import AuthCheck from "$lib/components/AuthCheck.svelte";
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 </script>
 
 <nav class="flex justify-center my-6">
@@ -25,7 +30,7 @@
 <AnimatedRoute>
   <main class="card w-4/6 bg-neutral text-neutral-content mx-auto">
     <div class="card-body items-center text-center">
-      <slot />
+      {@render children?.()}
     </div>
   </main>
 </AnimatedRoute>

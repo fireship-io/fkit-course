@@ -1,7 +1,6 @@
 <script>
-    export let icon = 'default';
-    export let url = 'foo';
-    export let title = 'some cool title';
+  /** @type {{icon?: string, url?: string, title?: string}} */
+  let { icon = 'default', url = 'foo', title = 'some cool title' } = $props();
 </script>
 
 

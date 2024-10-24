@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
     import { page } from "$app/stores";
     import AuthCheck from "$lib/components/AuthCheck.svelte";
     import SortableList from "$lib/components/SortableList.svelte";
@@ -28,11 +30,11 @@
     };
     const formData = writable(formDefaults);
   
-    let showForm = false;
+    let showForm = $state(false);
   
-    $: urlIsValid = $formData.url.match(/^(ftp|http|https):\/\/[^ "]+$/);
-    $: titleIsValid = $formData.title.length < 20 && $formData.title.length > 0;
-    $: formIsValid = urlIsValid && titleIsValid;
+    let urlIsValid = $derived($formData.url.match(/^(ftp|http|https):\/\/[^ "]+$/));
+    let titleIsValid = $derived($formData.title.length < 20 && $formData.title.length > 0);
+    let formIsValid = $derived(urlIsValid && titleIsValid);
   
     function sortList(e: CustomEvent) {
       const newList = e.detail;
@@ -116,24 +118,26 @@
             type="checkbox"
             class="toggle toggle-success"
             checked={$userData?.published}
-            on:change={toggleProfileStatus}
+            onchange={toggleProfileStatus}
           />
         </label>
       </form>
   
-      <SortableList list={$userData?.links} on:sort={sortList} let:item let:index>
-        <div class="group relative">
-          <UserLink {...item} />
-          <button
-            on:click={() => deleteLink(item)}
-            class="btn btn-xs btn-error invisible group-hover:visible transition-all absolute -right-6 bottom-10"
-            >Delete</button
-          >
-        </div>
-      </SortableList>
+      <SortableList list={$userData?.links} on:sort={sortList}  >
+        {#snippet children({ item, index })}
+            <div class="group relative">
+            <UserLink {...item} />
+            <button
+              onclick={() => deleteLink(item)}
+              class="btn btn-xs btn-error invisible group-hover:visible transition-all absolute -right-6 bottom-10"
+              >Delete</button
+            >
+          </div>
+                  {/snippet}
+        </SortableList>
       {#if showForm}
         <form
-          on:submit|preventDefault={addLink}
+          onsubmit={preventDefault(addLink)}
           class="bg-base-200 p-6 w-full mx-auto rounded-xl"
         >
           <select
@@ -178,11 +182,11 @@
             class="btn btn-success block">Add Link</button
           >
   
-          <button type="button" class="btn btn-xs my-4" on:click={cancelLink}>Cancel</button>
+          <button type="button" class="btn btn-xs my-4" onclick={cancelLink}>Cancel</button>
         </form>
       {:else}
         <button
-          on:click={() => (showForm = true)}
+          onclick={() => (showForm = true)}
           class="btn btn-outline btn-info block mx-auto my-4"
         >
           Add a Link

@@ -7,14 +7,14 @@ export const load = (async ({ locals, params }) => {
     const uid = locals.userID;
 
     if (!uid) {
-      throw redirect(301, "/login");
+      redirect(301, "/login");
     }
   
     const userDoc = await adminDB.collection("users").doc(uid!).get();
     const { username, bio } = userDoc.data()!;
   
     if (params.username !== username) {
-      throw error(401, "That username does not belong to you");
+      error(401, "That username does not belong to you");
     }
   
   
@@ -35,7 +35,7 @@ export const actions = {
       const { username } = (await userRef.get()).data()!;
   
       if (params.username !== username) {
-        throw error(401, "That username does not belong to you");
+        error(401, "That username does not belong to you");
       }
   
       if (bio!.length > 260) {
