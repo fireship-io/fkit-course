@@ -4,9 +4,9 @@
   import { doc, updateDoc } from "firebase/firestore";
   import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-  let previewURL: string;
-  let uploading = false;
-  $: href = `/${$userData?.username}/edit`;
+  let previewURL: string = $state();
+  let uploading = $state(false);
+  let href = $derived(`/${$userData?.username}/edit`);
 
   async function upload(e: any) {
     uploading = true;
@@ -37,7 +37,7 @@
         <span class="label-text">Pick a file</span>
       </label>
       <input
-        on:change={upload}
+        onchange={upload}
         name="photoURL"
         type="file"
         class="file-input file-input-bordered w-full max-w-xs"
@@ -45,7 +45,7 @@
       />
       {#if uploading}
         <p>Uploading...</p>
-        <progress class="progress progress-info w-56 mt-6" />
+        <progress class="progress progress-info w-56 mt-6"></progress>
       {/if}
     </div>
   </form>
