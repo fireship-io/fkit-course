@@ -17,11 +17,11 @@ export const load = (async ({ params }) => {
   const data = snapshot.docs[0]?.data();
 
   if (!exists) {
-    throw error(404, "that user does not exist!");
+    error(404, "that user does not exist!");
   }
 
   if (!data.published) {
-    throw error(403, `The profile of @${data.username} is not public!`);
+    error(403, `The profile of @${data.username} is not public!`);
   }
 
   return {
